@@ -35,5 +35,6 @@ buckling_slenderness.expression = @(Spring) -pi*sqrt(2*(2*Spring.poisson_ratio+1
 buckling_slenderness.direction = 1;
 
 max_shear_stress = Constraint;
-max_shear_stress.expression = @(Spring) -Spring.UTS + Spring.shear_modulus*(Spring.length_at_no_compression-Spring.length_at_hard_stop_position)/4/pi/Spring.active_number_of_coils*(Spring.wire_diameter*(4*Spring.inner_diameter^2+9.46*Spring.inner_diameter*Spring.wire_diameter+3*Spring.wire_diameter^2)/Spring.inner_diameter/(Spring.inner_diameter+Spring.wire_diameter)^3);
+max_shear_stress.expression = @(Spring) -Spring.Ultimate_Torsional_Stress + Spring.shear_modulus*(Spring.length_at_no_compression-Spring.length_at_hard_stop_position)/4/pi/Spring.active_number_of_coils*(Spring.wire_diameter*(4*Spring.inner_diameter^2+9.46*Spring.inner_diameter*Spring.wire_diameter+3*Spring.wire_diameter^2)/Spring.inner_diameter/(Spring.inner_diameter+Spring.wire_diameter)^3);
 max_shear_stress.direction = 1;
+
