@@ -39,14 +39,14 @@ classdef Spring_Obj
         spring_rate % k
         spring_index % C
         
-        %Material Properties
+        %Material
         youngs_modulus = 193; % E, default is 302 Stainless Steel
         poisson_ratio = .27; % v, default is 302 Stainless Steel
         
 
     end
     
- methods(Static)
+    methods(Static)
 
      
     end
