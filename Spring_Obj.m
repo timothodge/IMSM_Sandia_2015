@@ -12,28 +12,32 @@ classdef Spring_Obj
 %
 
 
-    properties(Access = private)
-        active_number_of_coils % N_a
-        pitch %p
-        solid_height % L_solid
-        diametral_expansion % d_expand
-    end
+
     properties
         wire_diameter %d_w
         inner_diameter % d_i
         outer_diameter % d_o
         end_conditions % ec
-        force__at_open_position %F_open
+        force_at_open_position %F_open
         shear_modulus % G
         length_at_no_compression %L_free
         length_at_open_position %L_open
         length_at_close_position %L_close
         length_at_hard_stop_position %L_hard
         total_number_of_coils %N_t
+        
+        %Derived from end conditions usually.
+        active_number_of_coils % N_a
+        pitch %p
+        solid_height % L_solid
+        diametral_expansion % d_expand
+        spring_rate % k
+        spring_index % C
     end
     
  methods(Static)
 
+     
     end
     
     methods
@@ -54,6 +58,15 @@ classdef Spring_Obj
                 sprintf('End conditions not specified.')
             end
                 
+        end
+        
+        function retval = eval_spring_rate(obj)
+            retval = ((obj.shear_modulus)/(8*obj.active_number_of_coils))*((obj.wire_diameter^4)/(obj.inner_diameter + obj.wire_diameter)^3);
+         
+        end
+
+        function retval = eval_spring_index(obj)
+           retval = (obj.inner_diameter)/(obj.wire_diameter) + 1;
         end
 
         
