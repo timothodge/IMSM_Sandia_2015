@@ -13,15 +13,23 @@ classdef Spring_Obj
     properties
         wire_diameter %d_w
         inner_diameter % d_i
+        minimum_inner_diameter % d_i_min
         outer_diameter % d_o
+        maximum_outer_diameter % d_o_max
         end_conditions % ec
-        force_at_open_position %F_open
-        shear_modulus % G
+      
         length_at_no_compression %L_free
         length_at_open_position %L_open
         length_at_close_position %L_close
         length_at_hard_stop_position %L_hard
+        length_at_reset % L_reset
+        
+        force_at_open_position %F_open
+        force_at_reset % F_reset
+        
+        shear_modulus % G
         total_number_of_coils %N_t
+        coil_binding_gap_min %g_min
         
         %Derived from end conditions usually.
         active_number_of_coils % N_a
@@ -30,6 +38,8 @@ classdef Spring_Obj
         diametral_expansion % d_expand
         spring_rate % k
         spring_index % C
+        
+        %Material Properties
         youngs_modulus = 193; % E, default is 302 Stainless Steel
         poisson_ratio = .27; % v, default is 302 Stainless Steel
         
