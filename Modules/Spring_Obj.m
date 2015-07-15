@@ -29,7 +29,7 @@ classdef Spring_Obj
         
         shear_modulus % G
         total_number_of_coils %N_t
-        coil_binding_gap_min %g_min
+        coil_binding_gap_min = 0%g_min
         
         %Derived from end conditions usually.
         active_number_of_coils % N_a
@@ -38,10 +38,13 @@ classdef Spring_Obj
         diametral_expansion % d_expand
         spring_rate % k
         spring_index % C
+        maximum_spring_index = 0 %C_max
+        maximum_spring_rate = 0  %k_max
         
         %Material
         youngs_modulus = 193; % E, default is 302 Stainless Steel
         poisson_ratio = .27; % v, default is 302 Stainless Steel
+        Ultimate_Torsional_Stress
         
 
     end
@@ -52,6 +55,18 @@ classdef Spring_Obj
     end
     
     methods
+        function obj = Spring_Obj(wire_diam,inner_diam,outer_diam,end_cond,total_coils,spring_rate,spring_index)
+            %Constructor example
+            obj.wire_diameter = wire_diam;
+            obj.inner_diameter = inner_diam;
+            obj.outer_diameter = outer_diam;
+            obj.end_conditions = end_cond;
+            obj.total_number_of_coils = total_coils;
+            obj.spring_rate = spring_rate;
+            obj.spring_index = spring_index;
+            
+            
+        end
         function use_end_conditions(obj)
             if obj.end_conditions == 0
                 %use close ground conditions
@@ -59,6 +74,7 @@ classdef Spring_Obj
                 obj.pitch = (obj.length_at_no_compression - 2*obj.wire_diameter)/(obj.active_number_of_coils);
                 obj.solid_height = (obj.active_number_of_coils + 2)*obj.wire_diameter;
                 obj.diametral_expansion = sqrt((obj.inner_diameter + obj.wire_diameter)^2 + (obj.pitch^2 - obj.wire_diameter)/pi);
+                
             elseif obj.end_conditions == 1
                 %use open ground conditions
                 obj.active_number_of_coils = obj.total_number_of_coils - 1;

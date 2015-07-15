@@ -20,14 +20,14 @@ classdef Constraint < Objective % Constraint inherits from Objective
             %Input: Spring_Obj
             %output: 1 if true, 0 is false
             %
-            %For direction of constraint, 1 is >
-            %                             2 is >=
-            %                             3 is < 
+            %For direction of constraint, 1 is < 0
+            %                             2 is <= 0
+            %                             3 is  = 0
             
             if obj.direction == 1
-                TF  = obj.eval(Spring)>-10*eps;
+                TF  = obj.eval(Spring)<10*eps;
             elseif obj.direction == 2
-                TF = obj.eval(Spring)>=-10*eps;
+                TF = obj.eval(Spring)<=10*eps;
             elseif obj.direction == 3
                 TF = abs(obj.eval(Spring))<10*eps;
             end
