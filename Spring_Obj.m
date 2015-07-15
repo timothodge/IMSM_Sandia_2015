@@ -87,7 +87,7 @@ classdef Spring_Obj
             %Given the needed values, we can compute the shear_modulus.
             %
             % Will print unable to compute if one value is not known.
-            if(isempty(obj.youngs_modulus) || isemtpy(obj.poisson_ratio))
+            if (isempty(obj.youngs_modulus) || isempty(obj.poisson_ratio))
                 sprintf('Unable to compute shear_modulus, requires youngs_modulus and poisson_ratio')
             else
                 retval = (obj.youngs_modulus)/(2*(1 + obj.poisson_ratio));
