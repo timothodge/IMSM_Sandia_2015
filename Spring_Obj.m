@@ -7,9 +7,6 @@ classdef Spring_Obj
 %
 % Lengths and diameters are usually given in .0001 increments
 %
-%
-%
-%
 
 
 
@@ -33,6 +30,10 @@ classdef Spring_Obj
         diametral_expansion % d_expand
         spring_rate % k
         spring_index % C
+        youngs_modulus = 193; % E, default is 302 Stainless Steel
+        poisson_ratio = .27; % v, default is 302 Stainless Steel
+        
+
     end
     
  methods(Static)
@@ -61,14 +62,41 @@ classdef Spring_Obj
         end
         
         function retval = eval_spring_rate(obj)
-            retval = ((obj.shear_modulus)/(8*obj.active_number_of_coils))*((obj.wire_diameter^4)/(obj.inner_diameter + obj.wire_diameter)^3);
-         
+            %Given the needed values, we can compute the spring_rate.
+            %
+            % Will print unable to compute if one value is not known.
+            if (isempty(obj.shear_modulus)|| isempty(obj.active_number_of_coils) || isempty(obj.wire_diameter) || isempty(obj.inner_diameter))
+                sprintf('Unable to compute spring_rate, requires shear_modulus, active_number_of_coils, wire_diameter, inner_diameter.')
+            else
+                retval = ((obj.shear_modulus)/(8*obj.active_number_of_coils))*((obj.wire_diameter^4)/(obj.inner_diameter + obj.wire_diameter)^3);
+            end
         end
 
         function retval = eval_spring_index(obj)
-           retval = (obj.inner_diameter)/(obj.wire_diameter) + 1;
+            %Given the needed values, we can compute the spring_index.
+            %
+            % Will print unable to compute if one value is not known.
+            if (isempty(obj.inner_diameter) || isempty(obj.wire_diameter))
+                sprintf('Unable to compute spring_index, requires inner_diameter and wire_diameter.')
+            else
+                retval = (obj.inner_diameter)/(obj.wire_diameter) + 1;
+            end
         end
 
+        function retval = eval_shear_modulus(obj)
+            %Given the needed values, we can compute the shear_modulus.
+            %
+            % Will print unable to compute if one value is not known.
+            if(isempty(obj.youngs_modulus) || isemtpy(obj.poisson_ratio))
+                sprintf('Unable to compute shear_modulus, requires youngs_modulus and poisson_ratio')
+            else
+                retval = (obj.youngs_modulus)/(2*(1 + obj.poisson_ratio));
+            end
+                
+        end
+        
+        
+        
         
     end
     
