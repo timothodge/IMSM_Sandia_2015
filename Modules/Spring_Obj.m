@@ -54,19 +54,22 @@ classdef Spring_Obj
      
     end
     
-    methods
-        function obj = Spring_Obj(wire_diam,inner_diam,outer_diam,end_cond,total_coils,spring_rate,spring_index)
-            %Constructor example
-            obj.wire_diameter = wire_diam;
-            obj.inner_diameter = inner_diam;
-            obj.outer_diameter = outer_diam;
-            obj.end_conditions = end_cond;
-            obj.total_number_of_coils = total_coils;
-            obj.spring_rate = spring_rate;
-            obj.spring_index = spring_index;
-            
-            
-        end
+     methods
+%         function obj = Spring_Obj(wire_diam,inner_diam,outer_diam,end_cond,total_coils,spring_rate,spring_index)
+%             %Constructor example
+%             obj.wire_diameter = wire_diam;
+%             obj.inner_diameter = inner_diam;
+%             obj.outer_diameter = outer_diam;
+%             obj.end_conditions = end_cond;
+%             obj.total_number_of_coils = total_coils;
+%             obj.spring_rate = spring_rate;
+%             obj.spring_index = spring_index;
+%             
+%             
+%         end
+%         function obj = Spring_Obj()
+%             
+%         end
         function use_end_conditions(obj)
             if obj.end_conditions == 0
                 %use close ground conditions
