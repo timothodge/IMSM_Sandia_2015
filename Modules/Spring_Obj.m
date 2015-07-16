@@ -125,9 +125,6 @@ classdef Spring_Obj
                 
         end
         
-        
-        
-        
     end
     
 end
