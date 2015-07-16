@@ -27,19 +27,19 @@ diametral_expansion.dependicies = {'diametral_expansion','maximum_outer_diameter
 
 
 max_spring_rate = Constraint;
-max_spring_rate.expression = @(Spring) Spring.shear_modulus/8/Spring.active_number_of_coils*Spring.wire_diameter^4/(Spring.inner_diameter+Spring.wire_diameter)^3 - Spring.maximum_spring_rate;
+max_spring_rate.expression = @(Spring) Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/(Spring.inner_diameter+Spring.wire_diameter)^3 - Spring.maximum_spring_rate;
 max_spring_rate.direction = 2;
-max_spring_rate.dependicies = {'shear_modulus','active_number_of_coils','wire_diameter','maximum_spring_rate','inner_diameter'};
+max_spring_rate.dependicies = {'shear_modulus','total_number_of_coils','wire_diameter','maximum_spring_rate','inner_diameter'};
 
 
 preload_force = Constraint;
-preload_force.expression = @(Spring) (Spring.length_at_no_compression - Spring.length_at_open_position)*Spring.shear_modulus/8/Spring.active_number_of_coils*Spring.wire_diameter^4/(Spring.inner_diameter+Spring.wire_diameter)^3 - Spring.force_at_open_position;
+preload_force.expression = @(Spring) (Spring.length_at_no_compression - Spring.length_at_open_position)*Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/(Spring.inner_diameter+Spring.wire_diameter)^3 - Spring.force_at_open_position;
 preload_force.direction = 3;
-preload_force.dependicies = {'length_at_no_compression','length_at_open_position','shear_modulus','active_number_of_coils','wire_diameter','inner_diameter','force_at_open_position'};
+preload_force.dependicies = {'length_at_no_compression','length_at_open_position','shear_modulus','total_number_of_coils','wire_diameter','inner_diameter','force_at_open_position'};
 
 
 coil_binding_gap = Constraint;
-coil_binding_gap.expression = @(Spring) -(Spring.length_at_hard_stop_position - Spring.solid_height)/(Spring.total_number_of_coils-1)+Spring.coil_binding_gap_min;
+coil_binding_gap.expression = @(Spring) -(Spring.length_at_hard_stop_position - Spring.total_number_of_coils*Spring.wire_diameter)/(Spring.total_number_of_coils-1)+Spring.coil_binding_gap_min;
 coil_binding_gap.direction = 2;
 coil_binding_gap.dependicies = {'length_at_hard_stop_position','solid_height','total_number_of_coils','coil_binding_gap_min'};
 
@@ -52,7 +52,7 @@ buckling_slenderness.dependicies = {'poisson_ratio','length_at_no_compression','
 
 
 max_shear_stress = Constraint;
-max_shear_stress.expression = @(Spring) -Spring.ultimate_torsional_stress + Spring.shear_modulus*(Spring.length_at_no_compression-Spring.length_at_hard_stop_position)/4/pi/Spring.active_number_of_coils*(Spring.wire_diameter*(4*Spring.inner_diameter^2+9.46*Spring.inner_diameter*Spring.wire_diameter+3*Spring.wire_diameter^2)/Spring.inner_diameter/(Spring.inner_diameter+Spring.wire_diameter)^3);
+max_shear_stress.expression = @(Spring) -Spring.ultimate_torsional_stress + Spring.shear_modulus*(Spring.length_at_no_compression-Spring.length_at_hard_stop_position)/4/pi/(Spring.total_number_of_coils-2)*(Spring.wire_diameter*(4*Spring.inner_diameter^2+9.46*Spring.inner_diameter*Spring.wire_diameter+3*Spring.wire_diameter^2)/Spring.inner_diameter/(Spring.inner_diameter+Spring.wire_diameter)^3);
 max_shear_stress.direction = 1;
-max_shear_stress.dependicies = {'ultimate_torsional_stress','shear_modulus','length_at_no_compression','length_at_hard_stop_position','active_number_of_coils','wire_diameter','inner_diameter'};
+max_shear_stress.dependicies = {'ultimate_torsional_stress','shear_modulus','length_at_no_compression','length_at_hard_stop_position','total_number_of_coils','wire_diameter','inner_diameter'};
 
