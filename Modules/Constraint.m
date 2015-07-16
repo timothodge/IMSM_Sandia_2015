@@ -1,10 +1,11 @@
 classdef Constraint < Objective % Constraint inherits from Objective
     % Constraint is a class that inherits from objective. 
     %
-    %It has the added functionality to tell if an inequality condition is 
-    %violated.
-    %
+    %isViolated will check if the constraints expression holds given
+    %a direction.
     % 
+    %There is also a list of dependicies inherited from objective that
+    %is used for ease of knowing what dependicies are.
     %
     
     properties

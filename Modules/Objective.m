@@ -1,5 +1,5 @@
 classdef Objective
-% Objective class has an expression, and evaluator. 
+% Objective class has an expression, evaluator, and a list of dependices. 
 %
 %Note: Any expression, must have Spring as input, 
 %and use Spring_Obj properties as the parameters in 
@@ -8,6 +8,7 @@ classdef Objective
     properties
         %Expression that is to be evaluated.
         expression
+        dependicies
     end
     
     methods
