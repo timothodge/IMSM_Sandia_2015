@@ -12,42 +12,100 @@ classdef Spring_Obj
 
     properties
         wire_diameter %d_w
+        minimum_wire_diameter = 0;
+        maximum_wire_diameter
+        
         inner_diameter % d_i
-        minimum_inner_diameter % d_i_min
+        minimum_inner_diameter=0; % d_i_min
+        maximum_inner_diameter;
+        
         outer_diameter % d_o
+        minimum_outer_diameter=0;
         maximum_outer_diameter % d_o_max
         end_conditions % ec
       
         length_at_no_compression %L_free
+        minimum_length_at_no_comopression = 0;
+        maximum_length_at_no_compression
+        
         length_at_open_position %L_open
+        minimum_length_at_open_position = 0;
+        maximum_length_at_open_position
+        
         length_at_close_position %L_close
+        minimum_length_at_close_position = 0;
+        maximum_length_at_close_position
+        
         length_at_hard_stop_position %L_hard
+        minimum_length_at_hard_stop_position = 0;
+        maximum_length_at_hard_stop_position
+        
         length_at_reset % L_reset
+        minimum_length_at_reset=0;
+        maximum_length_at_reset
         
         force_at_open_position %F_open
+        minimum_force_at_open_position = 0;
+        maximum_force_at_open_position
+        
         force_at_reset % F_reset
+        minimum_force_at_reset=0;
+        maximum_force_at_reset
         
         shear_modulus % G
+        minimum_shear_modulus=0;
+        maximum_shear_modulus
+        
         total_number_of_coils %N_t
-        coil_binding_gap_min = 0%g_min
+        minimum_total_number_of_coils=0;
+        maximum_total_number_of_coils
+        
+        minimum_coil_binding_gap = 0;%g_min
         
         %Derived from end conditions usually.
         active_number_of_coils % N_a
+        minimum_active_number_of_coils = 0;
+        maximum_active_number_of_coils
+        
         pitch %p
+        minimum_pitch = 0;
+        maximum_pitch
+        
         solid_height % L_solid
+        minimum_solid_height=0;
+        maximum_solid_height
+        
         diametral_expansion % d_expand
+        minimum_diametral_expansion = 0;
+        maximum_diametral_expansion
+        
         spring_rate % k
+        minimum_spring_rate = 0;
+        maximum_spring_rate %k_max
+        
         spring_index % C
-        maximum_spring_index = 0 %C_max
-        maximum_spring_rate = 0  %k_max
+        minimum_spring_index=0;
+        maximum_spring_index %C_max
         
         %Material
         youngs_modulus = 193; % E, default is 302 Stainless Steel
-        poisson_ratio = .27; % v, default is 302 Stainless Steel
-        ultimate_torsional_stress
+        minimum_youngs_modulus=0;
+        maximum_youngs_modulus
         
-        variable_list = {'wire_diameter','inner_diameter','minimum_inner_diameter','outer_diameter','maximum_outer_diameter','end_conditions','length_at_no_compression','length_at_open_position','length_at_close_position','length_at_hard_stop_position','length_at_reset','force_at_open_position','force_at_reset','shear_modulus','total_number_of_coils','coil_binding_gap_min','active_number_of_coils','pitch','solid_height','diametral_expansion','spring_rate','spring_index','maximum_spring_index','maximum_spring_rate','youngs_modulus','poisson_ratio','Ultimate_Torsional_Stress'}
+        poisson_ratio = .27; % v, default is 302 Stainless Steel
+        minimum_poisson_rate=0;
+        maximum_poisson_rate
+        
+        ultimate_torsional_stress
+        minimum_ultimate_torsional_stress
+        maximum_ultimate_torsional_stress
 
+    end
+    
+    properties(Constant)
+        variable_list = {'wire_diameter','inner_diameter','minimum_inner_diameter','outer_diameter','maximum_outer_diameter','end_conditions','length_at_no_compression','length_at_open_position','length_at_close_position','length_at_hard_stop_position','length_at_reset','force_at_open_position','force_at_reset','shear_modulus','total_number_of_coils','coil_binding_gap_min','active_number_of_coils','pitch','solid_height','diametral_expansion','spring_rate','spring_index','maximum_spring_index','maximum_spring_rate','youngs_modulus','poisson_ratio','ultimate_torsional_stress'};
+        minimum_variable_list = {'minimum_wire_diameter','minimum_inner_diameter','minimum_minimum_inner_diameter','minimum_outer_diameter','minimum_maximum_outer_diameter','minimum_end_conditions','minimum_length_at_no_compression','minimum_length_at_open_position','minimum_length_at_close_position','minimum_length_at_hard_stop_position','minimum_length_at_reset','minimum_force_at_open_position','minimum_force_at_reset','minimum_shear_modulus','minimum_total_number_of_coils','minimum_coil_binding_gap_min','minimum_active_number_of_coils','minimum_pitch','minimum_solid_height','minimum_diametral_expansion','minimum_spring_rate','minimum_spring_index','minimum_maximum_spring_index','minimum_maximum_spring_rate','minimum_youngs_modulus','minimum_poisson_ratio','minimum_ultimate_torsional_stress'};
+        maximum_variable_list = {'maximum_wire_diameter','maximum_inner_diameter','maximum_minimum_inner_diameter','maximum_outer_diameter','maximum_maximum_outer_diameter','maximum_end_conditions','maximum_length_at_no_compression','maximum_length_at_open_position','maximum_length_at_close_position','maximum_length_at_hard_stop_position','maximum_length_at_reset','maximum_force_at_open_position','maximum_force_at_reset','maximum_shear_modulus','maximum_total_number_of_coils','maximum_coil_binding_gap_min','maximum_active_number_of_coils','maximum_pitch','maximum_solid_height','maximum_diametral_expansion','maximum_spring_rate','maximum_spring_index','maximum_maximum_spring_index','maximum_maximum_spring_rate','maximum_youngs_modulus','maximum_poisson_ratio','maximum_ultimate_torsional_stress'};
     end
     
     methods(Static)
@@ -56,18 +114,18 @@ classdef Spring_Obj
     end
     
      methods
-%         function obj = Spring_Obj(wire_diam,inner_diam,outer_diam,end_cond,total_coils,spring_rate,spring_index)
-%             %Constructor example
-%             obj.wire_diameter = wire_diam;
-%             obj.inner_diameter = inner_diam;
-%             obj.outer_diameter = outer_diam;
-%             obj.end_conditions = end_cond;
-%             obj.total_number_of_coils = total_coils;
-%             obj.spring_rate = spring_rate;
-%             obj.spring_index = spring_index;
-%             
-%             
-%         end
+%         function obj = Spring_Obj(x)
+%             %Constructor example, x has to be cell array
+%             for k = 1:length(x)
+%                 if isempty(x{k})
+%                     eval(['obj.' obj.variable_list{k} '=[];']);
+%                 else
+%                     eval(['obj.' obj.variable_list{k} '=' num2str(x(k)) ';']);
+%                 end
+%             end
+            
+            
+       % end
 %         function obj = Spring_Obj()
 %             
 %         end
@@ -124,9 +182,6 @@ classdef Spring_Obj
             end
                 
         end
-        
-        
-        
         
     end
     
