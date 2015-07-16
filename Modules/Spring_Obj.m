@@ -44,8 +44,9 @@ classdef Spring_Obj
         %Material
         youngs_modulus = 193; % E, default is 302 Stainless Steel
         poisson_ratio = .27; % v, default is 302 Stainless Steel
-        Ultimate_Torsional_Stress
+        ultimate_torsional_stress
         
+        variable_list = {'wire_diameter','inner_diameter','minimum_inner_diameter','outer_diameter','maximum_outer_diameter','end_conditions','length_at_no_compression','length_at_open_position','length_at_close_position','length_at_hard_stop_position','length_at_reset','force_at_open_position','force_at_reset','shear_modulus','total_number_of_coils','coil_binding_gap_min','active_number_of_coils','pitch','solid_height','diametral_expansion','spring_rate','spring_index','maximum_spring_index','maximum_spring_rate','youngs_modulus','poisson_ratio','Ultimate_Torsional_Stress'}
 
     end
     
