@@ -56,6 +56,3 @@ inner_diam_min = Constraint;
 inner_diam_min.expression = @(Spring) Spring.minimum_inner_diameter - Spring.inner_diameter;
 inner_diam_min.direction = 1;
 inner_diam_min.dependicies = {'minimum_inner_diameter','inner_diameter'};
-
-inner_diam_max = Constraint;
-inner_diam_max.expression = @(Spring) Spring.max_inner_diameter - 
