@@ -1,12 +1,11 @@
 % Sensitivity Analysis Generalized Code
 
-function [SA_Indices,NumberOfSamples] = General_SA(xbounds, objObj, conObj, S)
+function [SA_Indices] = General_SA(xbounds, objObj, conObj, S, nsam)
 % bounds is a m x 2 matrix
 % m design variables
 % Each row has the lower and upper bounds of a design variable
 % f is a function handle of the objective function
 
-nsam = 500;
 [m,~] = size(xbounds);
 xsamples = zeros(nsam,m);
 NumberOfVaribles = m;
