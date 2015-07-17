@@ -8,8 +8,6 @@ classdef Spring_Obj
 % Lengths and diameters are usually given in .0001 increments
 %
 
-
-
     properties
         wire_diameter = 2.5e-3; %d_w in meters
         minimum_wire_diameter = eps;
@@ -258,6 +256,12 @@ function Spring =  Set_Rest_Of_Properties(obj)
                 retval = (obj.youngs_modulus)/(2*(1 + obj.poisson_ratio));
             end
                 
+        end
+        
+        function obj = update_state_variables(obj,stateVariables,vals)
+            for k = 1:length(vals)
+               obj.(stateVariables{k}) = x(k); 
+            end
         end
         
     end
