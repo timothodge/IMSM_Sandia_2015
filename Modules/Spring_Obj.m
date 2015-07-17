@@ -2,10 +2,9 @@ classdef Spring_Obj
 % This object is a container for all relevant parameters that a spring may
 % have. 
 %
-% Note: For end conditions 0 denotes closed ground,
-% 1 denotes open ground.
+% Note: We assume closed ground and total number of coils given.
 %
-% Lengths and diameters are usually given in .0001 increments
+% To get a default spring, make object and then from there S.Set
 %
 
     properties
