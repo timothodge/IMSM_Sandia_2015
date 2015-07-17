@@ -26,11 +26,11 @@ classdef Constraint < Objective % Constraint inherits from Objective
             %                             3 is  = 0
             
             if obj.direction == 1
-                TF  = ~(obj.eval(Spring)<10*eps);
+                TF  = ~(obj.objEval(Spring)<10*eps);
             elseif obj.direction == 2
-                TF = ~(obj.eval(Spring)<=10*eps);
+                TF = ~(obj.objEval(Spring)<=10*eps);
             elseif obj.direction == 3
-                TF = ~(abs(obj.eval(Spring))<10*eps);
+                TF = ~(abs(obj.objEval(Spring))<10*eps);
             end
         end
     end

@@ -118,9 +118,9 @@ classdef Spring_Obj
 %             %Constructor example, x has to be cell array
 %             for k = 1:length(x)
 %                 if isempty(x{k})
-%                     eval(['obj.' obj.variable_list{k} '=[];']);
+%                     obj.(obj.variable_list{k}) = [];
 %                 else
-%                     eval(['obj.' obj.variable_list{k} '=' num2str(x(k)) ';']);
+%                     obj.(obj.variable_list{k}) = x(k);
 %                 end
 %             end
             
