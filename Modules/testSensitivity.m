@@ -37,8 +37,4 @@ xBounds = [lB', uB'];
 objective = ObjectiveFunction(objFcnParts, w, stateVar);
 constraint = constraintSystem(constraintFunctionList);
 
-numberSamples = zeros(50,1);
-for k = 1:50
-    [~, nS] = General_SA(xBounds, objective, constraint, S);
-    numberSamples(k) = nS;
-end
+SA_Indices = General_SA(xBounds, objective, constraint, S, 500);
