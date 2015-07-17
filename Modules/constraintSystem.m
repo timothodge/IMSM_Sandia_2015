@@ -31,10 +31,18 @@ classdef constraintSystem
             end
         end
         
-        function [varargout] = constraintSystemBuilder(obj)
+        function [constraintSystem] = constraintSystemBuilder(obj,ObjectiveFunction,Spring)
+            %% Returns an array of variable length with function handles
+            %% for all input constraints
+            num_constraints = size(obj.constraintList,2); 
+            PredefinedConstraints
+            constraintSystem = cell(num_constraints,1);
             
+            for i = 1:num_constraints
+                constraintSystem{i} =@(x) FcnBuilder(x,ObjectiveFunction,Spring);
+            end
         end
-     
+        
         function retVal = plotConstraints(obj,spring,variable1,variable2)
             %% this function will return a collection of 
             %% level plots for two input variables

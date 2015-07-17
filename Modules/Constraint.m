@@ -33,5 +33,10 @@ classdef Constraint < Objective % Constraint inherits from Objective
                 TF = ~(abs(obj.objEval(Spring))<10*eps);
             end
         end
+    
+        function [f] = FcnBuilder(x,ObjectiveFunction,Spring)
+            Spring.update_state_variables(ObjectiveFunction.stateVar,x)
+            f = obj.objEval(Spring);
+        end
     end
 end

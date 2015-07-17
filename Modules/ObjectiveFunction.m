@@ -30,10 +30,8 @@ classdef ObjectiveFunction
            %% spring - spring object
            %% outputs:
            %% f - function handle
-            for k = 1:length(x)
-                S.(obj.stateVar{k}) = x(k);
-            end
-            f = dot(w, cellfun(@objEval,objParts,repmat({S},size(objParts))));
+            S = S.update_
+           f = dot(obj.weights, cellfun(@objEval,objParts,repmat({S},size(objParts))));
         end
         
         function [lB,uB] = getStateVariableBounds(obj,Spring)
