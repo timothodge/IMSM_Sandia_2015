@@ -1,0 +1,12 @@
+This file is for keeping notes and documentation on everything related to our project.
+
+Day 1: 
+
+A requirement of the project is to construct a flexible optimizer. To do this we must be able to interchange what is considered part of the objective
+function and what is considered part of the constraints. To have this flexibility 
+
+
+Flexibility requirement led us to the object oriented approach.
+
+This approach allows us to make adjustments to what is considered an objective or a constraint.
+

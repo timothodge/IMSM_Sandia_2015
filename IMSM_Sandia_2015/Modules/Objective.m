@@ -12,7 +12,7 @@ classdef Objective
     end
     
     methods
-        function retval = objEval(obj,Spring)
+        function retval = eval(obj,Spring)
             % Eval, evaluate the objectives expresssion.
             %
             %Input: Spring_Obj

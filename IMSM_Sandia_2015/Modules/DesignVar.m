@@ -9,7 +9,7 @@ springProperties = {};
 Target = objFcn(S);
 for k = 1:length(S.variable_list)
 %    if ~strcmp(S.variable_list{k},'variable_list')
-        S.(S.variable_list{k}) = 0;
+        eval(['S.' S.variable_list{k} '=0;']);
         S.use_end_conditions();
         S.spring_rate = S.eval_spring_rate();
         S.spring_index = S.eval_spring_index();
@@ -18,7 +18,7 @@ for k = 1:length(S.variable_list)
         if( abs(Target - Compare)>1E-10 )
             springProperties = [springProperties S.variable_list{k}];
         end
-        S(S.variable_list{k}) = 1;
+        eval(['S.' S.variable_list{k} '=1;']);
 %    end
 end
 
@@ -28,7 +28,7 @@ function S=Initialize()
 S=Spring_Obj;
 for k = 1:length(S.variable_list)
 %    if ~strcmp(S.variable_list{k},'variable_list')
-        S.(S.variable_list{k}) = 1;
+        eval(['S.' S.variable_list{k} '=1;']);
 %    end
 end
 end

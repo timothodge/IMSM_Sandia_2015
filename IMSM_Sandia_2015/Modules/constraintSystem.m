@@ -17,7 +17,7 @@ classdef constraintSystem
             PredefinedConstraints
 
             for i = 1:num_constraints
-                constraint_obj = objEval(obj.constraintList{1});
+                constraint_obj = eval(obj.constraintList{1});
                 satisfied = constraint_obj.isViolated(inputSpring);
                 if(satisfied == 1)
                    retVal = 0; 
