@@ -1,14 +1,20 @@
 classdef constraintSystem
+
     properties
-       constraintList
+       constraintList   %% names of constraint equations
     end
     
     methods
 
+        function obj = constraintSystem(constraintFunctionList,stateVars)
+            obj.constraintList = constraintFunctionList;
+        end
+        
         function retVal = pointIsValid(obj,inputSpring)
-            %% takes a point and checks whether or not it is feasible
-            %%
-            
+            %% tests whether a point is feasible
+            %% inputSpring - spring with points to test
+            %% retVal - returns 1 if point is feasible
+            %%        - returns 0 if point is not feasible
             retVal = 1;
             % determine the number of constraints
             S = size(obj.constraintList);
@@ -24,8 +30,15 @@ classdef constraintSystem
                 end
             end
         end
-        function retVal = plotConstraints(obj,spring,variable1,variable2)
-            %% plots images of design space
+        
+        function [varargout] = constraintSystemBuilder(obj)
+            
         end
+     
+        function retVal = plotConstraints(obj,spring,variable1,variable2)
+            %% this function will return a collection of 
+            %% level plots for two input variables
+        end
+        
     end
 end

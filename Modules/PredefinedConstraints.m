@@ -25,12 +25,10 @@ max_spring_rate.expression = @(Spring) Spring.shear_modulus/8/(Spring.total_numb
 max_spring_rate.direction = 2;
 max_spring_rate.dependicies = {'shear_modulus','total_number_of_coils','wire_diameter','maximum_spring_rate','inner_diameter'};
 
-
 preload_force = Constraint;
 preload_force.expression = @(Spring) (Spring.length_at_no_compression - Spring.length_at_open_position)*Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/(Spring.inner_diameter+Spring.wire_diameter)^3 - Spring.force_at_open_position;
 preload_force.direction = 3;
 preload_force.dependicies = {'length_at_no_compression','length_at_open_position','shear_modulus','total_number_of_coils','wire_diameter','inner_diameter','force_at_open_position'};
-
 
 coil_binding_gap = Constraint;
 coil_binding_gap.expression = @(Spring) -(Spring.length_at_hard_stop_position - Spring.total_number_of_coils*Spring.wire_diameter)/(Spring.total_number_of_coils-1)+Spring.minimum_coil_binding_gap;
@@ -56,6 +54,3 @@ inner_diam_min = Constraint;
 inner_diam_min.expression = @(Spring) Spring.minimum_inner_diameter - Spring.inner_diameter;
 inner_diam_min.direction = 1;
 inner_diam_min.dependicies = {'minimum_inner_diameter','inner_diameter'};
-
-inner_diam_max = Constraint;
-inner_diam_max.expression = @(Spring) Spring.max_inner_diameter - 

@@ -8,8 +8,6 @@ classdef Spring_Obj
 % Lengths and diameters are usually given in .0001 increments
 %
 
-
-
     properties
         wire_diameter %d_w
         minimum_wire_diameter = 0;
@@ -181,6 +179,12 @@ classdef Spring_Obj
                 retval = (obj.youngs_modulus)/(2*(1 + obj.poisson_ratio));
             end
                 
+        end
+        
+        function obj = update_state_variables(obj,stateVariables,vals)
+            for k = 1:length(vals)
+               obj.(stateVariables{k}) = x(k); 
+            end
         end
         
     end
