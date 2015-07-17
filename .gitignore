@@ -7,8 +7,9 @@
 *.log
 *.nav
 *.out
+*.pdf
 *.snm
-*.syntex.gz
+*.synctex.gz
 
 */*.aux
 */*.bbl
@@ -16,5 +17,6 @@
 */*.log
 */*.nav
 */*.out
+*/*.pdf
 */*.snm
-*/*.syntex.gz
+*/*.synctex.gz
