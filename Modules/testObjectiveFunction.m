@@ -7,7 +7,7 @@ PredefinedConstraints;
 S.maximum_spring_index = 0;
 S.maximum_spring_rate = 0;
 S.shear_modulus = 8;
-S.active_number_of_coils = 1;
+S.total_number_of_coils = 3;
 
 wireDiameters = 1:10;
 innerDiameters = 1:10;
@@ -16,7 +16,7 @@ innerDiameters = 1:10;
 C = zeros(size(X));
 
 w = [1; 1];
-objectiveFunction =@(x) objFcnConverter(@(S) objFcnSpring(S,w,max_spring_index, max_spring_rate), S, {'wire_diameter'; 'inner_diameter'}, x);
+objectiveFunction =@(x) objFcnSpring(x, {'wire_diameter'; 'inner_diameter'}, S, w, {max_spring_index,max_spring_rate});
 
 for i = 1:length(innerDiameters)
     for j = 1:length(wireDiameters)
