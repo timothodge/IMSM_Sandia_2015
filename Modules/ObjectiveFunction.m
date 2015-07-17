@@ -23,15 +23,15 @@ classdef ObjectiveFunction
             obj.weights = objFuncWghts;        
         end
         
-        function [f] = objFcnBuilder(obj,x,S)
+        function [f] = objFcnEvaluator(obj,x,S)
            %% *** creates a handle for the objective function ***
            %% inputs:
            %% x - evaluation point
            %% spring - spring object
            %% outputs:
            %% f - function handle
-            S = S.update_
-           f = dot(obj.weights, cellfun(@objEval,objParts,repmat({S},size(objParts))));
+            S = S.update_state_variables(obj.stateVar,x);
+            f = dot(obj.weights, cellfun(@objEval,obj.equationList,repmat({S},size(obj.equationList))));
         end
         
         function [lB,uB] = getStateVariableBounds(obj,Spring)

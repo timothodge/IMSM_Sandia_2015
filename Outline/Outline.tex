@@ -75,18 +75,7 @@
 
 \section{Abstract}
 
-	\begin{enumerate}
-		\item A mechanical switch involving a spring can have many uses. 
-		
-		\item Depending on the desired use of the spring, an optimal spring will be different. 
-	
-		\item To find an optimal spring we need to have a set of constraints and objectives to optimize. 
-		
-		\item The constraints and objectives are subject to change depending on the use. 
-		
-		\item The objective of this project is to design a flexible optimization routine, that is, flexible in what constraints and objectives are considered. 
-		
-	\end{enumerate}
+
 	
 \section{Introduction}
 	\begin{enumerate}
@@ -99,7 +88,15 @@
 		
 		\item In addition, we must be able to find an optimal spring that is subject to constraints, and tolerances that are set by 
 		
-		\item 
+		\item A mechanical switch involving a spring can have many uses. 
+		
+		\item Depending on the desired use of the spring, an optimal spring will be different. 
+	
+		\item To find an optimal spring we need to have a set of constraints and objectives to optimize. 
+		
+		\item The constraints and objectives are subject to change depending on the use. 
+		
+		\item The objective of this project is to design a flexible optimization routine, that is, flexible in what constraints and objectives are considered. 
 		
 	\end{enumerate}
 	
@@ -126,7 +123,7 @@ Helical springs are a large class of springs sharing the common characteristic o
 			\item Spring's shear modulus $G$
 		\end{enumerate}
 
-These various characteristics interact to define key attributes of the spring.
+These various characteristics interact to define key attributes of the spring, these are empirical given some regime we care about.
 
 	\begin{enumerate}
 		\item \textbf{Spring Rate} - this is the effective stiffness of the spring in compression.
@@ -207,7 +204,7 @@ In GSA, two types of indices can be calculated for each variable - first order i
 \centerline{$S_{i}^{I} = \dfrac{V_{X_i}(E_{X_{-i}}(Y|X_{i}))}{V(Y)}$}
 \centerline{$S_{i}^{T} = \dfrac{E_{X_{-i}}(V_{X_{i}}(Y|X_{-i}))}{V(Y)}$}
 
-Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the total-effects index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization. 
+Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the total-effects index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization. \cite{Wahl} \cite{Paredes}
 
 
 \subsection{Optimization}
@@ -215,13 +212,15 @@ Given a design range (lower and upper bounds), a variable can be assumed to be u
 		\item
 	\end{enumerate}
 
-		
+		 
 \section{Computational Experiments}
 	\begin{enumerate}
 
 		\item Case Studies
 		
-		\item Relaxation and Creep
+		\item Relaxation and Creep \textbf{Define issues, define problem, and future work it}
+		
+		\item Given recommendations for data collection, to validate model.
 		
 	\end{enumerate}
 	
@@ -244,7 +243,14 @@ Given a design range (lower and upper bounds), a variable can be assumed to be u
 		
 	\end{enumerate}
 	
-	\section{References}
+
+\vfill\pagebreak
+
+	
+	\bibliographystyle{ieetr}
+
+\bibliography{MyBib}
+
 		
 
 	\end{document}

@@ -18,12 +18,12 @@ innerDiameters = 1:10;
 
 w = [1; 1];
 
-objectiveFunction =@(x) objFcnBuilder(x, stateVar, S, w, objFcnParts);
+objective = ObjectiveFunction(objFcnParts, w, stateVar);
 
 C = zeros(size(X));
 for i = 1:length(innerDiameters)
     for j = 1:length(wireDiameters)
-        C(i,j) = objectiveFunction([X(i,j);Y(i,j)]);
+        C(i,j) = objective.objFcnEvaluator([X(i,j); Y(i,j)], S);
     end
 end
 
