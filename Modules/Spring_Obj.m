@@ -189,7 +189,7 @@ function Spring =  Set_Rest_Of_Properties(obj)
         
         obj.diametral_expansion = obj.wire_diameter + sqrt((obj.inner_diameter + obj.wire_diameter)^2 + (obj.pitch^2 - obj.wire_diameter^2)/pi^2);% d_expand
         obj.minimum_diametral_expansion = obj.minimum_wire_diameter + sqrt((obj.minimum_inner_diameter + obj.minimum_wire_diameter)^2 + (obj.maximum_pitch^2 - obj.minimum_wire_diameter^2)/pi^2);
-        obj.maximum_diametral_expansion = obj.maximum_wire_diameter + sqrt((obj.maximum_inner_diameter + obj.maximum_wire_diameter)^2 + (obj.minimum_pitch^2 - obj.maximum_wire_diameter^2)/pi^2);
+        obj.maximum_diametral_expansion = obj.maximum_outer_diameter;%obj.maximum_wire_diameter + sqrt((obj.maximum_inner_diameter + obj.maximum_wire_diameter)^2 + (obj.minimum_pitch^2 - obj.maximum_wire_diameter^2)/pi^2);
 
         obj.ultimate_torsional_stress = obj.shear_modulus*(obj.length_at_no_compression-obj.length_at_hard_stop_position)/4/pi/(obj.total_number_of_coils-2)*obj.wire_diameter*(4*obj.inner_diameter^2+9.46*obj.inner_diameter*obj.wire_diameter+3*obj.wire_diameter^2)/obj.inner_diameter/((obj.inner_diameter+obj.wire_diameter)^3);
         obj.minimum_ultimate_torsional_stress = .1e9;
