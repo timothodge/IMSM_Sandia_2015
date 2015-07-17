@@ -183,7 +183,7 @@ classdef Spring_Obj
         
         function obj = update_state_variables(obj,stateVariables,vals)
             for k = 1:length(vals)
-               obj.(stateVariables{k}) = x(k); 
+               obj.(stateVariables{k}) = vals(k); 
             end
         end
         

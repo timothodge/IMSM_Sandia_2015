@@ -33,4 +33,10 @@ w = [0.5/kMax; 0.5/cMax];
 
 objectiveFunction =@(x) objFcnBuilder(x, stateVar, S, w, objFcnParts);
 
-SA_Indices = General_SA(xBounds, objectiveFunction);
+objective = ObjectiveFunction(objFcnParts, w, stateVar);
+
+constraintFunctionList = {'outer_diam_max','coil_binding_gap', ...
+                            'buckling_slenderness','max_shear_stress'};
+constraint = constraintSystem(constraintFunctionList);
+
+SA_Indices = General_SA(xBounds, objective, constraint, S);
