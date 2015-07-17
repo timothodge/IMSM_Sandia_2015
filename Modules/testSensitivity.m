@@ -26,8 +26,8 @@ kMax = 20;
 cMax = 10;
 w = [0.5/kMax; 0.5/cMax];
 
-constraintFunctionList = {'outer_diam_max','coil_binding_gap', ...
-                            'buckling_slenderness','max_shear_stress'};
+constraintFunctionList = {outer_diam_max,coil_binding_gap, ...
+                            buckling_slenderness,max_shear_stress};
 
 % state variable bounds
 lB = [20e-3, 1e-3, 9];
