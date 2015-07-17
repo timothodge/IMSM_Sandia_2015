@@ -21,16 +21,24 @@ S.maximum_spring_index = 0;
 stateVar = {'inner_diameter', 'wire_diameter', 'total_number_of_coils'};
 objFcnParts = {max_spring_rate,max_spring_index};
 
-% state variable bounds
-lB = [20e-3, 1e-3, 9];
-uB = [40e-3, 5e-3, 17];
-xBounds = [lB', uB'];
-
 %objective function weights
 kMax = 20;
 cMax = 10;
 w = [0.5/kMax; 0.5/cMax];
 
-objectiveFunction =@(x) objFcnBuilder(x, stateVar, S, w, objFcnParts);
+constraintFunctionList = {'outer_diam_max','coil_binding_gap', ...
+                            'buckling_slenderness','max_shear_stress'};
 
-SA_Indices = General_SA(xBounds, objectiveFunction);
+% state variable bounds
+lB = [20e-3, 1e-3, 9];
+uB = [40e-3, 5e-3, 17];
+xBounds = [lB', uB'];
+
+objective = ObjectiveFunction(objFcnParts, w, stateVar);
+constraint = constraintSystem(constraintFunctionList);
+
+numberSamples = zeros(50,1);
+for k = 1:50
+    [~, nS] = General_SA(xBounds, objective, constraint, S);
+    numberSamples(k) = nS;
+end

@@ -17,19 +17,18 @@ classdef constraintSystem
             %%        - returns 0 if point is not feasible
             retVal = 1;
             % determine the number of constraints
-            S = size(obj.constraintList);
-            num_constraints = S(2);
+            num_constraints = size(obj.constraintList, 2);
             % run predefinedConstraints to initialize
             PredefinedConstraints
 
             for i = 1:num_constraints
-                constraint_obj = objEval(obj.constraintList{1});
+                constraint_obj = eval(obj.constraintList{i});
                 satisfied = constraint_obj.isViolated(inputSpring);
                 if(satisfied == 1)
                    retVal = 0; 
                 end
             end
-        end
+        end     
         
         function [varargout] = constraintSystemBuilder(obj)
             
