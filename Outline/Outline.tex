@@ -104,14 +104,42 @@
 	\end{enumerate}
 	
 	\section{Helical Compression Springs}
-	\begin{enumerate}
-		
-		\item A helical compression spring has many attributes that are associated to it. 
-		
-		\item There are material attributes
 		
 
-		
+Helical springs are a large class of springs sharing the common characteristic of a coiled appearence (see figure).  Below is a list of a spring's key design parameters.
+
+		\begin{enumerate}
+			\item Spring's inner diameter $d_{i}$ 
+			\item Spring's outter diameter $d_{o}$
+			\item Spring's coil width $d_{w}$
+			\item Total number of spring coils $N_{t}$
+			\item Pitch $p$
+			\item Spring's free length $L_{free}$
+			\item Spring's solid length $L_{solid}$
+			\item Spring's open length $L_{open}$
+			\item Spring's shear modulus $G$
+		\end{enumerate}
+
+These various characteristics interact to define key attributes of the spring.
+
+	\begin{enumerate}
+		\item \textbf{Spring Rate} - this is the effective stiffness of the spring in compression.
+\begin{align*}
+		k = \dfrac{G}{8 N_{a} (ec)} \dfrac{d_{w}^{4}}{(d_{i}+d_{w})^{3}}
+\end{align*}
+		\item \textbf{Spring Index} - indicates the distribution and magnitude of stress.
+\begin{align*}
+		C = \dfrac{d_{i}}{d_{w}} + 1
+\end{align*}
+		\item Coil Binding Gap
+\begin{align*}
+	g = \dfrac{L_{hard} - L_{solid}(d_{w},N_{a}; ec)}{N_{t} - 1}
+\end{align*}
+		\item Maximum Shear Stress
+\begin{align*}
+		\dfrac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} [\dfrac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
+d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}] < UTS
+\end{align*}
 	\end{enumerate}
 
 
@@ -124,7 +152,9 @@
 		\item Multiple-Interconnected Dimensions, graph of interconnectedness
 	
 		\item List the properties and a short description.
+
 		
+
 		\item Illustrate example of optimization, and explain our generalization.
 		
 		\item Relaxation and Creep
