@@ -1,21 +1,20 @@
 clear all
 close all
-
 %{
-    Objectives: Max spring index and Max spring rate
+    Objectives: d_expand and coil_binding_gap
     
-    Constraints: outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap
+    Constraints: Max spring index and F_open
 
-    State Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
+    State Variables: Wire diameter
 
-    Status: Works!
+    Status: Works, but there is no feasible solution.
 
 
 %}
 %% initialization
 
 S = Spring_Obj;
-%S = S.Set_Rest_Of_Properties;
+S = S.Set_Rest_Of_Properties;
 PredefinedConstraints;
 
 % if you want something different than the default setting, uncomment and
@@ -36,31 +35,35 @@ S.maximum_spring_index = 0;
 
 % using the constraint names given in PredefinedConstraints to specify 
 % the objective function parts
-objFcnParts = {max_spring_rate,max_spring_index};
+objFcnParts = {diametral_expansion,coil_binding_gap};
 % objective function weights (don't forget to normalize weights)
 kMax = 20;
 cMax = 10;
-w = [0.5/kMax; 0.5/cMax];
+w = [1; 1];
 
 %% define stateVariables
-stateVar = {'inner_diameter', 'wire_diameter', 'total_number_of_coils'};
+stateVar = {'wire_diameter'};
 % state variable bounds
-lB = [20e-3, 1e-3, 9];
-uB = [40e-3, 5e-3, 17];
+lB = [20e-3];
+uB = [5e-2];
+
+
 
 % set constraints using names given in PredefinedConstraints
-consPart = {outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap};
+consPart = {max_spring_index, preload_force};
 
 
 %% Direct
 OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S);
 Problem = OP.setDirect();
 bounds = [lB', uB'];
+
 isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
 if (isProblemFeasible == 0)
     'No Feasible Solution Found'
 end
+
 
 %% Direct solver options %%
 opts.ep = 1e-5;
