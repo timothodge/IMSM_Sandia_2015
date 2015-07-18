@@ -45,7 +45,11 @@ consPart = {outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding
 OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S);
 Problem = OP.setDirect();
 bounds = [lB', uB'];
+isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
+if (isProblemFeasible == 0)
+    'No Feasible Solution Found'
+end
 
 %% Direct solver options %%
 opts.ep = 1e-5;
