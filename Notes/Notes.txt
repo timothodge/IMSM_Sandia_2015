@@ -1,12 +1,19 @@
 This file is for keeping notes and documentation on everything related to our project.
 
-Day 1: 
+Project Demands:
+- Flexible code to handle a variety of optimization problems with respect to spring properties
+- Tools to analyze user-provided problems
+- Novel inclusion of relaxation physics to allow for their inclusion in user-provided problems
+- Code needs to be designed to include the possibility of interfacing with a GUI
 
-A requirement of the project is to construct a flexible optimizer. To do this we must be able to interchange what is considered part of the objective
-function and what is considered part of the constraints. To have this flexibility 
+Addressing the Demands:
+- Flexibility of the code is addressed using an OOP approach
+- Analysis tools to include sensitivity analysis using Sobol indices, interaction webs, and graphical tools
+- Relaxation model is taken from Spring-relaxation-2014-02
+- OOP also lends itself to the construction of a GUI
 
-
-Flexibility requirement led us to the object oriented approach.
-
-This approach allows us to make adjustments to what is considered an objective or a constraint.
-
+To-Do:
+- Include check for the existence of a feasible solution before optimization/sensitivity
+- Run various case studies and corresponding analysis
+- Organize results for presentation purposes
+- Formally include and use relaxation
