@@ -14,6 +14,8 @@ close all
 %}
 %% initialization
 
+fprintf('Initializing spring object and problem statement ... ');
+
 S = Spring_Obj;
 %S = S.Set_Rest_Of_Properties;
 PredefinedConstraints;
@@ -51,14 +53,21 @@ uB = [40e-3, 5e-3, 17];
 % set constraints using names given in PredefinedConstraints
 consPart = {outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap};
 
+fprintf('done.\n');
+
 %% Check feasibility and setup Direct
+
+fprintf('Checking if a feasible solution exists ... ');
+
 OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S);
 Problem = OP.setDirect();
 bounds = [lB', uB'];
 isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
 if (isProblemFeasible == 0)
-    disp('No Feasible Solution Found');
+    fprintf('no such region found.\n');
+else
+    fprintf('there is such a region.\n');
 end
 
 %% Direct solver options %%
@@ -70,8 +79,18 @@ opts.testflag = 0;
 opts.showits = 0;
 
 %% ***This line runs the direct global optimization algorithm on the problem ***
+
+fprintf('Running Direct optimization method ... \n');
+
 [fMin, xMin, history] = Direct(Problem, bounds, opts);
 
+fprintf('Done with optimization method ... \n');
+
 %% *** This line runs the General_SA algorithm for optimization problem
+
+fprintf('Performing sensitivity analysis ... ');
+
 nsamples = 1000;
 [SA_Indices] = General_SA(bounds,OP.objective,OP.constraints,S,nsamples);
+
+fprintf('done.\n');
