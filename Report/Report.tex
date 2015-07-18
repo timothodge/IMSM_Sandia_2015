@@ -117,7 +117,7 @@ Helical springs are a large class of springs sharing the common characteristic o
 		 
 		 \end{figure}
 
-Below is a list of a spring's key design parameters. We have added a few illustrations to keep straight some of the parameters. 		 
+Below is a list of a spring's key design parameters. We have added a few illustrations to illustrate some of the parameters. 		 
 		\begin{figure}[h]
 			\centering
 			\begin{subfigure}{.5\textwidth}
@@ -133,7 +133,7 @@ Below is a list of a spring's key design parameters. We have added a few illustr
 		  		
 			\end{subfigure}
 			 \label{Descriptions}
-		  \caption{A few illustrations of a few of the parameters for a helical compression spring.}
+		  \caption{A few illustrations of parameters for a helical compression spring.}
 		\end{figure}
 		
 		\begin{enumerate}
@@ -195,6 +195,8 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] < 0$
 %\item Relaxation
 \end{enumerate}	
 
+
+
 \textbf{ADD RELAXATION HERE!}
 
 
@@ -205,6 +207,8 @@ In order to simplify the problem we have made some assumptions. First, we have a
 With these assumptions we simplify our constraints for pitch, $p$, solid length, $L_{solid}$, and the diametral expansion, $d_{expand}$. 
 
 \textbf{JUSTIFY ASSUMPTIONS}
+
+\textbf{Describe data, how collected, properties of data, and whether anything was done to it.}
 
 \section{The Problem}
 \begin{itemize}
@@ -219,6 +223,13 @@ and whether you did
 anything to them (removed noise, filled in missing data, 
 applied normalizations).
 \end{itemize}
+
+
+\section{The Approach}
+
+To be as flexible as possible we must be able to handle constraints and objectives that have an unknown number of  variables a priori. To handle this uncertainty we instead of evaluating an objective or constraint with a set of values we evaluate with a "spring object" in the programming sense. This spring has all the attributes of interest and the function merely picks what values it needs for evaluation.  
+
+This approach is also implemented in the design of a constraint and objective. An objective is an expression that we must be able to evaluate. In contrast, a constraint is an expression that we must evaluate and compare to a condition. For this reason 
 
 \section{The Approach}
 \begin{itemize}
