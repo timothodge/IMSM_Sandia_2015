@@ -1,9 +1,10 @@
 clear all
 close all
+%%
 %{
     Objectives: max spring rate and max spring index
     
-    Constraints: outer_diam_max, diametral expansion
+    Constraints: outer_diam_max, 
                 coil binding gap, buckling slenderness max
                 shear stress
                 stress_relaxation
@@ -53,7 +54,7 @@ uB = [40e-3,5e-3,17];
 
 
 % set constraints using names given in PredefinedConstraints
-consPart = {outer_diam_max,diametral_expansion,max_shear_stress,buckling_slenderness,coil_binding_gap,stress_relaxation};
+consPart = {outer_diam_max,max_shear_stress,buckling_slenderness,coil_binding_gap,stress_relaxation};
 
 
 %% Direct

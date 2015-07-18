@@ -227,9 +227,12 @@ applied normalizations).
 
 \section{The Approach}
 
-To be as flexible as possible we must be able to handle constraints and objectives that have an unknown number of  variables a priori. To handle this uncertainty we instead of evaluating an objective or constraint with a set of values we evaluate with a "spring object" in the programming sense. This spring has all the attributes of interest and the function merely picks what values it needs for evaluation.  
+To be as flexible as possible we must be able to handle constraints and objectives that have an unknown number of  variables a priori. To handle this uncertainty we instead of evaluating an objective or constraint with a set of values we evaluate with a "spring object" in the programming sense \cite{OOP}. This spring has all the attributes of interest and the function merely picks what values it needs for evaluation. 
 
-This approach is also implemented in the design of a constraint and objective. An objective is an expression that we must be able to evaluate. In contrast, a constraint is an expression that we must evaluate and compare to a condition. For this reason 
+This approach is also implemented in the design of a constraint and objective. An objective is an expression that we must be able to evaluate. A constraint is an expression that we must evaluate and check if this evaluationa violates the constraint condition. We use the idea of inheritance and let a constraint inherit the properties of being an objective with additional framework to compare to a condition. This allows the user to interchange constraints and objectives seamlessly.
+
+Along with the flexible software design, we have implemented the ability to run feasibility and sensitivity checks before trying to optimize. This will allow the user to know additional information about the problem. First, from feasibility, the user will know quickly if the run is unable to find a feasible point to run optimization. Second, from sensitivity, the user can know which parameters will dramatically change the optimization versus which parameters are unnecessarily adding to the dimension of the optimization space. 
+ 
 
 \section{The Approach}
 \begin{itemize}
@@ -239,6 +242,15 @@ This approach is also implemented in the design of a constraint and objective. A
 \item Tell a story.
 Don't just say: ``I did this, then I did this, and at last I did this''.
 \end{itemize}
+\newpage
+\section{Workflow}
+ 		\begin{figure}[h!]
+		 \begin{center}\includegraphics[scale=.4]{IMSM_Workflow.png}\end{center}
+		 \caption{Illustration of the flow of our approach.}
+		 \label{Spring}
+		 
+		 \end{figure}
+Above is a  
 
 \section{Computational Experiments}
 Give enough details so that readers can duplicate your experiments.
