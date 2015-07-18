@@ -34,8 +34,8 @@ classdef Constraint < Objective % Constraint inherits from Objective
             end
         end
     
-        function [f] = FcnBuilder(x,ObjectiveFunction,Spring)
-            Spring.update_state_variables(ObjectiveFunction.stateVar,x)
+        function [f] = FcnBuilder(obj,x,objFunction,Spring)
+            Spring = Spring.update_state_variables(objFunction.stateVar,x);
             f = obj.objEval(Spring);
         end
     end

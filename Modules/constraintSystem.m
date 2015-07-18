@@ -6,7 +6,7 @@ classdef constraintSystem
     
     methods
 
-        function obj = constraintSystem(constraintFunctionList,stateVars)
+        function obj = constraintSystem(constraintFunctionList)
             obj.constraintList = constraintFunctionList;
         end
         
@@ -29,7 +29,7 @@ classdef constraintSystem
             end
         end     
         
-        function [constraintSystem] = constraintSystemBuilder(obj,ObjectiveFunction,Spring)
+        function [constraintSystem] = constraintSystemBuilder(obj,objFunction,Spring)
             %% Returns an array of variable length with function handles
             %% for all input constraints
             num_constraints = size(obj.constraintList,2); 
@@ -37,7 +37,7 @@ classdef constraintSystem
             constraintSystem = cell(num_constraints,1);
             
             for i = 1:num_constraints
-                constraintSystem{i} =@(x) FcnBuilder(x,ObjectiveFunction,Spring);
+                constraintSystem{i} =@(x) obj.constraintList{i}.FcnBuilder(x,objFunction,Spring);
             end
         end
         
