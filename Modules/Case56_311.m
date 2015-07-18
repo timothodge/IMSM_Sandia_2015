@@ -42,13 +42,18 @@ uB = [40e-3, 5e-3, 17];
 consPart = {outer_diam_max, stress_relaxation};
 
 
-%% Direct
+%% Check feasibility and setup Direct
 OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S);
 Problem = OP.setDirect();
 bounds = [lB', uB'];
+isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
+if (isProblemFeasible == 0)
+    disp('No Feasible Solution Found');
+end
 
-%% Direct solver options %%
+keyboard
+%% Direct solver options
 opts.ep = 1e-5;
 opts.maxevals = 1e4;
 opts.maxits = 1e4;
@@ -56,9 +61,9 @@ opts.maxdeep = 1e4;
 opts.testflag = 0;
 opts.showits = 0;
 
-%% ***This line runs the direct global optimization algorithm on the problem ***
+%% *** This line runs the direct global optimization algorithm on the problem ***
 [fMin, xMin, history] = Direct(Problem, bounds, opts);
 
-%% *** This line runs the General_SA algorithm for optimization problem
+%% *** This line runs the General_SA algorithm for optimization problem ***
 nsamples = 1000;
 [SA_Indices] = General_SA(bounds,OP.objective,OP.constraints,S,nsamples);
