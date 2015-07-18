@@ -38,6 +38,10 @@ classdef ObjectiveFunction
            %% returns the upper and lower bound vectors for the
            %% state variables
         end
+
+        function [n] = numStateVariables(obj)
+           n = length(obj.stateVar);
+        end
         
     end
     
