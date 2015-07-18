@@ -110,13 +110,13 @@ classdef Spring_Obj
         %for stress relaxation test
         stress_relaxation
         minimum_stress_relaxation
-        Norton_Bailey_c
-        Norton_Bailey_n
-        Norton_Bailey_k
-        deflection
+        Norton_Bailey_c = 3.18E-5;
+        Norton_Bailey_n = 1.5;
+        Norton_Bailey_k = 2;
+        deflection = 30E-3;
         %for creep test
         creep
-        creep_force
+        creep_force = 4E8;
         maximum_creep
         
         ultimate_torsional_stress
