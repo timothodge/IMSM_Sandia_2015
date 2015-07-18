@@ -30,6 +30,28 @@ classdef OptimizationProblem
             end
             
         end
+        
+        function bool = isProblemFeasible(obj,varBounds,S)
+           %  Uses a latinHypercube algorithm to test whether a 
+           %  given optimization problem is feasible
+           nsamples = 1000;
+           numVariables = obj.objective.numStateVariables;
+           bool = 0;
+           
+           %  Start by creating a latin hypercube sample
+           xsamples = bsxfun(@plus,varBounds(:,1), ...
+               bsxfun(@times,varBounds(:,2)-varBounds(:,1), ...
+               lhsdesign(nsamples,numVariables)'))';
+           
+           for k1 = 1:nsamples
+               S = S.update_state_variables(obj.objective.stateVar,xsamples(k1,:));
+               if (obj.constraints.pointIsValid(S))
+                  bool = 1;
+                  break
+               end
+           end
+        end
+        
     end
     
 end
