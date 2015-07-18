@@ -111,8 +111,29 @@
 
 Helical springs are a large class of springs sharing the common characteristic of a coiled appearance (see figure).  Below is a list of a spring's key design parameters.
 
-		\begin{enumerate}
-			\item Spring's inner diameter $d_{i}$ 
+
+
+		\begin{figure}[h]
+			\begin{center}\includegraphics[scale=.2]{Spring_Description.png}\end{center}
+			\label{Description1}
+			\caption{Pitch, outer diameter, and length of a spring.}
+			 \end{figure}
+			 
+		\begin{figure}[h]
+		  \begin{center}\includegraphics[scale=.2]{Spring_Description2.png}\end{center}
+		  \label{Description2}
+		  \caption{Inner diameter}
+		\end{figure}
+		
+		\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.2]{Acceleration_Switch.png}\end{center}
+		 \label{Acceleration Switch}
+		 \caption{An example of an acceleration switch}
+		 \end{figure}
+		 
+		 
+\begin{enumerate}
+			\item Spring's inner diameter $d_{i}$, illustrated in figure \ref{Description2}
 			\item Spring's outter diameter $d_{o}$
 			\item Spring's coil width $d_{w}$
 			\item Total number of spring coils $N_{t}$
@@ -204,7 +225,7 @@ In GSA, two types of indices can be calculated for each variable - first order i
 \centerline{$S_{i}^{I} = \dfrac{V_{X_i}(E_{X_{-i}}(Y|X_{i}))}{V(Y)}$}
 \centerline{$S_{i}^{T} = \dfrac{E_{X_{-i}}(V_{X_{i}}(Y|X_{-i}))}{V(Y)}$}
 
-Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the total-effects index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization. \cite{Wahl} \cite{Paredes}
+Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the total-effects index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization. \cite{Wahl} \cite{Paredes}\cite{Reliability} \cite{Robust} \cite{Relaxation1} \cite{Relaxation2} \cite{Relaxation3}
 
 
 \subsection{Optimization}

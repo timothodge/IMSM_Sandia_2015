@@ -2,6 +2,9 @@
 \usepackage[final]{graphicx}
 \usepackage{amsfonts}
 
+\usepackage{caption}
+\usepackage{subcaption}
+
 \topmargin-.5in
 \textwidth6.6in
 \textheight9in
@@ -21,7 +24,7 @@
   Justin Krueger\footnote{Mathematics, Virginia Tech University},
   Alistair Bentley\footnote{Mathematics, Clemson University},
   Tianyu Qiu\footnote{Mathematics, University of Delaware},
-  Saideep Nannapaneni\footnote{Civil & Environmental Engineering,Vanderbilt University},
+  Saideep Nannapaneni\footnote{Civil \& Environmental Engineering,Vanderbilt University},
   Jiahua Jiang\footnote{Mathematics, University of Massachusetts Dartmouth },
   Tim Hodges\footnote{Mathematics, Colorado State University}
 \end{center}
@@ -29,8 +32,10 @@
 %\vspace{.1truein}
 
 \begin{center}
-Faculty Mentors: Mentor 1\footnote{Company},
-Mentor 2\footnote{University}
+Problem Presenters: Jordan Massad \footnote{Sandia National Laboratory},
+Sean Webb \footnote{Sandia National Laboratory},
+	Faculty Mentors: Ilse Ipsen\footnote{North Carolina State University},
+	Ralph Smith\footnote{North Carolina State University}, 
 \end{center}
 
 
@@ -57,7 +62,29 @@ understand the abstract.
 %It should be written as much as possible in non-technical terms, so that a
 %lay reader can understand the context and the contribution of the paper.
 
-The design and 
+The use of mechanical switches in industry is a cornerstone of the modern world. Many mechanical switches can be designed to use a spring. This is useful because depending on the use of the switch, the spring can be optimized to for the function of the spring. 
+
+For example, consider an acceleration switch in \ref{Acceleration Switch}. 
+
+		\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.2]{Acceleration_Switch.png}\end{center}
+		 \caption{An example of an acceleration switch}
+		 \label{Acceleration Switch}
+		 
+		 \end{figure}
+		 
+This switch is used in high acceleration testing. The use is  to only record information at crucial times of the test. For this reason when a certain force is exerted on the switch the two at both ends will connect. When this happens we have a circuit that will enable data collection. It is important that the switch does not open too soon or too late otherwise the data collection will be too large or mean too little.This is just one example of a switch that we must know the best spring to make the performance maximal. 
+
+Given that a switch may be used in a myriad of ways, it is important that one can find an optimal spring given the use known. This leads to an optimization problem. Even more this leads to an optimization problem that requires the flexibility to allow how a spring is determined to be optimal by an objective function and constraints determining the optimization problem to be changed. This does not consider the fabrication constraints that exist during manufacturing, but also needs to be considered as well. 
+
+
+
+Designing an optimal spring is not a new problem, see \cite{Paredes} \cite{Reliability} \cite{Robust} \cite{Wahl}. In 2010 at the SAMSI IMSM workshop a team considered the design of an acceleration with enabled uncertainty. 
+
+
+In this paper we will give a description of the springs of interest, Helical Compression Springs. Next, the formulation of the problem, and the approach taken to the problem. Following will be a section on workflow with descriptions of each step in the workflow. Lastly, we will discuss a few case studies given the framework constructed and a summary with future work that can be worked on.
+
+
 
 \begin{itemize}
 \item Describe the problem you are trying to solve, the approach
@@ -67,6 +94,99 @@ you took, and summarize your contribution and results.
 
 \item Give an outline of the rest of the paper.
 \end{itemize}
+
+\section{Helical Compression Springs}
+
+Helical springs are a large class of springs sharing the common characteristic of a coiled appearance, see figure \ref{Spring}. 
+
+		\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.2]{Spring.png}\end{center}
+		 \caption{An example of a helical compression spring.}
+		 \label{Spring}
+		 
+		 \end{figure}
+
+Below is a list of a spring's key design parameters. We have added a few illustrations to keep straight some of the parameters. 		 
+		\begin{figure}[h]
+			\centering
+			\begin{subfigure}{.5\textwidth}
+				\includegraphics[scale=.2]{Spring_Description.png}
+				\caption{Pitch, outer diameter, and length of a spring.}
+				\label{Description1}
+			\end{subfigure}%
+			\begin{subfigure}{.5\textwidth}
+				  \centering
+		 		\includegraphics[scale=.2]{Spring_Description2.png}
+				\caption{Inner diameter}
+				  \label{Description2}
+		  		
+			\end{subfigure}
+			 \label{Descriptions}
+		  \caption{A few illustrations of a few of the parameters for a helical compression spring.}
+		\end{figure}
+		
+		\begin{enumerate}
+			\item Spring's inner diameter $d_{i}$, illustrated in figure \ref{Description2}.
+			\item Spring's outer diameter $d_{o}$ illustrated in figure \ref{Description1}.
+			\item Spring's wire diameter $d_{w}$.
+			\item Total number of spring coils $N_{t}$.
+			\item Active number of spring coils $N_{a}$, active coils are not touching any other coils, and is subject to the spring being closed or open. 
+			\item Pitch $p$ illustrated in figure \ref{Description1}.
+			\item Spring's free length $L_{free}$, this is the spring's length without any force applied. 
+			
+			\item Spring's solid length $L_{solid}$, this is the spring's length when all coils are compressed together.
+			\item Spring's open length $L_{open}$, spring length at open position, open is beginning state.
+			\item Spring's open length $L_{close}$, spring length at close position, close is the ending state.
+			\item Spring's open length $L_{hard}$, the maximum a spring can compress for the application.
+			\item Spring's open force $F_{open}$, this is the force on the spring in open position.
+			
+			
+			\item Spring's shear modulus $G$, this is determined by the material of the spring.
+			\item Spring's youngs modulus $E$, this is determined by the material of the spring.
+			\item Spring's poisson ratio $\nu$, this is determined by the material of the spring.
+		
+		\end{enumerate}
+		
+		In addition to these parameters there are the following attributes that are empirical given some regime we care about.
+		
+			\begin{enumerate}
+				\item Spring Rate, $$k = \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}}$$
+				
+				\item Spring Index, $$C = \frac{d_{i}}{d_{w}} + 1$$.
+				
+				\item Coil Binding Gap, $$g = \frac{L_{hard} - L_{solid}(d_{w},N_{a}; ec)}{N_{t} - 1}$$
+		
+				\item $$\frac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
+d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right]< UTS$$ where UTS is the ultimate torsional stress.
+		
+				\item Diametral Expansion, $$d_{expand} = d_{w} + \sqrt{(d_{i} + d_{w})^{2} + 
+				\frac{p_{closed}^{2} - d_{w}}{\pi^{2}}}$$
+			\end{enumerate}
+			
+\section{The Problem} 
+
+Design an algorithm that optimizes springs with interchangeable objectives and constraints. In addition, attempt to incorporate properties stress relaxation and creep into the available objectives and constraints. 
+
+A list of possible constraints/objectives given in minimization form is below
+
+\begin{enumerate}
+\item $d_{i} < d_{i}^{max}$
+\item $d_{i} < d_{o}$
+\item $d_{i} + 2*d_{w} < d_{o}^{max}$
+\item$d_{expand} - d_{0}^{max} < 0 $
+\item$ \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}} - k_{max} \le 0 $
+\item $\frac{d_{i}}{d_{w}} + 1 - C_{max}< 0$
+\item $(L_{free} - L_{open})\frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}} - F_{open} = 0 $
+\item $\frac{L_{hard} - L_{solid}}{N_{t} - 1} + g_{min} \le  0$
+\item$\frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}}$
+\item$-UTS + \frac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
+d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] < 0$
+%\item Relaxation
+
+
+\end{enumerate}	
+
+In addition to these we could minimize given to any attribute of the spring.
 
 \section{The Problem}
 \begin{itemize}
@@ -119,6 +239,13 @@ impact on the field (but don't just repeat the abstract or introduction).
 \item Suggest improvements for future work.
 \item Outline open problems.
 \end{itemize}
+
+\vfill\pagebreak
+
+	
+	\bibliographystyle{ieetr}
+
+\bibliography{MyBib}
 
 
 
