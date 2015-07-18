@@ -4,13 +4,12 @@ close all
 %% initialization
 
 S = Spring_Obj;
-PredefinedConstraints;
+S = S.Set_Rest_Of_Properties;
 
 % defined string properties
 S.shear_modulus = 77e9;
 S.youngs_modulus = 193;
 S.poisson_ratio = 0.3;
-S.length_at_no_compression = 85.5e-3;
 S.length_at_hard_stop_position = 20e-3;
 S.ultimate_torsional_stress = 0.7e9;
 S.minimum_coil_binding_gap = 5e-4;
@@ -18,22 +17,23 @@ S.maximum_outer_diameter = 0.06;
 S.end_conditions = 0;
 S.maximum_spring_rate = 0;
 S.maximum_spring_index = 0;
+S.force_at_open_position = 0;
+
+PredefinedConstraints;
 
 % state variables and objective function parts
-stateVar = {'inner_diameter', 'wire_diameter', 'total_number_of_coils'};
-objFcnParts = {max_spring_rate,max_spring_index};
+stateVar = {'inner_diameter', 'wire_diameter', 'total_number_of_coils', 'length_at_no_compression'};
+objFcnParts = {preload_force};
 
 %objective function weights
-kMax = 20;
-cMax = 10;
-w = [0.5/kMax; 0.5/cMax];
+w = 1;
 
 % state variable bounds
-lB = [20e-3, 1e-3, 9];
-uB = [40e-3, 5e-3, 17];
+lB = [20e-3, 1e-3, 9, 30e-3];
+uB = [40e-3, 5e-3, 17, 150e-3];
 
 % constraints
-consPart = {outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap};
+consPart = {outer_diam_max, diametral_expansion, max_shear_stress, coil_binding_gap};
 
 % %% fmincon
 % 

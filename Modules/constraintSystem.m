@@ -6,7 +6,7 @@ classdef constraintSystem
     
     methods
 
-        function obj = constraintSystem(constraintFunctionList,stateVars)
+        function obj = constraintSystem(constraintFunctionList)
             obj.constraintList = constraintFunctionList;
         end
         
@@ -22,18 +22,25 @@ classdef constraintSystem
             PredefinedConstraints
 
             for i = 1:num_constraints
-                constraint_obj = eval(obj.constraintList{i});
-                satisfied = constraint_obj.isViolated(inputSpring);
+                satisfied = obj.constraintList{i}.isViolated(inputSpring);
                 if(satisfied == 1)
                    retVal = 0; 
                 end
             end
         end     
         
-        function [varargout] = constraintSystemBuilder(obj)
+        function [constraintSystem] = constraintSystemBuilder(obj,objFunction,Spring)
+            %% Returns an array of variable length with function handles
+            %% for all input constraints
+            num_constraints = size(obj.constraintList,2); 
+            PredefinedConstraints
+            constraintSystem = cell(num_constraints,1);
             
+            for i = 1:num_constraints
+                constraintSystem{i} =@(x) obj.constraintList{i}.FcnBuilder(x,objFunction,Spring);
+            end
         end
-     
+        
         function retVal = plotConstraints(obj,spring,variable1,variable2)
             %% this function will return a collection of 
             %% level plots for two input variables

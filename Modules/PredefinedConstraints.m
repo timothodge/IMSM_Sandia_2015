@@ -21,12 +21,12 @@ diametral_expansion.dependicies = {'diametral_expansion','maximum_outer_diameter
 
 
 max_spring_rate = Constraint;
-max_spring_rate.expression = @(Spring) Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/(Spring.inner_diameter+Spring.wire_diameter)^3 - Spring.maximum_spring_rate;
+max_spring_rate.expression = @(Spring) Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/((Spring.inner_diameter+Spring.wire_diameter)^3) - Spring.maximum_spring_rate;
 max_spring_rate.direction = 2;
 max_spring_rate.dependicies = {'shear_modulus','total_number_of_coils','wire_diameter','maximum_spring_rate','inner_diameter'};
 
 preload_force = Constraint;
-preload_force.expression = @(Spring) (Spring.length_at_no_compression - Spring.length_at_open_position)*Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/(Spring.inner_diameter+Spring.wire_diameter)^3 - Spring.force_at_open_position;
+preload_force.expression = @(Spring) (Spring.length_at_no_compression - Spring.length_at_open_position)*Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/((Spring.inner_diameter+Spring.wire_diameter)^3) - Spring.force_at_open_position;
 preload_force.direction = 3;
 preload_force.dependicies = {'length_at_no_compression','length_at_open_position','shear_modulus','total_number_of_coils','wire_diameter','inner_diameter','force_at_open_position'};
 
@@ -56,7 +56,7 @@ stress_relaxation.expression = @(Spring) -hypergeom([4/Spring.Norton_Bailey_n 1/
     *Spring.shear_modulus^(Spring.Norton_Bailey_n+1)*Spring.Norton_Bailey*(3E8)^Spring.Norton_Bailey_k*...
     Spring.wire_diameter^Spring.Norton_Bailey_n/2^Norton_Bailey_n/Spring.Norton_Bailey_k)+Spring.minimum_stress_relaxation;
 stress_relaxation.direction = 1;
-stress_relaxation.dependencies= {'Norton_Bailey_n','Norton_Bailey_c','Norton_Bailey_k','wire_diameter','inner_diameter','outer_diameter','deflection','active_number_of_coils','shear_modulus'};
+stress_relaxation.dependicies= {'Norton_Bailey_n','Norton_Bailey_c','Norton_Bailey_k','wire_diameter','inner_diameter','outer_diameter','deflection','active_number_of_coils','shear_modulus'};
 
 creep = Constraint;
 creep.expression = @(Spring) ((Spring.inner_diameter+Spring.outer_diameter)*Spring.creep_force...
@@ -65,7 +65,7 @@ creep.expression = @(Spring) ((Spring.inner_diameter+Spring.outer_diameter)*Spri
     *Spring.Norton_Bailey_c*(3E8)^Spring.Norton_Bailey_k/8/Spring.Norton_Bailey_k...
     /Spring.wire_diameter^(4+3*Spring.Norton_Bailey_n)-Spring.maximum_creep;
 creep.direction = 1;
-creep.dependencies= {'inner_diameter','outer_diameter','wire_diameter','active_number_of_coils','creep_force','Norton_Bailey_n','Norton_Bailey_k','Norton_Bailey_c'};
+creep.dependicies= {'inner_diameter','outer_diameter','wire_diameter','active_number_of_coils','creep_force','Norton_Bailey_n','Norton_Bailey_k','Norton_Bailey_c'};
 
 %% min and max constraints
 inner_diam_min = Constraint;
