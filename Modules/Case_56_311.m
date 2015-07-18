@@ -1,6 +1,17 @@
 clear all
 close all
 
+%{
+    Objectives: Max spring index and Max spring rate
+    
+    Constraints: outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap
+
+    State Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
+
+    Status: Works!
+
+
+%}
 %% initialization
 
 S = Spring_Obj;
@@ -22,7 +33,6 @@ S.maximum_outer_diameter = 0.06;
 S.end_conditions = 0;
 S.maximum_spring_rate = 0;
 S.maximum_spring_index = 0;
-S.minimum_stress_relaxation = 1e-2;
 
 % using the constraint names given in PredefinedConstraints to specify 
 % the objective function parts
