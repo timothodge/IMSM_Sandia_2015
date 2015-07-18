@@ -138,29 +138,10 @@ classdef Spring_Obj
         minimum_variable_list = {'minimum_wire_diameter','minimum_inner_diameter','minimum_minimum_inner_diameter','minimum_outer_diameter','minimum_maximum_outer_diameter','minimum_end_conditions','minimum_length_at_no_compression','minimum_length_at_open_position','minimum_length_at_close_position','minimum_length_at_hard_stop_position','minimum_length_at_reset','minimum_force_at_open_position','minimum_force_at_reset','minimum_shear_modulus','minimum_total_number_of_coils','minimum_coil_binding_gap','minimum_active_number_of_coils','minimum_pitch','minimum_solid_height','minimum_diametral_expansion','minimum_spring_rate','minimum_spring_index','minimum_maximum_spring_index','minimum_maximum_spring_rate','minimum_youngs_modulus','minimum_poisson_ratio','minimum_ultimate_torsional_stress','minimum_stress_relaxation'};
         maximum_variable_list = {'maximum_wire_diameter','maximum_inner_diameter','maximum_minimum_inner_diameter','maximum_outer_diameter','maximum_maximum_outer_diameter','maximum_end_conditions','maximum_length_at_no_compression','maximum_length_at_open_position','maximum_length_at_close_position','maximum_length_at_hard_stop_position','maximum_length_at_reset','maximum_force_at_open_position','maximum_force_at_reset','maximum_shear_modulus','maximum_total_number_of_coils','maximum_coil_binding_gap','maximum_active_number_of_coils','maximum_pitch','maximum_solid_height','maximum_diametral_expansion','maximum_spring_rate','maximum_spring_index','maximum_maximum_spring_index','maximum_maximum_spring_rate','maximum_youngs_modulus','maximum_poisson_ratio','maximum_ultimate_torsional_stress','maximum_creep'};
     end
-    
-    methods(Static)
-
-     
-    end
-    
+        
      methods
-%         function obj = Spring_Obj(x)
-%             %Constructor example, x has to be cell array
-%             for k = 1:length(x)
-%                 if isempty(x{k})
-%                     obj.(obj.variable_list{k}) = [];
-%                 else
-%                     obj.(obj.variable_list{k}) = x(k);
-%                 end
-%             end
-            
-            
-       % end
-%         function obj = Spring_Obj()
-%             
-%         end
-function Spring =  Set_Rest_Of_Properties(obj)
+
+        function Spring =  Set_Rest_Of_Properties(obj)
          obj.active_number_of_coils = obj.total_number_of_coils - 2;% N_a
          obj.minimum_active_number_of_coils = obj.minimum_total_number_of_coils - 2;
          obj.maximum_active_number_of_coils = obj.maximum_total_number_of_coils - 2;
