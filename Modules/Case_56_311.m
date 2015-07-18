@@ -34,7 +34,7 @@ S.minimum_coil_binding_gap = 5e-4;
 S.maximum_outer_diameter = 0.06;
 S.end_conditions = 0;
 S.maximum_spring_rate = 0;
-S.maximum_spring_index = 0;
+S.maximum_spring_index = 0.85;
 
 % using the constraint names given in PredefinedConstraints to specify 
 % the objective function parts
@@ -51,7 +51,7 @@ lB = [20e-3, 1e-3, 9];
 uB = [40e-3, 5e-3, 17];
 
 % set constraints using names given in PredefinedConstraints
-consPart = {outer_diam_max, stress_relaxation};
+consPart = {outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap, stress_relaxation};
 
 fprintf('done.\n');
 
@@ -80,11 +80,11 @@ opts.showits = 0;
 
 %% *** This line runs the direct global optimization algorithm on the problem ***
 
-fprintf('Running Direct optimization method ... \n');
+fprintf('Running Direct optimization method ...\n');
 
 [fMin, xMin, history] = Direct(Problem, bounds, opts);
 
-fprintf('Done with optimization method ... \n');
+fprintf('... done.\n');
 
 
 %% *** This line runs the General_SA algorithm for optimization problem ***

@@ -1,3 +1,5 @@
+% physical constraints
+
 outer_diam_greater = Constraint;
 outer_diam_greater.expression = @(Spring) Spring.inner_diameter - Spring.outer_diameter;
 outer_diam_greater.direction = 1;

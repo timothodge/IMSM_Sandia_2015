@@ -80,11 +80,11 @@ opts.showits = 0;
 
 %% ***This line runs the direct global optimization algorithm on the problem ***
 
-fprintf('Running Direct optimization method ... \n');
+fprintf('Running Direct optimization method ...\n');
 
 [fMin, xMin, history] = Direct(Problem, bounds, opts);
 
-fprintf('Done with optimization method ... \n');
+fprintf('... done.\n');
 
 %% *** This line runs the General_SA algorithm for optimization problem
 
