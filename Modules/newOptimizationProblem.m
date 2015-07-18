@@ -51,15 +51,14 @@ uB = [40e-3, 5e-3, 17];
 % set constraints using names given in PredefinedConstraints
 consPart = {outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap};
 
-
-%% Direct
+%% Check feasibility and setup Direct
 OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S);
 Problem = OP.setDirect();
 bounds = [lB', uB'];
 isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
 if (isProblemFeasible == 0)
-    'No Feasible Solution Found'
+    disp('No Feasible Solution Found');
 end
 
 %% Direct solver options %%
