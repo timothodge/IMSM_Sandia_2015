@@ -1,10 +1,5 @@
 % physical constraints
 
-outer_diam_greater = Constraint;
-outer_diam_greater.expression = @(Spring) Spring.inner_diameter - Spring.outer_diameter;
-outer_diam_greater.direction = 1;
-outer_diam_greater.dependicies = {'outer_diameter','inner_diameter'};
-
 outer_diam_max = Constraint;
 outer_diam_max.expression = @(Spring) Spring.inner_diameter+2*Spring.wire_diameter - Spring.maximum_outer_diameter;
 outer_diam_max.direction = 1;
@@ -53,20 +48,20 @@ max_shear_stress.dependicies = {'ultimate_torsional_stress','shear_modulus','len
 stress_relaxation = Constraint;
 stress_relaxation.expression = @(Spring) -hypergeom([4/Spring.Norton_Bailey_n 1/Spring.Norton_Bailey_n],...
     [(4+Spring.Norton_Bailey_n)/Spring.Norton_Bailey_n],Spring.Norton_Bailey_c*...
-    (2*Spring.deflection/pi/Spring.active_number_of_coils/((Spring.inner_diameter+Spring.outer_diameter)/2)^2)^Spring.Norton_Bailey_n...
+    (2*Spring.deflection/pi/(Spring.total_number_of_coils-2)/(Spring.inner_diameter+Spring.wire_diameter)^2)^Spring.Norton_Bailey_n...
     *Spring.shear_modulus^(Spring.Norton_Bailey_n+1)*Spring.Norton_Bailey_n*Spring.time_stress_relaxation^Spring.Norton_Bailey_k*...
     Spring.wire_diameter^Spring.Norton_Bailey_n/2^Spring.Norton_Bailey_n/Spring.Norton_Bailey_k)+Spring.minimum_stress_relaxation;
 stress_relaxation.direction = 1;
-stress_relaxation.dependicies= {'Norton_Bailey_n','Norton_Bailey_c','Norton_Bailey_k','wire_diameter','inner_diameter','outer_diameter','deflection','active_number_of_coils','shear_modulus'};
+stress_relaxation.dependicies= {'Norton_Bailey_n','Norton_Bailey_c','Norton_Bailey_k','wire_diameter','inner_diameter','deflection','total_number_of_coils','shear_modulus'};
 
 creep = Constraint;
-creep.expression = @(Spring) ((Spring.inner_diameter+Spring.outer_diameter)*Spring.creep_force...
+creep.expression = @(Spring) (2*(Spring.inner_diameter+Spring.wire_diameter)*Spring.creep_force...
     *(4+3*Spring.Norton_Bailey_n)/(Spring.Norton_Bailey_n+1)/pi)^(Spring.Norton_Bailey_n+1)...
-    *pi*(Spring.inner_diameter+Spring.outer_diameter)^2*Spring.active_number_of_coils...
+    *pi*(2*(Spring.inner_diameter+Spring.wire_diameter))^2*(Spring.total_number_of_coils-2)...
     *Spring.Norton_Bailey_c*Spring.time_creep^Spring.Norton_Bailey_k/8/Spring.Norton_Bailey_k...
     /Spring.wire_diameter^(4+3*Spring.Norton_Bailey_n)-Spring.maximum_creep;
 creep.direction = 1;
-creep.dependicies= {'inner_diameter','outer_diameter','wire_diameter','active_number_of_coils','creep_force','Norton_Bailey_n','Norton_Bailey_k','Norton_Bailey_c'};
+creep.dependicies= {'inner_diameter','wire_diameter','total_number_of_coils','creep_force','Norton_Bailey_n','Norton_Bailey_k','Norton_Bailey_c'};
 
 %% min and max constraints
 inner_diam_min = Constraint;
