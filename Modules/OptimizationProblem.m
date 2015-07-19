@@ -10,11 +10,11 @@ classdef OptimizationProblem
     
     methods
 
-        function obj = OptimizationProblem(stateVar,objFcnParts,w,consPart,S)
+        function obj = OptimizationProblem(stateVar,objFcnParts,w,consPart,S,bounds)
            %% initialize an optimization problem given a set of stateVariables
            %% objective function, weights, and constraint Parts
             obj.spring = S;
-            obj.objective = ObjectiveFunction(objFcnParts,w,stateVar);
+            obj.objective = ObjectiveFunction(objFcnParts,w,stateVar,bounds);
             obj.constraints = constraintSystem(consPart);
         end
     
@@ -52,6 +52,12 @@ classdef OptimizationProblem
            end
         end
         
+        function f = plotConstraints(obj,Spring,StateVar1,StateVar2, ...
+               stateVar1Bnd,stateVar2Bnd)
+           %generates a plot of feasible regions
+        end
+        
     end
+        
     
 end

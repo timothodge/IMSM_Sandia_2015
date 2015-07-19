@@ -1,25 +1,22 @@
 classdef ObjectiveFunction
-    %ObjectiveFunction Class
-    %   Detailed explanation goes here
+    %ObjectiveFunction encapsulates the objective function class.
     
     properties
-        %% **** %%%
         equationList %% list of objective function variables
         stateVar %% state variables for objective function
+        bounds %% bounds for state variables
         weights  %% weights applied to the objective functions
-        
-        %%% **Objective Function Handle *** %%%
-
     end
     
     methods
         
         function obj = ObjectiveFunction(objFuncList,objFuncWghts, ...
-                                         StateVars)
+                                         StateVars, StateVarBnds)
             %%% initializes an objective function object given
             %%% user specifications
             obj.equationList = objFuncList;
             obj.stateVar = StateVars;
+            obj.bounds = StateVarBnds;
             obj.weights = objFuncWghts;        
         end
         
@@ -42,7 +39,6 @@ classdef ObjectiveFunction
         function [n] = numStateVariables(obj)
            n = length(obj.stateVar);
         end
-        
     end
     
 end

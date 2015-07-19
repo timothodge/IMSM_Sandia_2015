@@ -1,10 +1,9 @@
 clear all
 close all
 
-%% initialization
-
+%% initializatio
 S = Spring_Obj;
-%S = S.Set_Rest_Of_Properties;
+S = S.Set_Rest_Of_Properties;
 PredefinedConstraints;
 
 % if you want something different than the default setting, uncomment and
@@ -40,16 +39,19 @@ uB = [40e-3, 5e-3, 17];
 % set constraints using names given in PredefinedConstraints
 consPart = {outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap};
 
-
 %% Direct
-OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S);
-Problem = OP.setDirect();
 bounds = [lB', uB'];
+OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S,bounds);
+Problem = OP.setDirect();
 isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
 if (isProblemFeasible == 0)
     'No Feasible Solution Found'
 end
+
+plottingStateVars = {'inner_diameter','wire_diameter'};
+OP.constraints.plotConstraints(S,plottingStateVars, ...
+                                [20e-3,40e-3],[1e-3,5e-3])
 
 %% Direct solver options %%
 opts.ep = 1e-5;
