@@ -4,11 +4,11 @@ close all
 %{
     Objectives: Max spring index and Max spring rate
     
-    Constraints: outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap
+    Constraints: outer_diam_max, stress_relaxation
 
     State Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
 
-    Status: Works!
+    Status: Fails!
 
 
 %}
@@ -34,7 +34,6 @@ S.minimum_coil_binding_gap = 5e-4;
 S.maximum_outer_diameter = 0.06;
 S.end_conditions = 0;
 S.maximum_spring_rate = 0;
-S.maximum_spring_index = 0;
 
 % using the constraint names given in PredefinedConstraints to specify 
 % the objective function parts
@@ -51,18 +50,17 @@ lB = [20e-3, 1e-3, 9];
 uB = [40e-3, 5e-3, 17];
 
 % set constraints using names given in PredefinedConstraints
-consPart = {outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap};
+consPart = {outer_diam_max, stress_relaxation};
 
-%% Direct
 fprintf('done.\n');
 
 %% Check feasibility and setup Direct
 
 fprintf('Checking if a feasible solution exists ... ');
 
-bounds = [lB', uB'];
-OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S,bounds);
+OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S);
 Problem = OP.setDirect();
+bounds = [lB', uB'];
 isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
 if (isProblemFeasible == 0)
@@ -71,11 +69,7 @@ else
     fprintf('there is such a region.\n');
 end
 
-plottingStateVars = {'inner_diameter','wire_diameter'};
-OP.constraints.plotConstraints(S,plottingStateVars, ...
-                                [20e-3,40e-3],[1e-3,5e-3])
-
-%% Direct solver options %%
+%% Direct solver options
 opts.ep = 1e-5;
 opts.maxevals = 1e4;
 opts.maxits = 1e4;
@@ -83,7 +77,7 @@ opts.maxdeep = 1e4;
 opts.testflag = 0;
 opts.showits = 0;
 
-%% ***This line runs the direct global optimization algorithm on the problem ***
+%% *** This line runs the direct global optimization algorithm on the problem ***
 
 fprintf('Running Direct optimization method ...\n');
 
@@ -91,7 +85,7 @@ fprintf('Running Direct optimization method ...\n');
 
 fprintf('... done.\n');
 
-%% *** This line runs the General_SA algorithm for optimization problem
+%% *** This line runs the General_SA algorithm for optimization problem ***
 
 fprintf('Performing sensitivity analysis ... ');
 
