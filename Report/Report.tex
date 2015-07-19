@@ -72,7 +72,8 @@ Given any constraint or objective function it will depend on a set of variables.
 
 In addition to this spring object, to reduce the uncertainty of the problem we conduct a sensitivity analysis of the objective function subject to the constraints and variables given. Allowing the user to reduce the state variables if it is determined that for a set of variables given there exist insensitive state variables. 
 
-A main contribution of this work is the framework to add constraints and objectives that may be unknown at the point of this paper. In parallel to this we have built a framework that is flexible enough to address the issue of unknown constraints and objectives. \textbf{ADD!}
+A main contribution of this work is the framework to add constraints and objectives that may be unknown at the point of this paper. In addition a model of stress relaxation and uni-axial creep has been incorporated. If the reader does not approve of our stress relaxation and creep models, it is easy for the reader to incorporate other models into possible constraints and objectives. 
+\textbf{ADD!}
 
 
 \textbf{review history and existing literature}
@@ -257,6 +258,9 @@ In GSA, two types of indices can be calculated for each variable - first order i
 
 Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the total-effects index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization.\cite{Bioinformatics} \cite{Wrappers} \cite{Error} \cite{Global}
 \subsection{Optimization}
+
+Given a constrained optimization problem, we usually have many ways to solve it, eg. Trust Region Reflective Algorithm, Direct optimization algorithm, Conjugate Gradient Algorithm, Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm,etc. For difficult global optimization problem with bound constraints, Direct optimization algorithm is one of the most simple and effective methods. It requires no knowledge of the Lipschitz constant or even the Lipschitz continuous of the objective function. That is, it can be implemented in optimization problem with more difficult objective function. Given that our objective function is subject to change, it is best for us to use a global optimization technique. 
+
 \cite{Derivative} \cite{DirectPaper} \cite{MATLAB:2014a} \cite{DirectUserGuide}
  
  
