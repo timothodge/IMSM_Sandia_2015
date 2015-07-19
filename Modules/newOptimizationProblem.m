@@ -71,9 +71,13 @@ else
     fprintf('there is such a region.\n');
 end
 
-plottingStateVars = {'inner_diameter','wire_diameter'};
+plottingStateVars = {'inner_diameter','wire_diameter','total_number_of_coils'};
 OP.constraints.plotConstraints(S,plottingStateVars, ...
-                                [20e-3,40e-3],[1e-3,5e-3])
+                                [[20e-3,40e-3],[1e-3,5e-3],[9,17]])
+
+%plottingStateVars = {'inner_diameter','wire_diameter'};
+%OP.constraints.plotConstraints(S,plottingStateVars, ...
+%                                [[20e-3,40e-3],[1e-3,5e-3]])
 
 %% Direct solver options %%
 opts.ep = 1e-5;
@@ -84,6 +88,7 @@ opts.testflag = 0;
 opts.showits = 0;
 
 %% ***This line runs the direct global optimization algorithm on the problem ***
+%{
 
 fprintf('Running Direct optimization method ...\n');
 
@@ -99,3 +104,5 @@ nsamples = 1000;
 [SA_Indices] = General_SA(bounds,OP.objective,OP.constraints,S,nsamples);
 
 fprintf('done.\n');
+
+%}

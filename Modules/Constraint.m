@@ -41,25 +41,85 @@ classdef Constraint < Objective % Constraint inherits from Objective
         end
         
         function ret = plotConstraint(obj,Spring,plottingStateVars,...
-                stateVar1Bnd,stateVar2Bnd)
-            
-        stateVar1pts = linspace(stateVar1Bnd(1),stateVar1Bnd(2),10);
-        stateVar2pts = linspace(stateVar2Bnd(1),stateVar1Bnd(2),10);
-        [axis1,axis2] = meshgrid(stateVar1pts,stateVar2pts);
-         Z = zeros(length(stateVar1pts),length(stateVar2pts));
-      
-        for k = 1:length(stateVar1pts)
-           for j = 1:length(stateVar2pts)
-               Spring.(plottingStateVars{1}) = axis1(k,j);
-               Spring.(plottingStateVars{2}) = axis2(k,j);
-                Z(k,j) = obj.constraintSatisfied(Spring);
-            end            
-        end
+                stateVarBnds)
+        numPlottingStateVars = length(plottingStateVars);
+        PredefinedConstraints  
+        %% number of mesh points
+        mesh_size = 10;   
         
-        imagesc(stateVar1Bnd,stateVar2Bnd,Z)
-        axis image
-        colormap(gray)
+        % creates a list with cooridnates spanning each statevariable
+            % range
+            stateVarpts = zeros(numPlottingStateVars,mesh_size);
+            for j = 1:numPlottingStateVars
+                stateVarpts(j,:) = linspace(stateVarBnds(2*j-1), ...
+                    stateVarBnds(2*j),mesh_size);
+            end
+      
+            if numPlottingStateVars == 2
+                %%% ******* plot two variables ********* %%%
+                points = zeros(1,2);
+                numFeasiblePoints = 0;
+ 
+                [X,Y] = meshgrid(stateVarpts(1,:),stateVarpts(2,:));
+ 
+                keyboard
+                for k = 1:mesh_size
+                    for j = 1:mesh_size
+                       Spring.(plottingStateVars{1}) = X(k,j);
+                       Spring.(plottingStateVars{2}) = Y(k,j);       
+                       if(obj.constraintSatisfied(Spring) == 1) 
+                           numFeasiblePoints = numFeasiblePoints + 1;
+                           points(numFeasiblePoints,1) = X(k,j);
+                           points(numFeasiblePoints,2) = Y(k,j);
+                       end
+                    end            
+                end
+                
+            plot(points(:,1),points(:,2),'.','MarkerSize', 5)
+            axis([stateVarBnds(1),stateVarBnds(2),stateVarBnds(3),stateVarBnds(4)])
+            xlabel(plottingStateVars(1))
+            ylabel(plottingStateVars(2))
+            
+            %%% ******* end plot two variables ********* %%%
+            
+            %%% ******* plot three variables ********* %%%
+            elseif numPlottingStateVars == 3
+                
+                points = zeros(0,3);
+                numFeasiblePoints = 0;
+ 
+                [X,Y,Z] = meshgrid(stateVarpts(1,:),stateVarpts(2,:), ...
+                                    stateVarpts(3,:));
+                for k = 1:mesh_size
+                    for j = 1:mesh_size
+                        for i = 1:mesh_size
+                            Spring.(plottingStateVars{1}) = X(k,j,i);
+                            Spring.(plottingStateVars{2}) = Y(k,j,i);     
+                            Spring.(plottingStateVars{3}) = Z(k,j,i);
+                            if(obj.constraintSatisfied(Spring) == 1) 
+                                numFeasiblePoints = numFeasiblePoints + 1;
+                                points(numFeasiblePoints,1) = X(k,j,i);
+                                points(numFeasiblePoints,2) = Y(k,j,i);
+                                points(numFeasiblePoints,3) = Z(k,j,i);
+                            end
+                        end
+                   end            
+                end
+                
+            plot3(points(:,1),points(:,2),points(:,3),'.','MarkerSize', 5)
+            axis([stateVarBnds(1),stateVarBnds(2),stateVarBnds(3), ... 
+                 stateVarBnds(4), stateVarBnds(5),stateVarBnds(6)])
+            xlabel(plottingStateVars(1))
+            ylabel(plottingStateVars(2))
+            zlabel(plottingStateVars(3))
+            
+            
+            %%% ******* end plot three variables ********* %%%
+                
+                               
+            end          
         
         end         
+        
     end
 end

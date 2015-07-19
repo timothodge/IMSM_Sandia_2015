@@ -60,6 +60,7 @@ stress_relaxation.expression = @(Spring) -hypergeom([4/Spring.Norton_Bailey_n 1/
     Spring.wire_diameter^Spring.Norton_Bailey_n/2^Spring.Norton_Bailey_n/Spring.Norton_Bailey_k)+Spring.minimum_stress_relaxation;
 stress_relaxation.direction = 1;
 stress_relaxation.dependicies= {'Norton_Bailey_n','Norton_Bailey_c','Norton_Bailey_k','wire_diameter','inner_diameter','deflection','total_number_of_coils','shear_modulus'};
+stress_relaxation.name = 'stress_relaxation';
 
 creep = Constraint;
 creep.expression = @(Spring) (2*(Spring.inner_diameter+Spring.wire_diameter)*Spring.creep_force...

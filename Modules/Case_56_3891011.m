@@ -46,29 +46,31 @@ cMax = 10;
 w = [1; 1];
 
 %% define stateVariables
-stateVar = {'inner_diameter', 'wire_diameter','total_number_of_coils'};
+stateVar = {'inner_diameter','wire_diameter','total_number_of_coils'};
 % state variable bounds
 lB = [20e-3, 1e-3, 9];
 uB = [40e-3,5e-3,17];
 
-
-
 % set constraints using names given in PredefinedConstraints
 consPart = {outer_diam_max,max_shear_stress,buckling_slenderness,coil_binding_gap,stress_relaxation};
 
-
 %% Direct
-OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S);
-Problem = OP.setDirect();
 bounds = [lB', uB'];
-
+OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S,bounds);
+Problem = OP.setDirect();
 isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
 if (isProblemFeasible == 0)
-    'No Feasible Solution Found'
+    fprintf('no such region found.\n');
+else
+    fprintf('there is such a region.\n');
 end
 
+plottingStateVars = {'inner_diameter','total_number_of_coils'};
+OP.constraints.plotConstraints(S,plottingStateVars, ...
+                                [[20e-3,40e-3],[1e-3,5e-3]])
 
+%{
 %% Direct solver options %%
 opts.ep = 1e-5;
 opts.maxevals = 1e4;
@@ -83,3 +85,4 @@ opts.showits = 0;
 %% *** This line runs the General_SA algorithm for optimization problem
 nsamples = 1000;
 [SA_Indices] = General_SA(bounds,OP.objective,OP.constraints,S,nsamples);
+  %}
