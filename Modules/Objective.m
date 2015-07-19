@@ -9,6 +9,7 @@ classdef Objective
         %Expression that is to be evaluated.
         expression
         dependicies
+        name
     end
     
     methods
