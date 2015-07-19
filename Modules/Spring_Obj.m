@@ -106,9 +106,9 @@ classdef Spring_Obj
         minimum_stress_relaxation = 0.85;
         time_stress_relaxation = 3E6;
         shear_modulus_stress_relaxation = 6E10;
-        Norton_Bailey_c = 3.18E-5;
+        Norton_Bailey_c = 8.875E-20;
         Norton_Bailey_n = 1.5;
-        Norton_Bailey_k = 2;
+        Norton_Bailey_k = 1;
         deflection = 30E-3;
         %for creep test
         creep;

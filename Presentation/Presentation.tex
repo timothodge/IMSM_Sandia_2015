@@ -1,0 +1,181 @@
+\documentclass[notes=hide]{beamer}
+\usetheme{Warsaw}
+%\setbeamercolor{structure}{fg=cyan!90!black}
+\usecolortheme{spruce}
+\usepackage{beamerthemesplit}
+\usepackage{amssymb,latexsym,amsmath}
+\usepackage{amsthm}
+\usepackage{epsfig}
+\usepackage{setspace}
+\usepackage{blkarray}
+%\usepackage{showkeys} %shows labels for referencing in pdf. Comment out in final paper. 
+%-----------------------------------------------------------------
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+% THEOREMS -------------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem{rem}{Remark}
+\theoremstyle{definition} 
+\newtheorem{ex}{Example}[section]
+\numberwithin{equation}{section}
+\newtheorem{prob}{Problem}
+\numberwithin{equation}{section}
+\newtheorem{eqn}{}
+% MATH -----------------------------------------------------------
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\Real}{\mathbb R}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\TO}{\longrightarrow}
+\newcommand{\To}{\longmapsto}
+\newcommand{\BX}{\mathbf{B}(X)}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\gen}[1]{\left\langle#1\right\rangle}
+\newcommand{\mat}[2][rrrrrrrrrrrrrrrrrrrrrrrrr]{\left(\begin{array}{#1}#2\\ \end{array}\right)}
+\newcommand{\iso}{\cong}
+\newcommand{\semidirect}{\rtimes}
+\newcommand{\all}{\text{ for all }}
+\newcommand{\stab}[2]{\text{Stab}_{#1}\left(#2\right)}
+\renewcommand{\ker}[1]{\text{ker}\left(#1\right)}
+\newcommand{\im}[1]{\text{im}\left(#1\right)}
+\newcommand{\soc}[1]{\text{Soc}\left(#1\right)}
+\newcommand{\Aut}[1]{\text{Aut}\left(#1\right)}
+\newcommand{\Inn}[1]{\text{Inn}\left(#1\right)}
+\newcommand{\Out}[1]{\text{Out}\left(#1\right)}
+\newcommand{\rank}[1]{\text{rank}\left(#1\right)}
+\newcommand{\st}{\text{ such that }}
+\newcommand{\simpcomp}[1]{ ^{\text{simp}}_{\text{comp}}\{#1\}}
+\newcommand{\boundary}{\partial}
+\newcommand{\Hom}[2]{{\ker{#1}}/{\im{#2}}}
+\newcommand{\finitefield}[1]{\Z/{#1\Z}}
+\renewcommand{\dim}[1]{\text{dim}\left(#1\right)}
+\newcommand{\Cayley}[2]{\text{Cayley}\left(#1,#2\right)}
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+%simplices--------------------------------------------------------
+\newcommand{\vertex}[1]{\text{F}_{0}\left(#1\right)}
+\newcommand{\edge}[2]{\text{F}_{1}\left(#1,#2\right)}
+\newcommand{\triang}[3]{\text{F}_{2}\left(#1,#2,#3\right)}
+\newcommand{\tetra}[4]{\text{F}_{3}\left(#1,#2,#3,#4\right)}
+\newcommand{\nsimplex}[3]{\text{F}_{n}\left(#1,#2,...,#3\right)}
+
+% ----------------------------------------------------------------
+%footnotes with symbols
+\long\def\symbolfootnote[#1]#2{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup} 
+% ----------------------------------------------------------------
+%drawing
+%\usepackage[svgnames]{xcolor}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{amsmath}
+\usetikzlibrary{matrix,arrows,backgrounds}
+\usetikzlibrary{patterns}
+
+
+\pgfdeclarelayer{edgelayer}
+\pgfdeclarelayer{nodelayer}
+\pgfsetlayers{edgelayer,nodelayer,main}
+
+\tikzstyle{none}=[inner sep=0pt]
+\tikzstyle{rn}=[circle,fill=Red,draw=Black,line width=0.8 pt]
+\tikzstyle{gn}=[circle,fill=Lime,draw=Black,line width=0.8 pt]
+\tikzstyle{yn}=[circle,fill=Yellow,draw=Black,line width=0.8 pt]
+\tikzstyle{black}=[circle,fill=Black,draw=Black]
+
+%\usepackage[graphics,tightpage,active]{preview}
+%\PreviewEnvironment{tikzpicture}
+\newlength{\imagewidth}
+\newlength{\imagescale}
+%----------------------------------------------------------------
+
+
+\title{Given a Helical Compression Spring in a Spring-Mass Damper System: \\ What are Optimal Springs?}
+%\subtitle{\small(Using local optimization methods to locate and find singularities.)}
+\author[J. Krueger, A. Bentley, J Jiang, S. Nnannapaneni, T. Qiu,\\T. Hodges] {J. Krueger, A. Bentley, J Jiang, S. Nnannapaneni, T. Qiu,\\T. Hodges}
+
+
+\institute[]{\normalsize Samsi IMSM Workshop} 
+
+
+\date{July 23, 2015}
+
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+\frame{
+\frametitle{Problem}
+
+What is an algorithm that optimizes springs with interchangeable constraints and objectives? 
+
+\pause
+ 
+Can you quantify and incorporate spring force relaxation?
+
+
+}
+
+\section{Introduction}
+
+
+\frame{
+
+}
+
+
+\frame{
+\frametitle{References}
+  
+
+%\cite{}
+%\cite{OEIS}}\end{TINY}
+%\nocite{Eisenbud}
+%\nocite{DF}
+%\nocite{DGPS}
+%\nocite{What_Is}
+%%\nocite{Greuel}
+%\nocite{Maple17}
+%\nocite{Mayr}
+%\nocite{M2}
+%\nocite{Intervals}
+%\nocite{Floating}
+%\nocite{Bates}
+\nocite{MATLAB:2014a}
+\bibliographystyle{amsalpha}
+\bibliography{MyBib}
+}
+
+\frame{
+\frametitle{}
+\begin{center}
+\LARGE Thank you.\\
+
+
+\bigskip
+\Large Questions?
+\end{center}
+}
+	 
+
+
+\end{document}
+
+
+
+
+
+
+
