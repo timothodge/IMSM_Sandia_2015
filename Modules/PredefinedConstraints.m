@@ -18,14 +18,13 @@ max_spring_index.direction = 2;
 max_spring_index.dependicies = {'wire_diameter','maximum_spring_index','inner_diameter'};
 max_spring_index.name = 'maxSpringIndex';
 
-
 max_closed_diametral_expansion = Constraint;
 max_closed_diametral_expansion.expression = @(Spring) Spring.wire_diameter + sqrt((Spring.inner_diameter + Spring.wire_diameter)^2 + (((Spring.length_at_no_compression - 2*Spring.wire_diameter)/(Spring.total_number_of_coils - 2))^2 - Spring.wire_diameter^2)/pi^2) - Spring.maximum_outer_diameter;% d_expand -  Spring.maximum_outer_diameter;
 max_closed_diametral_expansion.direction = 1;
 max_closed_diametral_expansion.dependicies = {'maximum_outer_diameter','wire_diameter','inner_diameter','length_at_no_compression','total_number_of_coils'};
 
 max_open_diametral_expansion = Constraint;
-max_open_diametral_expansion.expression = @Diametral_Expansion_Open;
+max_open_diametral_expansion.expression = @(Spring) Diametral_Expansion_Open(Spring) - Spring.maximum_outer_diameter;
 max_open_diametral_expansion.direction = 1;
 max_open_diametral_expansion.dependicies = {'maximum_outer_diameter','wire_diameter','inner_diameter','length_at_no_compression','total_number_of_coils','poisson_ratio'};
 
