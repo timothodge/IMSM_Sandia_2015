@@ -12,6 +12,7 @@
 *.pdf
 *.snm
 *.synctex.gz
+*.toc
 
 */*.aux
 */*.bbl
@@ -22,3 +23,4 @@
 */*.pdf
 */*.snm
 */*.synctex.gz
+*/*.toc
