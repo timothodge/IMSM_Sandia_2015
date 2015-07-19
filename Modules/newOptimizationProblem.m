@@ -17,7 +17,7 @@ close all
 fprintf('Initializing spring object and problem statement ... ');
 
 S = Spring_Obj;
-%S = S.Set_Rest_Of_Properties;
+S = S.Set_Rest_Of_Properties;
 PredefinedConstraints;
 
 % if you want something different than the default setting, uncomment and
@@ -53,15 +53,16 @@ uB = [40e-3, 5e-3, 17];
 % set constraints using names given in PredefinedConstraints
 consPart = {outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap};
 
+%% Direct
 fprintf('done.\n');
 
 %% Check feasibility and setup Direct
 
 fprintf('Checking if a feasible solution exists ... ');
 
-OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S);
-Problem = OP.setDirect();
 bounds = [lB', uB'];
+OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S,bounds);
+Problem = OP.setDirect();
 isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
 if (isProblemFeasible == 0)
@@ -69,6 +70,10 @@ if (isProblemFeasible == 0)
 else
     fprintf('there is such a region.\n');
 end
+
+plottingStateVars = {'inner_diameter','wire_diameter'};
+OP.constraints.plotConstraints(S,plottingStateVars, ...
+                                [20e-3,40e-3],[1e-3,5e-3])
 
 %% Direct solver options %%
 opts.ep = 1e-5;
