@@ -18,11 +18,15 @@ max_spring_index.direction = 2;
 max_spring_index.dependicies = {'wire_diameter','maximum_spring_index','inner_diameter'};
 max_spring_index.name = 'maxSpringIndex';
 
-
 max_closed_diametral_expansion = Constraint;
 max_closed_diametral_expansion.expression = @(Spring) Spring.wire_diameter + sqrt((Spring.inner_diameter + Spring.wire_diameter)^2 + (((Spring.length_at_no_compression - 2*Spring.wire_diameter)/(Spring.total_number_of_coils - 2))^2 - Spring.wire_diameter^2)/pi^2) - Spring.maximum_outer_diameter;% d_expand -  Spring.maximum_outer_diameter;
 max_closed_diametral_expansion.direction = 1;
 max_closed_diametral_expansion.dependicies = {'maximum_outer_diameter','wire_diameter','inner_diameter','length_at_no_compression','total_number_of_coils'};
+
+max_open_diametral_expansion = Constraint;
+max_open_diametral_expansion.expression = @(Spring) Diametral_Expansion_Open(Spring) - Spring.maximum_outer_diameter;
+max_open_diametral_expansion.direction = 1;
+max_open_diametral_expansion.dependicies = {'maximum_outer_diameter','wire_diameter','inner_diameter','length_at_no_compression','total_number_of_coils','poisson_ratio'};
 
 max_spring_rate = Constraint;
 max_spring_rate.expression = @(Spring) Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/((Spring.inner_diameter+Spring.wire_diameter)^3) - Spring.maximum_spring_rate;
@@ -55,13 +59,11 @@ max_shear_stress.direction = 1;
 max_shear_stress.dependicies = {'ultimate_torsional_stress','shear_modulus','length_at_no_compression','length_at_hard_stop_position','total_number_of_coils','wire_diameter','inner_diameter'};
 max_shear_stress.name = 'maxShearStress';
 
-
-%Assume time = 3E8 seconds for both stress relaxation and creep tests
 min_stress_relaxation = Constraint;
 min_stress_relaxation.expression = @(Spring) -hypergeom([4/Spring.Norton_Bailey_n 1/Spring.Norton_Bailey_n],...
     [(4+Spring.Norton_Bailey_n)/Spring.Norton_Bailey_n],Spring.Norton_Bailey_c*...
     (2*Spring.deflection/pi/Spring.active_number_of_coils/((Spring.inner_diameter+Spring.outer_diameter)/2)^2)^Spring.Norton_Bailey_n...
-    *Spring.shear_modulus^(Spring.Norton_Bailey_n+1)*Spring.Norton_Bailey_n*(3E8)^Spring.Norton_Bailey_k*...
+    *Spring.shear_modulus^(Spring.Norton_Bailey_n+1)*Spring.Norton_Bailey_n*(Spring.time_stress_relaxation)^Spring.Norton_Bailey_k*...
     Spring.wire_diameter^Spring.Norton_Bailey_n/2^Spring.Norton_Bailey_n/Spring.Norton_Bailey_k) - Spring.minimum_stress_relaxation;
 min_stress_relaxation.direction = 1;
 min_stress_relaxation.dependicies= {'Norton_Bailey_n','Norton_Bailey_c','Norton_Bailey_k','wire_diameter','inner_diameter','outer_diameter','deflection','active_number_of_coils','shear_modulus'};
