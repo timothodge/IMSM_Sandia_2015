@@ -18,27 +18,31 @@ fprintf('Initializing spring object and problem statement ... ');
 
 S = Spring_Obj;
 S = S.Set_Rest_Of_Properties;
+PredefinedObjectives;
 PredefinedConstraints;
 
 % if you want something different than the default setting, uncomment and
 % change the string's attribute below
 %% *** TO DO -- Add all spring attributes ****
 
-S.shear_modulus = 77e9;
-S.youngs_modulus = 193;
-S.poisson_ratio = 0.3;
-S.length_at_no_compression = 85.5e-3;
-S.length_at_hard_stop_position = 20e-3;
-S.ultimate_torsional_stress = 0.7e9;
-S.minimum_coil_binding_gap = 5e-4;
-S.maximum_outer_diameter = 0.06;
-S.end_conditions = 0;
-S.maximum_spring_rate = 0;
-S.maximum_spring_index = 0;
+S.maximum_ultimate_torsional_stress = .7e9;
+S.minimum_coil_binding_gap = .5e-3;
+
+% S.shear_modulus = 77e9;
+% S.youngs_modulus = 193;
+% S.poisson_ratio = 0.3;
+% S.length_at_no_compression = 85.5e-3;
+% S.length_at_hard_stop_position = 20e-3;
+% S.ultimate_torsional_stress = 0.7e9;
+% S.minimum_coil_binding_gap = 5e-4;
+% S.maximum_outer_diameter = 0.06;
+% S.end_conditions = 0;
+% S.maximum_spring_rate = 0;
+% S.maximum_spring_index = 0;
 
 % using the constraint names given in PredefinedConstraints to specify 
 % the objective function parts
-objFcnParts = {max_spring_rate,max_spring_index};
+objFcnParts = {spring_rate,spring_index};
 % objective function weights (don't forget to normalize weights)
 kMax = 20;
 cMax = 10;
@@ -51,10 +55,12 @@ lB = [20e-3, 1e-3, 9];
 uB = [40e-3, 5e-3, 17];
 
 % set constraints using names given in PredefinedConstraints
-consPart = {outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap};
+consPart = {max_outer_diam, max_shear_stress, max_buckling_slenderness, min_coil_binding_gap};
 
 %% Direct
 fprintf('done.\n');
+
+keyboard
 
 %% Check feasibility and setup Direct
 
