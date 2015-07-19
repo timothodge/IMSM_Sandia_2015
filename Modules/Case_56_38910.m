@@ -57,10 +57,7 @@ uB = [40e-3, 5e-3, 17];
 % set constraints using names given in PredefinedConstraints
 consPart = {max_outer_diam, max_shear_stress, max_buckling_slenderness, min_coil_binding_gap};
 
-%% Direct
 fprintf('done.\n');
-
-keyboard
 
 %% Check feasibility and setup Direct
 
