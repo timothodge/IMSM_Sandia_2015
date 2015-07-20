@@ -8,7 +8,7 @@ close all
 
     Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
 
-    Status: Status: Everything works but max fcn evals is reached in the optimization. There is probably a problem with the relaxation constraint, though.
+    Status: xMin = 0.05 0.0001 20.000, fMin = -0.8551, Works!
 
 %}
 %% initialization
@@ -65,35 +65,35 @@ OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S,bounds);
 Problem = OP.setDirect();
 isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
-if (isProblemFeasible == 0)
-    fprintf('no such region found.\n');
-else
-    fprintf('there is such a region.\n');
-end
-
-plottingStateVars = {'inner_diameter','wire_diameter','total_number_of_coils'};
-OP.constraints.plotConstraints(S,plottingStateVars, ...
-                                [[20e-3,40e-3],[1e-3,5e-3],[9,17]])
+% if (isProblemFeasible == 0)
+%     fprintf('no such region found.\n');
+% else
+%     fprintf('there is such a region.\n');
+% end
+% 
+% plottingStateVars = {'inner_diameter','wire_diameter','total_number_of_coils'};
+% OP.constraints.plotConstraints(S,plottingStateVars, ...
+%                                 [[20e-3,40e-3],[1e-3,5e-3],[9,17]])
 
 % plottingStateVars = {'inner_diameter','wire_diameter'};
 % OP.constraints.plotConstraints(S,plottingStateVars, ...
 %                                 [[20e-3,40e-3],[1e-3,5e-3]])
 
 %% Direct solver options %%
-% opts.ep = 1e-5;
-% opts.maxevals = 1e4;
-% opts.maxits = 1e4;
-% opts.maxdeep = 1e4;
-% opts.testflag = 0;
-% opts.showits = 0;
-% 
-% %% ***This line runs the direct global optimization algorithm on the problem ***
-% 
-% fprintf('Running Direct optimization method ...\n');
-% 
-% [fMin, xMin, history] = Direct(Problem, bounds, opts);
-% 
-% fprintf('... done.\n');
+opts.ep = 1e-5;
+opts.maxevals = 1e4;
+opts.maxits = 1e4;
+opts.maxdeep = 1e4;
+opts.testflag = 0;
+opts.showits = 0;
+
+%% ***This line runs the direct global optimization algorithm on the problem ***
+
+fprintf('Running Direct optimization method ...\n');
+
+[fMin, xMin, history] = Direct(Problem, bounds, opts);
+
+fprintf('... done.\n');
 
 %% *** This line runs the General_SA algorithm for optimization problem
 
