@@ -162,8 +162,12 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right]< UTS\end{equation}
 				Diametral Expansion\begin{equation} d_{expand} = d_{w} + \sqrt{(d_{i} + d_{w})^{2} + \frac{p^{2} - d_{w}}{\pi^{2}}}
 			\end{equation}
 			
+			The reader may notice that 
+			
 \section{The Problem} 
 \label{sec:Problem}
+
+\textbf{Add dependency graph.} 
 
 Design an algorithm that optimizes springs with interchangeable objectives and constraints. In addition, attempt to incorporate properties stress relaxation and creep into the available objectives and constraints. 
 
@@ -216,6 +220,7 @@ Along with the flexible software design, we have implemented the ability to run 
 
 \newpage
 \section{Workflow}
+\label{sec:workflow}
  		\begin{figure}[h!]
 		 \begin{center}\includegraphics[scale=.4]{IMSM_Workflow.png}\end{center}
 		 \caption{Illustration of the flow of our approach.}
@@ -251,7 +256,70 @@ Given a constrained optimization problem, we usually have many ways to solve it,
 
 \section{Computational Experiments}
 \label{sec:Experiments}
-\subsection{Basics about uni-axial creep and stress relaxation}
+
+
+\subsection{Case 1:}
+\label{sec:Case2}
+%Case_56_28910
+	\textbf{Objectives:} Spring rate and spring index.\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, coil binding gap, buckling slenderness, and maximum shear stress. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+
+\subsection{Case 2:}
+\label{sec:Case2}
+%Case_56_34891011
+
+	\textbf{Objectives:} Spring rate and spring index.\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress, stress relaxation. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+\subsection{Case 3:}
+\label{sec:Case3}
+%Case_7_348910
+	\textbf{Objectives:} $F_{open}$\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, coil binding gap, buckling slenderness, and maximum shear stress. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+\subsection{Case 4:}
+\label{sec:Case4} 
+%Case_11_348
+
+	
+	\textbf{Objectives:} Stress Relaxation\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, and coil binding gap. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+
+
+		\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.65]{Case_11_348.eps}\end{center}
+		 \caption{Example of feasible region.}
+		 \label{Feasible Example}
+		 
+		 \end{figure}
+
+
+
+
+
+
+
+\section{Summary and Future Work}
+\label{sec:summary}
+The ability to interchange constraints and objective functions with any number of design variables allows the user the utmost flexibility. With the addition of feasibility and sensitivity analysis it is possible for any configuration of objective function, constraints, and design variables to be analyzed for refinement. The quantification of stress relaxation and creep allow the user a chance to incorporate these properties into any configuration, especially those that have never been tested. 
+
+Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be ported in. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
+
+Future work is bountiful for this approach. More analysis of the stress relaxation and creep could result in better performance. An in depth analysis of different models of stress relaxation and their performance in our model would be beneficial. The flexibility allows the inclusion of many different models of stress relaxation and creep to be added. 
+
+\textbf{Senstivity for optimization}
+
+\textbf{Uncertainty Quantification incorporation into the model.}
+
+\textbf{Analysis of stress relaxation and creep models.}
+
+\textbf{Basics about uni-axial creep and stress relaxation}
 The spring is heated to $0.3-0.5T_m$ ($T_m$ is the melting temperature of the material) and loaded by a tensile force. The induced normal stress $\sigma$ is much less than the yield limit of the material $\sigma_y$. The load and temperature are constant throughout the test. The strain $\epsilon^{cr}$ will slowly increase.
 
 Conventionally, creep can be divded into $3$ stages. In the first stage(primary/reduced/trasient) ,the creep strain rate decreases to a certain value(minimum creep rate). The second stage(secondary/steady/stationary creep) is characterized by a nearly constant creep rate(minimum creep rate). In the third stage(tertiary creep), the creep strain rates increases rapidly and leads to rupture. The first stage is usually reversible with time after unloading, while the second/third ones are not. Since the primary creep occurs in a short duration and the tertiary one leads quickly to rupture, the secondary creep is under most serious consideration in many design in many engineering applications.
@@ -355,20 +423,7 @@ It can be deduced that the spring length $s$ follows
 s(t) = s(0) + \left( {(d_i+d_o)P_z^0\over \pi}{4+3n\over n+1} \right)^{n+1} {\pi (d_i+d_o)^2 N_a c\over 8kd_w^{4+3n}} t^k
 \]
 where $s(0)$ is the initial spring length. The less the difference of the spring length $s(t)-s(0)$, the better the spring quality is.
-
-
-
-
-
-
-\section{Summary and Future Work}
-The ability to interchange constraints and objective functions with any number of design variables allows the user the utmost flexibility. With the addition of feasibility and sensitivity analysis it is possible for any configuration of objective function, constraints, and design variables to be analyzed for refinement. The quantification of stress relaxation and creep allow the user a chance to incorporate these properties into any configuration, especially those that have never been tested. 
-
-Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be ported in. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
-
-Future work is bountiful for this approach. More analysis of the stress relaxation and creep could result in better performance. An in depth analysis of different models of stress relaxation and their performance in our model would be beneficial. The flexibility allows the inclusion of many different models of stress relaxation and creep to be added. 
-
-\textbf{Senstivity for optimization} 
+ 
 
 
 
