@@ -1,4 +1,4 @@
-zfunction springProperties = DesignVar(objFcn)
+function springProperties = DesignVar(objFcn)
 %objFcn is the objective function, varargin is the argument list of
 %constraints. The output springProperties is the cell array of design
 %variables' property names which can be fed into the objFcnConverter

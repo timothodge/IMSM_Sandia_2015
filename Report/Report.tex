@@ -48,12 +48,13 @@ Sean Webb \footnote{Sandia National Laboratory},
 
 
 \section{Introduction}
+\label{sec:Introduction}
 %It should be written as much as possible in non-technical terms, so that a
 %lay reader can understand the context and the contribution of the paper.
 
 The use of mechanical switches in industry is a cornerstone of the modern world. Many mechanical switches are designed to use a spring. Depending on the use of the switch, the spring can be optimized for the function of the spring. 
 
-For example, consider an acceleration switch in figure \ref{Acceleration Switch}. 
+For example, consider an acceleration switch in figure \ref{Acceleration Switch} \cite{Massad2015}. 
 
 		\begin{figure}[h]
 		 \begin{center}\includegraphics[scale=.2]{Acceleration_Switch.png}\end{center}
@@ -72,8 +73,8 @@ Given any constraint or objective function it will depend on a set of variables.
 
 In addition to this spring object, to reduce the uncertainty of the problem we conduct a sensitivity analysis of the objective function subject to the constraints and variables given. Allowing the user to reduce the state variables if it is determined that for a set of variables given there exist insensitive state variables. 
 
-A main contribution of this work is the framework to add constraints and objectives that may be unknown at the point of this paper. In addition a model of stress relaxation and uni-axial creep has been incorporated. If the reader does not approve of our stress relaxation and creep models, it is easy for the reader to incorporate other models into possible constraints and objectives. 
-\textbf{ADD!}
+A main contribution of this work is the framework to add constraints and objectives that may be unknown at the point of this paper. In addition a model of stress relaxation and uni-axial creep has been incorporated. If the reader does not approve of our stress relaxation and creep models, it is easy for the reader to incorporate other models into possible constraints and objectives. Overall the contribution of this paper is a flexible framework for which multiple new attributes of springs can be analyzed.
+
 
 
 \textbf{review history and existing literature}
@@ -92,8 +93,9 @@ In this paper we will give a description of the springs of interest, helical com
 
 
 \section{Helical Compression Springs}
+\label{sec:Springs}
 
-Helical springs are the typical spring that comes to most peoples mind, for illustrative purposes, see figure \ref{Spring}. 
+Helical springs are the typical spring that comes to most peoples mind, for illustrative purposes, see figure \ref{Spring}\cite{Massad2015}. 
 
 		\begin{figure}[h]
 		 \begin{center}\includegraphics[scale=.2]{Spring.png}\end{center}
@@ -102,7 +104,7 @@ Helical springs are the typical spring that comes to most peoples mind, for illu
 		 
 		 \end{figure}
 
-Below is a list of a spring's key design parameters. We have added a few illustrations to illustrate some of the parameters. 		 
+The above spring has many design parameters. These range from physical parameters such as wire diameter, to purely empirical attributes, for example spring rate. The empirical attributes have to be assumed in a range of values. This is because for extreme values these attributes exhibit behavior that is not under consideration. Below is a list of a spring's key design parameters and empirical attributes. We have added a few illustrations to illustrate some of the parameters. \cite{Massad2015}		 
 		\begin{figure}[h]
 			\centering
 			\begin{subfigure}{.5\textwidth}
@@ -144,7 +146,7 @@ Below is a list of a spring's key design parameters. We have added a few illustr
 		
 		\end{enumerate}
 		
-		In addition to these parameters there are the following attributes that are empirical. We care about these attributes within some regime. This is because outside of certain conditions these attributes exhibit special behavior. 
+One can see that the above parameters are physical design parameters. Each of these are subject to design tolerances. Below is a set of empirical attributes that within a range of values exhibit typical behavior for a spring. We will assume that these attributes are within that range. 
 		
 			%\begin{enumerate}
 			%	\item 
@@ -160,7 +162,12 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right]< UTS\end{equation}
 				Diametral Expansion\begin{equation} d_{expand} = d_{w} + \sqrt{(d_{i} + d_{w})^{2} + \frac{p^{2} - d_{w}}{\pi^{2}}}
 			\end{equation}
 			
+			
+			
 \section{The Problem} 
+\label{sec:Problem}
+
+\textbf{Add dependency graph.} 
 
 Design an algorithm that optimizes springs with interchangeable objectives and constraints. In addition, attempt to incorporate properties stress relaxation and creep into the available objectives and constraints. 
 
@@ -181,73 +188,61 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] < 0$
 \end{enumerate}	
 
 This list is not exhaustive as we want a user to be able to define new constraints and objectives. 
-In addition to these we should be able to minimize any parameter of the spring. 
-
-
-\textbf{ADD RELAXATION HERE!}
-
-
-
+In addition to these we should be able to minimize any parameter of the spring. The incorporation of stress relaxation and creep have been left as computational experiments. If the reader wishes to read about these please check out section \ref{sec:stress}. 
 
 In order to simplify the problem we have made some assumptions. First, we have assumed that constraints and objectives are all in terms of the number of total coils. This is to reduce the complexity of knowing if a constraint is dependent on the active number or total number of coils. These two numbers are dependent on the end conditions of the spring, whether it is open or closed at the end. 
 
-For simplicity we also will consider all springs to be have a closed end condition. With these assumptions we simplify our constraints for pitch, $p$, solid length, $L_{solid}$, and the diametral expansion, $d_{expand}$. 
+For this reason we also will consider all springs to be have a closed end condition. With these assumptions we simplify our constraints for pitch, $p$, solid length, $L_{solid}$, and the diametral expansion, $d_{expand}$.
 
 \textbf{JUSTIFY ASSUMPTIONS}
+These assumptions have reduced the set of design parameters and have allowed us to simplify the problem. Without these assumptions we would need to deduce at run time what formulas we can use and this is a challenging problem from an implementation stand point. Also, we have a very complicated formula for diametral expansion if the end conditions are not closed. This presents issues of solving a cubic without the ability of discerning if the roots will be physically meaningful. 
 
-\textbf{Describe your data, how you collected them, their properties,
-and whether you did 
-anything to them (removed noise, filled in missing data, 
+
+\textbf{Describe data, how collected, their properties (removed noise, filled in missing data, 
 applied normalizations).}
 
-\section{The Problem}
-\begin{itemize}
-\item Give a precise technical description of your problem. 
 
-\item State and justify all your assumptions. 
-
-\item Define notation. 
-
-\item Describe your data, how you collected them, their properties,
-and whether you did 
-anything to them (removed noise, filled in missing data, 
-applied normalizations).
-\end{itemize}
 
 
 \section{The Approach}
+\label{sec:Approach}
 
+\textbf{Present and justify approach for solving the problem}
+\textbf{Explain advantages of approach over existing ones}
+\textbf{Tell a story}
 To be as flexible as possible we must be able to handle constraints and objectives that have an unknown number of  variables a priori. To handle this uncertainty we instead of evaluating an objective or constraint with a set of values we evaluate with a "spring object" in the programming sense \cite{OOP}. This spring has all the attributes of interest and the function merely picks what values it needs for evaluation. 
 
-This approach is also implemented in the design of a constraint and objective. An objective is an expression that we must be able to evaluate. A constraint is an expression that we must evaluate and check if this evaluationa violates the constraint condition. We use the idea of inheritance and let a constraint inherit the properties of being an objective with additional framework to compare to a condition. This allows the user to interchange constraints and objectives seamlessly.
+This approach is also implemented in the design of a constraint and objective. An objective is an expression that we must be able to evaluate. A constraint is an expression that we must evaluate and check if this evaluation violates the constraint condition. We use the idea of inheritance and let a constraint inherit the properties of being an objective with additional framework to compare to a condition. This allows the user to interchange constraints and objectives seamlessly.
 
 Along with the flexible software design, we have implemented the ability to run feasibility and sensitivity checks before trying to optimize. This will allow the user to know additional information about the problem. First, from feasibility, the user will know quickly if the run is unable to find a feasible point to run optimization. Second, from sensitivity, the user can know which parameters will dramatically change the optimization versus which parameters are unnecessarily adding to the dimension of the optimization space. 
  
 
-\section{The Approach}
-\begin{itemize}
-\item Present and justify your approach for solving the problem. 
-\item Explain the advantages of your approach over existing ones.
 
-\item Tell a story.
-Don't just say: ``I did this, then I did this, and at last I did this''.
-\end{itemize}
-\newpage
 \section{Workflow}
+\label{sec:workflow}
  		\begin{figure}[h!]
 		 \begin{center}\includegraphics[scale=.4]{IMSM_Workflow.png}\end{center}
 		 \caption{Illustration of the flow of our approach.}
 		 \label{Workflow}
 		 
 		 \end{figure}
+		 
+		 \textbf{This may not be accurate anymore, need Justin's input.}
 Above is an illustration of the workflow that is our approach. This section will go in depth into the feasibility, sensitivity analysis and optimization of our approach.
 
+\textbf{Should we add a workflow of feasibility, sensitivity, and optimization?}
+
 \subsection{Feasibility}
+\label{sec:Feasibility}
+
+The feasibility of a solution depends on if a solution satisfies all the constraints in the problem, as well as, constraints that are not included. We also need a feasible solution to start the optimization process, otherwise we may never find an solution that is feasible and optimal. Implementing this requirement is simply sampling the available space and checking each sample against all constraints. 
+
+Refer to section \ref{sec:Experiments} to see plots that are showing feasibility given two or three state variables.
 
 \subsection{Sensitivity Analysis}
-\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches, in the literature have been divided into two categories - (1)filter approach, and (2)wrapper approach. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. An optimization technique is used to obtain the best subset of input variables. In this work, the variance-based Global Sensitivity Analysis (GSA), a filter approach, is used for dimension reduction. Note that the input variables represent the design variables for the objective function. 
-
-\hspace{5 mm} Consider a objective function, $G$, with $n$ design variables given by $x_{1}$, $x_{2}$, ...  $x_{n}$, given by
+\label{sec:Sensitivity}
+\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches have been divided into two categories - (1)filter approach, and (2)wrapper approach. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. Two types of sensitivity analysis have been developed in the literature - local sensitivity analysis and global sensitivity analysis. The local sensitivity index of a variable measures the sensitivity of the model output when the variable is fixed at a single value whereas the global sensitivity (GSA) index measures the variation of model output when the variable is varied over its range. Therefore, GSA is used as it considers the entire range of a variable in computing the sensitivity to the output. Note that the input variables represent the design variables and model represents the objective function.
+Consider a objective function, $G$, with $n$ design variables given by $x_{1}$, $x_{2}$, ...  $x_{n}$, given by
 
 \centerline{$Y = G(x_{1}, x_{2}, ... x_{n})$}
 
@@ -256,24 +251,143 @@ In GSA, two types of indices can be calculated for each variable - first order i
 \centerline{$S_{i}^{I} = \frac{V_{X_i}(E_{X_{-i}}(Y|X_{i}))}{V(Y)}$}
 \centerline{$S_{i}^{T} = \frac{E_{X_{-i}}(V_{X_{i}}(Y|X_{-i}))}{V(Y)}$}
 
-Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the total-effects index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization.\cite{Bioinformatics} \cite{Wrappers} \cite{Error} \cite{Global}
-\subsection{Optimization}
+Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the first-order index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization.\cite{Bioinformatics} \cite{Wrappers} \cite{Error} \cite{Global}
 
-Given a constrained optimization problem, we usually have many ways to solve it, eg. Trust Region Reflective Algorithm, Direct optimization algorithm, Conjugate Gradient Algorithm, Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm,etc. For difficult global optimization problem with bound constraints, Direct optimization algorithm is one of the most simple and effective methods. It requires no knowledge of the Lipschitz constant or even the Lipschitz continuous of the objective function. That is, it can be implemented in optimization problem with more difficult objective function. Given that our objective function is subject to change, it is best for us to use a global optimization technique. 
+
+\subsection{Optimization}
+\label{sec:Optimization}
+\hspace{5 mm} A general constrained design optimization problem can be formulated as follows
+
+\centerline{$Min \hspace{2 mm} f(X)$}
+such that
+
+\centerline{$g(X) \leq 0$}
+\centerline{$lb_{X} \leq X \leq ub_{X}$}
+
+\noindent Several optimization algorithms (both local and global) are available to solve the above optimization problem. Two algorithms - BFGS (local) and DIRECT (global) have been tried for design optimization. The key differences between the two algorithms are described below. BFGS algorithm requires the gradient and Hessian of the objective function, and also an initial point for optimization whereas DIRECT does not require the objective function to be differentiable. Since DIRECT is a global algorithm, it does not require an initial point. A downside of DIRECT is that it requires more computations compared to BFGS. The 'fmincon' function in MATLAB, which implements the BFGS algorithm, requires the linear and non-linear constraints to be provided separately. Separation of linear and non-linear constraints is hard to implements in an automated software framework because they are problem-dependent whereas DIRECT does not require such segregation between constraints. Therefore, DIRECT global algorithm is used for optimization.
+
+\hspace{5 mm} It is also essential to account for the variability in the manufacturing process(tolerance) in the design of springs. The tolerance for each of the spring parameters is assumed to be equal to one percent of the value of the variable. Thus, each variable follows a uniform distribution with unknown mean and known variance. The optimization formulation after accounting for tolerances can now be written as 
+
+\centerline{$Min \hspace{2mm} \mu_{f} (X,d)$}
+
+such that
+
+\centerline{$Pr(g_{i}(X,d) \leq 0)\geq p_{t}^{i}$}
+\centerline{$Pr(X \geq lb_{X})\geq p_{lb}$}
+\centerline{$Pr(X \leq ub_{X})\geq p_{ub}$}
+\centerline{$lb_{d} \leq d \leq ub_{d}$}
+
+\noindent where $X,d$ represent the design variables with tolerances and non-design variables with tolerances respectively. The first constraint represents the probabilistic inequality constraint and the other constraints represent the bounds for the design variables. Optimization with tolerance is a nested double loop process where optimization is carried out in the outer loop (using DIRECT)and in each iteration of optimization, reliability analysis is carried out in the inner loop to check the probabilistic constraints. In this work, Monte Carlo simulations are used to carry out reliability analysis. 
 
 \cite{Derivative} \cite{DirectPaper} \cite{MATLAB:2014a} \cite{DirectUserGuide}
  
  
 
 \section{Computational Experiments}
+\label{sec:Experiments}
+
+\newpage
+\subsection{Case 1:}
+\label{sec:Case1}
+%Case_56_28910
+	\textbf{Objectives:} Minimize spring rate and spring index.\\
+	\textbf{Constraints:} Inner diameter and outer diameter relation, elation on inner, wire, and outer diameter, coil binding gap, buckling slenderness, and maximum shear stress. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+\newpage
+\subsection{Case 2:}
+\label{sec:Case2}
+%Case_56_34891011
+
+	\textbf{Objectives:} Minimize spring rate and spring index.\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress, stress relaxation. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+\newpage
+\subsection{Case 3:}
+\label{sec:Case3}
+%Case_7_348910
+	\textbf{Objectives:} Minimize force at open position.\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+\newpage
+\subsection{Case 4:}
+\label{sec:Case4} 
+%Case_11_348
+
+	
+	\textbf{Objectives:} Maximize stress relaxation\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, and coil binding gap. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+
+
+		\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.75]{Case_11_348.eps}\end{center}
+		 \caption{Feasible region for case 4.}
+		 \label{Feasible Case 4}
+		 
+		 \end{figure}
+ 		\textbf{Axes need to be worked on.}
+
+\newpage
+\subsection{Case 5:}
+\label{sec:Case5}
+%Case_511_34810
+
+	\textbf{Objectives:} Minimize spring rate and maximize stress relaxation.\\
+	\textbf{Constraints:}  Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, and maximum shear stress. \\
+		\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+		
+				\begin{figure}[h!]
+		 \begin{center}\includegraphics[scale=.50]{Case_511_34810.eps}\end{center}
+		 \caption{Feasible region for case 5}
+		 \label{Feasible Case 5}
+		 
+		 \end{figure}
+		 \textbf{Axes need to be worked on.}
+
+\newpage
+\subsection{Case 6:}
+\label{sec:Case6}
+%Case_58_3468910
+\textbf{Saideep added a 7a, need to deal with it.}\\
+	\textbf{Objectives:} Minimize spring rate and coil binding gap.\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress. \\
+		\textbf{State Variables:}$d_{i}$, $d_{w}$, $L_{hard}$, and $N_{t}$ \\
+
+\newpage
+
+
+
+
+
+\section{Summary and Future Work}
+\label{sec:summary}
+The ability to interchange constraints and objective functions with any number of design variables allows the user the utmost flexibility. With the addition of feasibility and sensitivity analysis it is possible for any configuration of objective function, constraints, and design variables to be analyzed for refinement. The quantification of stress relaxation and creep allow the user a chance to incorporate these properties into any configuration, especially those that have never been tested. 
+
+Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be ported in. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
+
+Future work is bountiful for this approach. More analysis of the stress relaxation and creep could result in better performance. An in depth analysis of different models of stress relaxation and their performance in our model would be beneficial. The flexibility allows the inclusion of many different models of stress relaxation and creep to be added
+
+\textbf{Senstivity for optimization}
+
+
+\textbf{Uncertainty Quantification incorporation into the model.}
+
+
+
 \subsection{Basics about uni-axial creep and stress relaxation}
-The spring is heated to $0.3-0.5T_m$ ($T_m$ is the melting temperature of the material) and loaded by a tensile force. The induced normal stress $\sigma$ is much less than the yield limit of the material $\sigma_y$. The load and temperature are constant throughout the test. The strain $\epsilon^{cr}$ will slowly increase.
+\label{sec:stress}
+There are many models for stress relaxation and un-axial creep. We choose a model outlined in \textbf{CITE!}. For this model the spring is heated to $0.3-0.5T_m$ ($T_m$ is the melting temperature of the material) and loaded by a tensile force. The induced normal stress $\sigma$ is much less than the yield limit of the material $\sigma_y$. The load and temperature are constant throughout the test. The strain $\epsilon^{cr}$ will slowly increase.
 
 Conventionally, creep can be divded into $3$ stages. In the first stage(primary/reduced/trasient) ,the creep strain rate decreases to a certain value(minimum creep rate). The second stage(secondary/steady/stationary creep) is characterized by a nearly constant creep rate(minimum creep rate). In the third stage(tertiary creep), the creep strain rates increases rapidly and leads to rupture. The first stage is usually reversible with time after unloading, while the second/third ones are not. Since the primary creep occurs in a short duration and the tertiary one leads quickly to rupture, the secondary creep is under most serious consideration in many design in many engineering applications.
 
 Stress relaxation is the phenomenon that the stress decreases when the strain is held constant in time. During the test the load is continuously decreased in such a way that the initial strain remains constant.
 
 \subsection{Creep rate law of material}
+\label{sec:Creep}
 The starting point is the assumption that the creep rate may be described as a product of two separate functions of stress, temperature and time
 \[
 \epsilon^{cr}=f_\sigma (\sigma) f_T(T) f_t(t)
@@ -305,6 +419,7 @@ $\sum_j a_j t^{m_j}$ & Graham and Walles
 
 For simplicity, we are going to only use the Norton-Bailey law.
 \subsection{Stress relaxation of helical spring}
+\label{sec:Relaxation}
 Due to conservation of the total shear strain, the sum of the creep strain $\epsilon^{cr}$'s rate of change and that of elastic shear strain $\epsilon_{el}$ is zero:
 \[
 \dot{\epsilon}_{cr} + \dot{\epsilon}_{el} = 0
@@ -368,36 +483,16 @@ It can be deduced that the spring length $s$ follows
 s(t) = s(0) + \left( {(d_i+d_o)P_z^0\over \pi}{4+3n\over n+1} \right)^{n+1} {\pi (d_i+d_o)^2 N_a c\over 8kd_w^{4+3n}} t^k
 \]
 where $s(0)$ is the initial spring length. The less the difference of the spring length $s(t)-s(0)$, the better the spring quality is.
+ 
+ \cite{Ch2000} \cite{Relaxation1} \cite{Relaxation2} \cite{Relaxation3} \cite{Creep} 
+\subsection{Analysis of stress relaxation and creep models}
+\label{sec:stressanalysis}
 
-Give enough details so that readers can duplicate your experiments.
-
-\begin{itemize}
-\item Describe the precise purpose of the experiments, and what they 
-are supposed to show.
-
-\item Describe and justify your test data, and any assumptions you made to 
-simplify the problem.
-
-\item Describe the software you used, and the 
-parameter values you selected.
-
-\item 
-For every figure, describe the meaning and units of the coordinate axes, 
-and what is being plotted.
-
-\item Describe the conclusions you can draw from your experiments
-\end{itemize}
-
-\section{Summary and Future Work}
-The ability to interchange constraints and objective functions with any number of design variables allows the user the utmost flexibility. With the addition of feasibility and sensitivity analysis it is possible for any configuration of objective function, constraints, and design variables to be analyzed for refinement. The quantification of stress relaxation and creep allow the user a chance to incorporate these properties into any configuration, especially those that have never been tested. 
-
-Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be ported in. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
-
-Future work is bountiful for this approach. More analysis of the stress relaxation and creep could result in better performance. An in depth analysis of different models of stress relaxation and their performance in our model would be beneficial. 
 
 
 
 \vfill\pagebreak
+
 
 	
 	\bibliographystyle{ieetr}
