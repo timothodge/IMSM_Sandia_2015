@@ -1,4 +1,4 @@
-\documentclass[notes=hide]{beamer}
+\documentclass[notes=hide,handout]{beamer}
 \usetheme{Warsaw}
 %\setbeamercolor{structure}{fg=cyan!90!black}
 \usecolortheme{spruce}
@@ -96,50 +96,42 @@
 %\PreviewEnvironment{tikzpicture}
 \newlength{\imagewidth}
 \newlength{\imagescale}
+
+\usenavigationsymbolstemplate{}
 %----------------------------------------------------------------
 
-
-\title{Given a Helical Compression Spring in a Spring-Mass Damper System: \\ What are Optimal Springs?}
-%\subtitle{\small(Using local optimization methods to locate and find singularities.)}
-\author[J. Krueger, A. Bentley, J Jiang, S. Nnannapaneni, T. Qiu,\\T. Hodges] {J. Krueger, A. Bentley, J Jiang, S. Nnannapaneni, T. Qiu,\\T. Hodges}
-
-
-\institute[]{\normalsize Samsi IMSM Workshop} 
-
-
-\date{July 23, 2015}
-
-
+\title[Optimal Helical Compression Springs]{Given a Helical Compression Spring in a Spring-Mass Damper System: What are Optimal Springs?}
+\author[Sandia National Laboratories Group]{A. Bentley, T. Hodges, J. Jiang, J. Krueger, S. Nnannapaneni, T. Qiu}
+\institute[]{2015 Industrial Math/Stat Modeling Workshop for Graduate Students} 
+\date{July 22, 2015}
 
 \begin{document}
 
-\frame{\titlepage}
-
+\frame{
+\titlepage
+}
 
 \frame{
 \frametitle{Problem}
-
-What is an algorithm that optimizes springs with interchangeable constraints and objectives? 
-
-\pause
- 
-Can you quantify and incorporate spring force relaxation?
-
-
+\begin{itemize}[<+->]
+\item What is an algorithm that optimizes springs with interchangeable constraints and objectives? 
+\item Can you quantify and incorporate spring force relaxation?
+\end{itemize}
 }
 
 \section{Introduction}
 
-
 \frame{
-
+\frametitle{}
+\begin{center}
+\LARGE Thank you.\\
+\bigskip
+\LARGE Questions?
+\end{center}
 }
-
 
 \frame{
 \frametitle{References}
-  
-
 %\cite{}
 %\cite{OEIS}}\end{TINY}
 %\nocite{Eisenbud}
@@ -153,23 +145,10 @@ Can you quantify and incorporate spring force relaxation?
 %\nocite{Intervals}
 %\nocite{Floating}
 %\nocite{Bates}
-\nocite{MATLAB:2014a}
-\bibliographystyle{amsalpha}
-\bibliography{MyBib}
+%\nocite{MATLAB:2014a}
+%\bibliographystyle{amsalpha}
+%\bibliography{MyBib}
 }
-
-\frame{
-\frametitle{}
-\begin{center}
-\LARGE Thank you.\\
-
-
-\bigskip
-\Large Questions?
-\end{center}
-}
-	 
-
 
 \end{document}
 

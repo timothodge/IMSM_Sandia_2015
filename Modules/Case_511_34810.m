@@ -2,13 +2,13 @@ clear all
 close all
 
 %{
-    Objectives: stress_relaxation
+    Objectives: spring_rate, stress_relaxation
     
-    Constraints: max_outer_diam, max_closed_diametral_expansion, min_coil_binding_gap
+    Constraints: max_outer_diam, max_closed_diametral_expansion, min_coil_binding_gap, max_shear_stress
 
-    Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
+    State Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
 
-    Status: xMin = 0.05 0.0001 20.000, fMin = -0.8551, Works!
+    Status: xMin=0.04 0.001 17.0, fMin=0.2297. Works!
 
 %}
 %% initialization
@@ -24,9 +24,10 @@ PredefinedConstraints;
 % change the string's attribute below
 %% *** TO DO -- Add all spring attributes ****
 
+S.maximum_ultimate_torsional_stress = .7e9;
 S.minimum_coil_binding_gap = .5e-3;
+S.minimum_stress_relaxation = 0;
 
-S.Norton_Bailey_c = 3.5E-13;
 % S.shear_modulus = 77e9;
 % S.youngs_modulus = 193;
 % S.poisson_ratio = 0.3;
@@ -41,18 +42,20 @@ S.Norton_Bailey_c = 3.5E-13;
 
 % using the constraint names given in PredefinedConstraints to specify 
 % the objective function parts
-objFcnParts = {stress_relaxation};
+objFcnParts = {spring_rate, stress_relaxation};
 % objective function weights (don't forget to normalize weights)
-w = -1;
+kMax = 20;
+sMax = 1;
+w = [0.5/kMax; -0.5/sMax];
 
 %% define stateVariables
 stateVar = {'inner_diameter', 'wire_diameter', 'total_number_of_coils'};
 % state variable bounds
-lB = [10e-3, 1e-4, 3];
-uB = [50e-3, 5e-3, 20];
+lB = [20e-3, 1e-3, 9];
+uB = [40e-3, 5e-3, 17];
 
 % set constraints using names given in PredefinedConstraints
-consPart = {max_outer_diam, max_closed_diametral_expansion, min_coil_binding_gap};
+consPart = {max_outer_diam, max_closed_diametral_expansion, min_coil_binding_gap, max_shear_stress};
 
 fprintf('done.\n');
 
@@ -65,19 +68,19 @@ OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S,bounds);
 Problem = OP.setDirect();
 isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
-% if (isProblemFeasible == 0)
-%     fprintf('no such region found.\n');
-% else
-%     fprintf('there is such a region.\n');
-% end
-% 
-% plottingStateVars = {'inner_diameter','wire_diameter','total_number_of_coils'};
-% OP.constraints.plotConstraints(S,plottingStateVars, ...
-%                                 [[20e-3,40e-3],[1e-3,5e-3],[9,17]])
+if (isProblemFeasible == 0)
+    fprintf('no such region found.\n');
+else
+    fprintf('there is such a region.\n');
+end
+
+plottingStateVars = {'inner_diameter','wire_diameter','total_number_of_coils'};
+OP.constraints.plotConstraints(S,plottingStateVars, ...
+                                [[20e-3,40e-3],[1e-3,5e-3],[9,17]])
 
 % plottingStateVars = {'inner_diameter','wire_diameter'};
 % OP.constraints.plotConstraints(S,plottingStateVars, ...
-%                                 [[20e-3,40e-3],[1e-3,5e-3]])
+%                                 [20e-3,40e-3],[1e-3,5e-3])
 
 %% Direct solver options %%
 opts.ep = 1e-5;

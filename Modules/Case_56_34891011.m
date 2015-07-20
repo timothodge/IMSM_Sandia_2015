@@ -8,7 +8,7 @@ close all
 
     State Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
 
-    Status: Everything works but there is no feasible region. There is probably a problem with the relaxation constraint.
+    Status: xMin=0.0302 0.0010 16.999, fMin =2.0812. Works!
 
 %}
 %% initialization
@@ -68,15 +68,15 @@ OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S,bounds);
 Problem = OP.setDirect();
 isProblemFeasible = OP.isProblemFeasible(bounds,S);
 
-if (isProblemFeasible == 0)
-    fprintf('no such region found.\n');
-else
-    fprintf('there is such a region.\n');
-end
-
-plottingStateVars = {'inner_diameter','wire_diameter','total_number_of_coils'};
-OP.constraints.plotConstraints(S,plottingStateVars, ...
-                                [[20e-3,40e-3],[1e-3,5e-3],[9,17]])
+% if (isProblemFeasible == 0)
+%     fprintf('no such region found.\n');
+% else
+%     fprintf('there is such a region.\n');
+% end
+% 
+% plottingStateVars = {'inner_diameter','wire_diameter','total_number_of_coils'};
+% OP.constraints.plotConstraints(S,plottingStateVars, ...
+%                                 [[20e-3,40e-3],[1e-3,5e-3],[9,17]])
 
 % plottingStateVars = {'inner_diameter','wire_diameter'};
 % OP.constraints.plotConstraints(S,plottingStateVars, ...
@@ -100,9 +100,9 @@ fprintf('... done.\n');
 
 %% *** This line runs the General_SA algorithm for optimization problem
 
-fprintf('Performing sensitivity analysis ... ');
-
-nsamples = 1000;
-[SA_Indices] = General_SA(bounds,OP.objective,OP.constraints,S,nsamples);
-
-fprintf('done.\n');
+% fprintf('Performing sensitivity analysis ... ');
+% 
+% nsamples = 1000;
+% [SA_Indices] = General_SA(bounds,OP.objective,OP.constraints,S,nsamples);
+% 
+% fprintf('done.\n');

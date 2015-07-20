@@ -39,10 +39,15 @@ eq_preload_force.expression = @(Spring) (Spring.length_at_no_compression - Sprin
 eq_preload_force.direction = 3;
 preload_force.dependicies = {'length_at_no_compression','length_at_open_position','shear_modulus','total_number_of_coils','wire_diameter','inner_diameter','force_at_open_position'};
 
+max_preload_force = Constraint;
+max_preload_force.expression = @(Spring) (Spring.length_at_no_compression - Spring.length_at_open_position)*Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/((Spring.inner_diameter+Spring.wire_diameter)^3) - Spring.force_at_open_position;
+max_preload_force.direction = 1;
+preload_force.dependicies = {'length_at_no_compression','length_at_open_position','shear_modulus','total_number_of_coils','wire_diameter','inner_diameter','force_at_open_position'};
+
 min_coil_binding_gap = Constraint;
 min_coil_binding_gap.expression = @(Spring) (Spring.total_number_of_coils*Spring.wire_diameter - Spring.length_at_hard_stop_position)/(Spring.total_number_of_coils-1) + Spring.minimum_coil_binding_gap;
 min_coil_binding_gap.direction = 2;
-min_coil_binding_gap.dependicies = {'length_at_hard_stop_position','solid_height','total_number_of_coils','coil_binding_gap_min'};
+min_coil_binding_gap.dependicies = {'length_at_hard_stop_position','wire_diameter','total_number_of_coils','minimum_coil_binding'};
 
 max_buckling_slenderness = Constraint;
 max_buckling_slenderness.expression = @(Spring) Spring.length_at_no_compression/(Spring.inner_diameter+Spring.wire_diameter) - pi*sqrt(2*(2*Spring.poisson_ratio+1)/(Spring.poisson_ratio+2));
@@ -57,7 +62,7 @@ max_shear_stress.dependicies = {'ultimate_torsional_stress','shear_modulus','len
 max_shear_stress.name = 'maxShearStress';
 
 min_stress_relaxation = Constraint;
-min_stress_relaxation.expression = @(Spring) -Stress_Relaxation(Spring)+minimum_stress_relaxation;
+min_stress_relaxation.expression = @(Spring) -Stress_Relaxation(Spring)+Spring.minimum_stress_relaxation;
 min_stress_relaxation.direction = 1;
 min_stress_relaxation.dependicies= {'Norton_Bailey_n','Norton_Bailey_c','Norton_Bailey_k','wire_diameter','inner_diameter','deflection','total_number_of_coils','shear_modulus_stress_relaxation', 'time_stress_relaxation', 'minimum_stress_relaxation'};
 
