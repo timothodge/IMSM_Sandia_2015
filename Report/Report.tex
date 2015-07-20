@@ -117,7 +117,7 @@ Helical springs are the typical spring that comes to most peoples mind, for illu
 		 
 		 \end{figure}
 
-The above spring has many design parameters. These range from physical parameters such as wire diameter, to purely empirical attributes. The empirical attributes have to be assumed in a range of values. If they are not extreme values will exhibit behavior we do not wish to consider. Below is a list of a spring's key design parameters and empirical attributes. We have added a few illustrations to illustrate some of the parameters. \cite{Massad2015}		 
+The above spring has many design parameters. These range from physical parameters such as wire diameter, to purely empirical attributes. The empirical attributes have to be assumed in a range of values. If they are not extreme values will exhibit behavior we do not wish to consider. Below is a list of a spring's key design parameters and empirical attributes. We have added a few figures to illustrate some of the parameters. \cite{Massad2015}		 
 		\begin{figure}[h]
 			\centering
 			\begin{subfigure}{.5\textwidth}
@@ -133,7 +133,7 @@ The above spring has many design parameters. These range from physical parameter
 		  		
 			\end{subfigure}
 			 \label{Descriptions}
-		  \caption{A few illustrations of parameters for a helical compression spring.}
+		  \caption{A few figures that show some parameters for a helical compression spring.}
 		\end{figure}
 		
 		\begin{enumerate}
@@ -147,16 +147,16 @@ The above spring has many design parameters. These range from physical parameter
 			
 			\item Active number of spring coils $N_{a}$, active coils are not touching any other coils, and is subject to the spring being closed or open. Closed means that the end coils are welded, where as open means they are not. For this reason a spring must have at least 2 coils.
 
-			\item Spring's free length $L_{free}$, the spring's length without any force applied, this is the spring length before being installed in the acceleration switch.
+			\item Spring's free length $L_{free}$, the spring's length without any force applied. i.e., this is the spring length before being installed in the acceleration switch.
 			
 			\item Spring's solid length $L_{solid}$, the spring's length when all coils are compressed together.
-			\item Spring's open length $L_{open}$, the spring's length at open position, for the acceleration switch this would be before the rocket sled test is initiated. 
+			\item Spring's open length $L_{open}$, the spring's length at open position. i.e., for the acceleration switch this would be before the rocket sled test is started. 
 			
-			\item Spring's open length $L_{close}$, spring length at close position, this would be when enough force is applied for the acceleration switch to close and start collecting data.
+			\item Spring's open length $L_{close}$, spring length at close position. i.e., this would be when enough force is applied for the acceleration switch to close and start collecting data.
 			
-			\item Spring's open length $L_{hard}$, the maximum a spring can compress for the application, for the acceleration switch this is the most compressed the acceleration switch should be. 
+			\item Spring's open length $L_{hard}$, the maximum a spring can compress for the application. i.e., for the acceleration switch this is the maximum compression the acceleration switch's spring should be allowed. 
 			
-			\item Spring's open force $F_{open}$, this is the force on the spring in open position, the resting force for the acceleration switch.			
+			\item Spring's open force $F_{open}$, this is the force on the spring in open position, i.e., the resting force for the acceleration switch.			
 			
 			\item Pitch $p$ illustrated in figure \ref{Description1}, depends on the wire diameter, the free length and the number of active coils.
 			
@@ -196,7 +196,9 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right]< UTS\end{equation}
 			
 			This is the expansion of the diameter as compression of the spring is happening. One may notice that \begin{equation}p^{2} \ge d_{w} - \pi^{2} (d_{i} + d_{w})^{2},\end{equation} this is putting an implicit constraint on how much the spring can be extended/compressed.
 			
-			\textbf{Math Model?}
+
+
+
 			
 			
 \section{The Problem} 
@@ -242,11 +244,27 @@ For this reason we also will consider all springs to be have a closed end condit
 These assumptions have reduced the set of design parameters and have allowed us to simplify the problem. Without these assumptions we would need to deduce at run time what formulas we can use and this is a challenging problem from an implementation stand point. Also, we have a very complicated formula for diametral expansion if the end conditions are not closed. This presents issues of solving a cubic without the ability of discerning if the roots will be physically meaningful. 
 
 
-\textbf{Describe data, how collected, their properties (removed noise, filled in missing data, 
-applied normalizations).}
+\subsection{Mathematical Model}
+			
+			The mathematical model is as follows: 
+				\begin{equation*}
+ 					\begin{aligned}
+ 						& \underset{\textbf{x}}{\text{minimize/maximize}}
+ 						& & O(\textbf{x}) \\
+ 						& \text{subject to}
+ 						& & C(\textbf{x}) \le \textbf{y}
+ 					\end{aligned}
+				\end{equation*}
 
-\textbf{Ipsen: Where is the mathematical model?}
-
+\begin{itemize}
+	\item \textbf{x} is a set of variables for optimization, they are user specified.
+	
+	\item \textbf{y} is a set of bounds on the constraints, they are user specified.
+	
+	\item O(\textbf{x}) is the objective function. It is comprised of any parameters or attributes described above. It can also include other user defined attributes and parameters not considered in this paper. The user specifies the objective function.  
+	
+	\item C(\textbf{x}) is the list of constraints. It is comprised of any parameters or attributes described above. It can also include other user defined attributes and parameters not considered in this paper. The user specifies the constraints to use.
+\end{itemize}
 
 
 \section{The Approach}
