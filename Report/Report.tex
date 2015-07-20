@@ -54,7 +54,7 @@ Sean Webb \footnote{Sandia National Laboratory},
 %It should be written as much as possible in non-technical terms, so that a
 %lay reader can understand the context and the contribution of the paper.
 
-The use of mechanical switches in industry is a cornerstone of the modern world. Many mechanical switches are designed to use a spring \cite{SpringDevice}. Depending on the use of the switch, the spring can be optimized.
+The use of mechanical switches in industry is a cornerstone of the modern world. Many mechanical switches are designed to use a spring \cite{SpringDevice}. 
 
 \subsection{Example}
 \label{sec:example}
@@ -62,30 +62,31 @@ Consider an acceleration switch in figure \ref{Acceleration Switch} .
 
 		\begin{figure}[h]
 		 \begin{center}\includegraphics[scale=.2]{Acceleration_Switch.png}\end{center}
-		 \caption{An example of an acceleration switch, see \cite{Massad2015}.}
+		 \caption{An example of an acceleration switch, see reference \cite{Massad2015}.}
 		 \label{Acceleration Switch}
 		 
 		 \end{figure}
 		 
 		
-This switch is used in high acceleration testing of a rocket sled. These tests include very high velocities and accelerations, and end in a destructive impact. Since the test is not easily replicated we must collect data correctly the first time. Mechanically, when a certain velocity is met data collection should start. In other words, when a certain force is exerted on the switch the pins at both ends will connect and allow data collection. For a more in depth look at this example look at \cite{IMSM2010}
+This switch is used in high acceleration testing of a rocket sled. These tests include very high velocities and accelerations, and end in a destructive impact. Since the test is not easily replicated we must collect data correctly the first time. Mechanically, when a certain velocity is met data collection should start. In other words, when a certain force is exerted on the switch this will cause the pins at both ends to connect and allow data collection. For a more in depth look at this example look at \cite{IMSM2010}
 
-For this example we must optimize the spring to give the best chances of success. Velocities of a rocket sled may vary depending on application, so we should be able to optimize the spring for the application. This leads to an optimization problem. The problem is well defined once the constraints are understood and the objective function that must be maximized or minimized. 
+For this example we must optimize the spring to give the best chances of success. Velocities of a rocket sled may vary depending on application, so we should be able to optimize the spring for the application. This leads to an optimization problem. The problem is well defined once the constraints are understood and the objective function that must be maximized or minimized is defined. 
 
 \subsection{Generalizing The Example}
 Expanding on the scope of this problem, a switch may be used in a myriad of ways \cite{SpringDevice}. Depending on the application it is important that one can find an optimal spring. The optimization problem must now require flexibility to allow how a spring is determined to be optimal. In other words, there can be a variety of objective functions and a variety of constraints that are possible.   
 
-For any set of constraints and objective function the optimization problem will depend on a set of variables. In optimization we only wish to concern ourselves with the variables for optimization. One can implement structures to hold all data for a spring, and access required information when needed. 
+For any set of constraints and objective function the optimization problem will depend on a set of variables. In optimization we only wish to concern ourselves with the variables for optimization. One can implement structures to hold all data for a spring, and access the relevant  variables for optimization when needed. 
 
 In addition, with the expansion of the problem comes the growth of uncertainty in the problem. One can quantify the uncertainty of the problem by conducting a sensitivity analysis of the objective function subject to the constraints and variables given. 
+\newline
 
 The problems that will be discussed in this paper are as follows: 
 \begin{itemize}
-	\item Developing a flexible framework for designing an optimal spring.
+	\item Can we develop a flexible framework for designing an optimal spring?
 
-	\item Incorporating feasibility. 
+	\item Is one able to incorporate feasibility?
 	
-	\item Incorporating the concept of stress relaxation. 
+	\item What about the concept of stress relaxation?
 	
 	\item What about uncertainty in design optimization? 
 	
@@ -97,8 +98,8 @@ Designing an optimal spring is not a new problem. In 2010 at the SAMSI IMSM work
 
 
 
-\textbf{outline}
-In this paper we will give a description of the springs of interest, helical compression springs\ref{sec:Springs}. Next, the formulation of the problem\ref{sec:Problem}, and the approach taken to the problem\ref{sec:Approach}. Following will be a section on workflow with descriptions of each step in the workflow. Lastly, we will discuss a few case studies given the framework constructed and a summary with future work that can be worked on.
+
+In this paper we will give a description of the springs of interest, helical compression springs, see section \ref{sec:Springs}. Next, the formulation of the problem, see section \ref{sec:Problem}, and the approach taken to the problem see section \ref{sec:Approach}. Following will be a section on workflow with descriptions of each step in the workflow see \ref{sec:workflow}. We will discuss a few case studies given the framework constructed, see \ref{sec:Experiments}. Lastly, a summary with future work that can be worked on, see \ref{sec:summary}.
 
 
 
