@@ -35,9 +35,9 @@ spring_rate.direction = 2;
 spring_rate.dependicies = {'shear_modulus','total_number_of_coils','wire_diameter','inner_diameter'};
 
 coil_binding_gap = Constraint;
-coil_binding_gap.expression = @(Spring) -(Spring.length_at_hard_stop_position - Spring.total_number_of_coils*Spring.wire_diameter)/(Spring.total_number_of_coils-1);
+coil_binding_gap.expression = @(Spring) (Spring.length_at_hard_stop_position - Spring.total_number_of_coils*Spring.wire_diameter)/(Spring.total_number_of_coils-1);
 coil_binding_gap.direction = 2;
-coil_binding_gap.dependicies = {'length_at_hard_stop_position','solid_height','total_number_of_coils'};
+coil_binding_gap.dependicies = {'length_at_hard_stop_position','wire_diameter','total_number_of_coils'};
 
 shear_stress = Constraint;
 shear_stress.expression = @(Spring)   Spring.shear_modulus*(Spring.length_at_no_compression-Spring.length_at_hard_stop_position)/4/pi/(Spring.total_number_of_coils-2)*Spring.wire_diameter*(4*Spring.inner_diameter^2+9.46*Spring.inner_diameter*Spring.wire_diameter+3*Spring.wire_diameter^2)/Spring.inner_diameter/((Spring.inner_diameter+Spring.wire_diameter)^3);
