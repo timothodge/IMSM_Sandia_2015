@@ -54,6 +54,6 @@ creep.expression = @(Spring) (2*(Spring.inner_diameter+Spring.wire_diameter)*Spr
     *Spring.Norton_Bailey_c*Spring.time_creep^Spring.Norton_Bailey_k/8/Spring.Norton_Bailey_k...
     /Spring.wire_diameter^(4+3*Spring.Norton_Bailey_n);
 creep.direction = 1;
-creep.dependicies= {'inner_diameter','wire_diameter','total_number_of_coils','creep_force','Norton_Bailey_n','Norton_Bailey_k','Norton_Bailey_c'};
+creep.dependicies= {'inner_diameter','wire_diameter','total_number_of_coils','time_creep','creep_force','Norton_Bailey_n','Norton_Bailey_k','Norton_Bailey_c'};
 
 

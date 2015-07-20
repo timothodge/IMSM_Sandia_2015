@@ -6,7 +6,7 @@ close all
     
     Constraints: max_outer_diam, max_shear_stress, max_buckling_slenderness, min_coil_binding_gap, min_stress_relaxation
 
-    State Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
+    Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
 
     Status: Everything works but there is no feasible region. There is probably a problem with the relaxation constraint.
 
@@ -74,9 +74,13 @@ else
     fprintf('there is such a region.\n');
 end
 
-plottingStateVars = {'inner_diameter','wire_diameter'};
+plottingStateVars = {'inner_diameter','wire_diameter','total_number_of_coils'};
 OP.constraints.plotConstraints(S,plottingStateVars, ...
-                                [20e-3,40e-3],[1e-3,5e-3])
+                                [[20e-3,40e-3],[1e-3,5e-3],[9,17]])
+
+%plottingStateVars = {'inner_diameter','wire_diameter'};
+%OP.constraints.plotConstraints(S,plottingStateVars, ...
+%                                [[20e-3,40e-3],[1e-3,5e-3]])
 
 %% Direct solver options %%
 opts.ep = 1e-5;
