@@ -2,14 +2,13 @@ clear all
 close all
 
 %{
-    Objectives: Max spring index and Max spring rate
+    Objectives: spring_rate, spring_index
     
-    Constraints: outer_diam_max, max_shear_stress, buckling_slenderness, coil_binding_gap
+    Constraints: max_outer_diam, max_shear_stress, max_buckling_slenderness, min_coil_binding_gap
 
-    State Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
+    Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
 
-    Status: Works!
-
+    Status: Everything works but max fcn evals is reached in the optimization.
 
 %}
 %% initialization
@@ -42,7 +41,7 @@ S.minimum_coil_binding_gap = .5e-3;
 
 % using the constraint names given in PredefinedConstraints to specify 
 % the objective function parts
-objFcnParts = {spring_rate,spring_index};
+objFcnParts = {spring_rate, spring_index};
 % objective function weights (don't forget to normalize weights)
 kMax = 20;
 cMax = 10;
@@ -57,10 +56,7 @@ uB = [40e-3, 5e-3, 17];
 % set constraints using names given in PredefinedConstraints
 consPart = {max_outer_diam, max_shear_stress, max_buckling_slenderness, min_coil_binding_gap};
 
-%% Direct
 fprintf('done.\n');
-
-keyboard
 
 %% Check feasibility and setup Direct
 
@@ -77,9 +73,13 @@ else
     fprintf('there is such a region.\n');
 end
 
-plottingStateVars = {'inner_diameter','wire_diameter'};
+plottingStateVars = {'inner_diameter','wire_diameter','total_number_of_coils'};
 OP.constraints.plotConstraints(S,plottingStateVars, ...
-                                [20e-3,40e-3],[1e-3,5e-3])
+                                [[20e-3,40e-3],[1e-3,5e-3],[9,17]])
+
+%plottingStateVars = {'inner_diameter','wire_diameter'};
+%OP.constraints.plotConstraints(S,plottingStateVars, ...
+%                                [[20e-3,40e-3],[1e-3,5e-3]])
 
 %% Direct solver options %%
 opts.ep = 1e-5;
