@@ -61,7 +61,6 @@ fprintf('done.\n');
 %% Check feasibility and setup Direct
 
 fprintf('Checking if a feasible solution exists ... ');
-
 bounds = [lB', uB'];
 OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S,bounds);
 Problem = OP.setDirect();

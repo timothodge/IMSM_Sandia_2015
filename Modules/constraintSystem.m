@@ -19,8 +19,6 @@ classdef constraintSystem
             % determine the number of constraints
             num_constraints = size(obj.constraintList, 2);
             % run predefinedConstraints to initialize
-            PredefinedConstraints
-
             for i = 1:num_constraints
                 satisfied = obj.constraintList{i}.constraintSatisfied(inputSpring);
                 if(satisfied == 0)
@@ -33,7 +31,6 @@ classdef constraintSystem
             %% Returns an array of variable length with function handles
             %% for all input constraints
             num_constraints = size(obj.constraintList,2); 
-            PredefinedConstraints
             constraintSystem = cell(num_constraints,1);
             
             for i = 1:num_constraints
@@ -58,7 +55,6 @@ classdef constraintSystem
                 fprintf('method only implemented for 2 or 3 state vars.\n');
             end
             
-            PredefinedConstraints
             numConstraints = obj.numConstraints;
             figure
             %% TO DO -- need to determine dimensions for optimal subplot graph
