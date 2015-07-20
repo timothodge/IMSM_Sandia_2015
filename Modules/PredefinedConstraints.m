@@ -57,7 +57,7 @@ max_shear_stress.dependicies = {'ultimate_torsional_stress','shear_modulus','len
 max_shear_stress.name = 'maxShearStress';
 
 min_stress_relaxation = Constraint;
-min_stress_relaxation.expression = @(Spring) -Stress_Relaxation(Spring)+minimum_stress_relaxation;
+min_stress_relaxation.expression = @(Spring) -Stress_Relaxation(Spring)+Spring.minimum_stress_relaxation;
 min_stress_relaxation.direction = 1;
 min_stress_relaxation.dependicies= {'Norton_Bailey_n','Norton_Bailey_c','Norton_Bailey_k','wire_diameter','inner_diameter','deflection','total_number_of_coils','shear_modulus_stress_relaxation', 'time_stress_relaxation', 'minimum_stress_relaxation'};
 
