@@ -1,3 +1,11 @@
+%%Predefined Constraints
+% This is a list of constraints that can be used.
+%
+%Each constraint has the following: a name, expression, direction, list of dependicies.
+%
+%The direction is defining the inequality for the constraint. 
+
+
 max_outer_diam = Constraint;
 max_outer_diam.expression = @(Spring) Spring.inner_diameter+2*Spring.wire_diameter - Spring.maximum_outer_diameter;
 max_outer_diam.direction = 1;

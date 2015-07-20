@@ -1,3 +1,9 @@
+%%Predefined Objectives
+% This is a list of objectives that can be used.
+%
+%Each constraint has the following: a name, expression, and list of dependicies.
+%
+
 outer_diam = Constraint;
 outer_diam.expression = @(Spring) Spring.inner_diameter+2*Spring.wire_diameter;
 outer_diam.direction = 1;
