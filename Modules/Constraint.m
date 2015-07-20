@@ -42,8 +42,7 @@ classdef Constraint < Objective % Constraint inherits from Objective
         
         function ret = plotConstraint(obj,Spring,plottingStateVars,...
                 stateVarBnds)
-        numPlottingStateVars = length(plottingStateVars);
-        PredefinedConstraints  
+        numPlottingStateVars = length(plottingStateVars); 
         %% number of mesh points
         mesh_size = 10;   
         
