@@ -214,9 +214,8 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}] < UTS
 	\end{enumerate}
 
 \subsection{Sensitivity Analysis}
-\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches, in the literature have been divided into two categories - (1)filter approach, and (2)wrapper approach. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. An optimization technique is used to obtain the best subset of input variables. In this work, the variance-based Global Sensitivity Analysis (GSA), a filter approach, is used for dimension reduction. Note that the input variables represent the design variables for the objective function.
-
-\hspace{5 mm} Consider a objective function, $G$, with $n$ design variables given by $x_{1}$, $x_{2}$, ...  $x_{n}$, given by
+\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches have been divided into two categories - (1)filter approach, and (2)wrapper approach. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. Two types of sensitivity analysis have been developed in the literature - local sensitivity analysis and global sensitivity analysis. The local sensitivity index of a variable measures the sensitivity of the model output when the variable is fixed at a single value whereas the global sensitivity (GSA) index measures the variation of model output when the variable is varied over its range. Therefore, GSA is used as it considers the entire range of a variable in computing the sensitivity to the output. Note that the input variables represent the design variables and model represents the objective function.
+Consider a objective function, $G$, with $n$ design variables given by $x_{1}$, $x_{2}$, ...  $x_{n}$, given by
 
 \centerline{$Y = G(x_{1}, x_{2}, ... x_{n})$}
 
@@ -225,13 +224,34 @@ In GSA, two types of indices can be calculated for each variable - first order i
 \centerline{$S_{i}^{I} = \dfrac{V_{X_i}(E_{X_{-i}}(Y|X_{i}))}{V(Y)}$}
 \centerline{$S_{i}^{T} = \dfrac{E_{X_{-i}}(V_{X_{i}}(Y|X_{-i}))}{V(Y)}$}
 
-Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the total-effects index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization. \cite{Wahl} \cite{Paredes}\cite{Reliability} \cite{Robust} \cite{Relaxation1} \cite{Relaxation2} \cite{Relaxation3}
+Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the first-order index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization. \cite{Wahl} \cite{Paredes}\cite{Reliability} \cite{Robust} \cite{Relaxation1} \cite{Relaxation2} \cite{Relaxation3}
 
 
-\subsection{Optimization}
-	\begin{enumerate}
-		\item
-	\end{enumerate}
+\subsection{Design Optimization}
+\hspace{5 mm} A general constrained design optimization problem can be formulated as follows
+
+\centerline{$Min \hspace{2 mm} f(X)$}
+such that
+
+\centerline{$g(X) \leq 0$}
+\centerline{$lb_{X} \leq X \leq ub_{X}$}
+
+\noindent Several optimization algorithms (both local and global) are available to solve the above optimization problem. Two algorithms - BFGS (local) and DIRECT (global) have been tried for design optimization. The key differences between the two algorithms are described below. BFGS algorithm requires the gradient and Hessian of the objective function, and also an initial point for optimization whereas DIRECT does not require the objective function to be differentiable. Since DIRECT is a global algorithm, it does not require an initial point. A drawback of DIRECT algorithm is that it requires more computations compared to BFGS. The 'fmincon' function in MATLAB, which implements the BFGS algorithm, requires the linear and non-linear constraints to be provided separately. Separation of linear and non-linear constraints is hard to implements in an automated software framework because they are problem-dependent whereas DIRECT does not require such segregation between constraints. Therefore, DIRECT global algorithm is used for optimization.
+
+\hspace{5 mm} It is also essential to account for the variability in the manufacturing process(tolerance) in the design of springs. The tolerance for each of the spring parameters is assumed to be equal to 1\% of the value of the variable. Thus, each variable follows a uniform distribution with unknown mean and known variance. The optimization formulation after accounting for tolerances can now be written as 
+
+\centerline{$Min \hspace{2mm} \mu_{f} (X,d)$}
+
+such that
+
+\centerline{$Pr(g_{i}(X,d) \leq 0)\geq p_{t}^{i}$}
+\centerline{$Pr(X \geq lb_{X})\geq p_{lb}$}
+\centerline{$Pr(X \leq ub_{X})\geq p_{ub}$}
+\centerline{$lb_{d} \leq d \leq ub_{d}$}
+
+\noindent where $X,d$ represent the design variables with tolerances and non-design variables with tolerances respectively. The first constraint represents the probabilistic inequality constraint and the other constraints represent the bounds for the design variables. Optimization with tolerance is a nested double loop process where optimization is carried out in the outer loop (using DIRECT)and in each iteration of optimization, reliability analysis is carried out in the inner loop using Monte Carlo sampling to check the probabilistic constraints. After obtaining the optimum values of the means of the design variables, their corresponding probability distributions can be obtained, since it is assumed that the variables follow uniform distributions with known variances. After obtaining the probability distributions, the probability distribution of the objective function can be obtained using uncertainty propagation analysis using Monte Carlo simulations.
+
+
 
 		 
 \section{Computational Experiments}
@@ -248,21 +268,20 @@ Given a design range (lower and upper bounds), a variable can be assumed to be u
 	
 		
 \section{Summary and Future Work}
-	\begin{enumerate}
-	
-		
-		
-		\item Computational Inefficiencies 
-				
-		\item 
-		
-		\item 
-		
-		\item 
-		
-		\item 
-		
-	\end{enumerate}
+\hspace{5 mm} This work developed an intelligent tool  for the design of helical compression springs. The key highlights of this tool are (1) Allows for flexible optimization, which enables design of springs with interchanging objective functions and constraints, (2)Can incorporate stress relaxation in the design process, (3) Provides a feasibility design space given the constraints, (4)Provide the global sensitivity indices of the design variables to the objective function. The sensitivity indices serves two purposes - help the designer understand which variables have the most influence on the objective function and also help in dimension reduction in the design space for a faster optimization.
+
+\vspace{6 mm}
+\hspace{5 mm} Provide some highlights of object-oriented programming for Spring model design
+\vspace{6 mm}
+
+\hspace{5 mm} A couple of sentences of stress relaxation
+
+\vspace{6 mm}
+
+\hspace{5 mm} In this work, the DIRECT algorithm for global optimization is used for the design of springs. Also, computational experiments have been carried to perform design optimization considering tolerances in design variables but not incorporated in the design tool; this is an immediate future work of importance. 
+
+\hspace{5 mm} In this work, the nested double-loop approach is used for global sensitivity analysis. As the dimension of design variables increases, the nested double-loop approach becomes computationally very intensive. Therefore, more faster single-loop techniques should be considered. Also, reliability analysis within the optimization procedure is carried out using Monte Carlo sampling. As the complexity of the problem increases, in terms of the number of design variables and the number of constraints, Monte Carlo sampling becomes very intensive. Therefore, faster analytical and sampling techniques such as First Order Reliability Methods (FORM), Importance sampling need to be considered.
+
 	
 
 \vfill\pagebreak
