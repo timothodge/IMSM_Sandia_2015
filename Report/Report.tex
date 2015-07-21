@@ -202,7 +202,10 @@ A list of possible constraints/objectives given in minimization form is below, p
 %
 %\end{enumerate}	
 
-% remove the extra specifics
+This set of attributes and parameters define a spring's design and can all play a role in designing an optimal spring for a particular situation. The length of this list is what makes constructing a tool to handle a variety of 
+
+
+
 This list is not exhaustive as we want a user to be able to define new constraints and objectives. The incorporation of stress relaxation and creep are two examples of this. If the reader wishes to read about these in detail please check out section \ref{sec:stress}. 
 
 In addition to these we should be able to minimize any parameter of the spring. It may be possible they wish to minimize the wire diameter, or the length of the spring at a certain state.  
@@ -217,14 +220,14 @@ These assumptions have reduced the set of design parameters and have allowed us 
 
 \subsection{Constrained Optimization}
 \label{sec:Constrained_Optimization}
-			
-			The mathematical model is as follows: 
+
+Given an input of objectives and constraints on those objectives which are both defined by a set of design variables, we can formulate the challenge of designing an optimal spring as a constrained optimization problem. The general formulation of such a problem is 
 				\begin{equation*}
  					\begin{aligned}
  						& \underset{\textbf{x}}{\text{min}}
- 						& & F(\textbf{x}) \\
+ 						& & F(\textbf{x}), \\
  						& \text{subject to}
- 						& & G(\textbf{x}) \le 0
+ 						& & G(\textbf{x}) \le 0.
  					\end{aligned}
 				\end{equation*}
 
