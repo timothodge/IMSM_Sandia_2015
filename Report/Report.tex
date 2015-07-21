@@ -308,8 +308,27 @@ Above is an illustration of the workflow that is our approach. This section will
 
 \textbf{Should we add a workflow of feasibility, sensitivity, and optimization?}
 
+\subsection{User Input}
+\section{User Input}
+
+The first step in our work flow is receiving an arbitrary optimization problem from the user.  In general, this includes an optimization function, a list of free variables and a set of constraints.  From a practical standpoint, it is not feasible to build an algorithm that handles such a large set of problems.  Thus, the first task in our work flow is to maximize the user's ability to specify a problem while still being able to generate a meaningful solution.  As a solution, we place some limits the user's input and designed a program capable of solving this restricted class of problems.
+
+To reduce the size of the permissible problem space, two restrictions are put on the user's input problem.  First, the user must specify the optimization function as a weighted sum of minimums and maximums.  While other methods for multicriteria optimization exist, implementing these into our scheme has been left to future work.  Second, based on discussions with engineers experienced with spring design, we restricted the space of free variables to those that are considered most important.
+
+Next, to allow our program to handle any problem formulated on this reduced problem space, our software uses an object oriented design.  Object-oriented programming is an approach to software design that centers around classes.  Classes are essentially data containers capable of performing a predefined set of tasks.  For example, our program uses a \textbf{constraint} class that includes the constraint's function, and a way to check whether the constraint is violated at a given point.
+
+Using classes allow flexibility because the program's algorithm can be designed to operate on the classes.  For example, the \textbf{OptimizationProblem} class generates the input for the optimizer and sensitivity analysis.  Thus when the user inputs a new problem, the program generates an \textbf{OptimizationProblem} with a specific optimization function and set of constraints.  Thus, the final stage of the user input process is translating the set of optimization parameters into instances of the program's classes.
+
+Additional points to consider...adding new constraint functions and the predefined constraints list.
+
+
 \subsection{Feasibility}
 \label{sec:Feasibility}
+
+Once the user has set a problem, the next step is determining the nature of the feasible region.  To assess feasibility, we use a Latin Hypercube sampling method.  In Latin Hypercube sampling, the samples are designed to cover the entire domain.  This approach is used because the user defined constraints can be of a general nature (for example, linear or non-linear).  If a feasible point cannot be identified, the algorithm will terminate and the user is informed a feasible point cannot be found.  At this point, the user can try a more exhaustive search or reformulate the problem.
+
+Additionally, a graphical tool has been added to help the user analyze the problem's feasible region.  As illustrated in figure-xx, a plot with two or three state variables can be displayed that highlights the problem's overall feasible region and the contributions from each individual constraint.  This will allow the user to see which constraints are most restrictive in the context of their problem.
+
 
 The feasibility of a solution depends on if a solution satisfies all the constraints in the problem, as well as, constraints that are not included. We also need a feasible solution to start the optimization process, otherwise we may never find an solution that is feasible and optimal. Implementing this requirement is simply sampling the available space and checking each sample against all constraints. 
 
