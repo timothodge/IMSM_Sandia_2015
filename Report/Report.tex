@@ -255,10 +255,14 @@ such that
 \centerline{$Pr(\textbf{x} \leq ub_{\textbf{x}})\geq p_{ub}$}
 \centerline{$lb_{d} \leq d \leq ub_{d}$}
 
-\noindent where $\mathbf{x},d$ represent the design variables with tolerances and non-design variables with tolerances respectively. The first constraint represents the probabilistic inequality constraint and the other constraints represent the bounds for the design variables. Optimization with tolerance is a nested double loop process where optimization is carried out in the outer loop (using DIRECT)and in each iteration of optimization, reliability analysis is carried out in the inner loop using Monte Carlo sampling to check the probabilistic constraints. After obtaining the optimum values of the means of the design variables, their corresponding probability distributions can be obtained, since it is assumed that the variables follow uniform distributions with known variances. After obtaining the probability distributions, the probability distribution of the objective function can be obtained using uncertainty propagation analysis using Monte Carlo simulations.
+\noindent where $\mathbf{x},d$ represent the design variables with tolerances and non-design variables with tolerances respectively. The first constraint represents the probabilistic inequality constraint and the other constraints represent the bounds for the design variables. Optimization with tolerance is a nested double loop process where optimization is carried out in the outer loop (using DIRECT)and in each iteration of optimization, reliability analysis is carried out in the inner loop using Monte Carlo sampling to check the probabilistic constraints. After obtaining the optimum values of the means of the design variables, their corresponding probability distributions can be obtained, since it is assumed that the variables follow uniform distributions with variances dependent on the mean values. 
 
-\cite{Derivative} \cite{DirectPaper} \cite{MATLAB:2014a} \cite{DirectUserGuide}
- 
+
+\begin{flushleft}
+\hspace{5 mm} Since the optimum design parameters are stochastic, the optimum value of the objective function, which is a function of the optimum design variables is also stochastic. The probability distribution of the optimum value objective function is obtained from the probability distributions of the design variables through uncertainty propagation analysis using Monte Carlo sampling. One random realization of each of the design parameters when passed through the objective function provides one realization of the optimum value of the objective function. Thus several realizations of design variables are obtained which result in several realizations of the optimum value of the objective function. Using the realizations, the Gaussian kernel density approach is used to construct the probability distribution.
+
+\end{flushleft}
+
 %\subsection{Post Processing}
 %\label{subsec:Post_Processing}
 
@@ -306,6 +310,11 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
     \centerline{$20e-3 \leq d_{i} \leq 30e-3$}
     \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
     \centerline{$9 \leq N_{t} \leq 17$}
+    
+\begin{flushleft}
+In this case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{i}$), wire diameter ($d_{w}$) and total number of coils $N_{t}$ respectively.
+
+\end{flushleft}
     
 \newpage
 	
@@ -401,7 +410,14 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
     \centerline{$9 \leq N_{t} \leq 17$}
     
  \centerline{${4\over G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + {c\over k} G_{sr}nt^k \right)^{-{1\over n}} \,\mathrm{d} r \ge .85$}
-\begin{center} where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$ \end{center}
+%\begin{center} where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$ \end{center}
+\centerline{where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$}
+
+\begin{flushleft}
+Similar to the first case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{i}$), wire diameter ($d_{w}$) and total number of coils $N_{t}$ respectively.
+\end{flushleft}
+
+
 \newpage
 \subsubsection{Feasibility}
 	
@@ -441,7 +457,7 @@ From the sensitivity indices, it can be observed that all the design variables h
 	 \right]
 $	
 \end{center}
-    Therefore, the optimum inner diameter($d_{i}$), optimum wire diameter ($d_{w}$), and optimum number of coils ($N_{t}$) are $30 mm$, $1 mm$ and $17$ respectively. Even though we added stress relaxation as a constraint, it did not influence the optimum solution.
+    Therefore, the optimum inner diameter($d_{i}$), optimum wire diameter ($d_{w}$), and optimum number of coils ($N_{t}$) are $30 mm$, $1 mm$ and $17$ respectively. Even though an additional constraint about stress relaxation is added, the optimum solution remained the same. Therefore, the assumed stress relaxation constraint does not influence the optimum solution.
     
     
 
@@ -504,9 +520,7 @@ $
 
 \section{Summary and Future Work}
 \label{sec:Summary}
-This work developed an intelligent tool for the design of helical compression springs. The key highlights of this tool are: One, it allows for flexible optimization, which enables design of springs with interchanging objective functions and constraints. Two, it can incorporate stress relaxation in the design process, which to our knowledge has never been done. Three, it provides a feasibility design space given the constraints. Four, it can provide the global sensitivity indices of the design variables to the objective function. 
-
-
+We developed an intelligent tool for the design of helical compression springs. The key highlights of this tool are: One, it allows for flexible optimization, which enables design of springs with interchanging objective functions and constraints. Two, it can incorporate stress relaxation in the design process, which to our knowledge has never been done. Three, it provides a feasibility design space given the constraints. Four, it can provide the global sensitivity indices of the design variables to the objective function. 
 
 Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be incorporated. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
 
