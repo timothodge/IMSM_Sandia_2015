@@ -21,13 +21,13 @@ closed_diametral_expansion.dependicies = {'wire_diameter','inner_diameter','leng
 
 open_diametral_expansion = Constraint;
 open_diametral_expansion.expression = @Diametral_Expansion_Open;
-closed_diametral_expansion.direction = 1;
-closed_diametral_expansion.dependicies = {'wire_diameter','inner_diameter','length_at_no_compression','total_number_of_coils','poisson_ratio'};
+open_diametral_expansion.direction = 1;
+open_diametral_expansion.dependicies = {'wire_diameter','inner_diameter','length_at_no_compression','total_number_of_coils','poisson_ratio'};
 
 preload_force = Constraint;
 preload_force.expression = @(Spring) (Spring.length_at_no_compression - Spring.length_at_open_position)*Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/((Spring.inner_diameter+Spring.wire_diameter)^3);
 preload_force.direction = 3;
-preload_force.dependicies = {'length_at_no_compression','length_at_open_position','shear_modulus','total_number_of_coils','wire_diameter','inner_diameter','force_at_open_position'};
+preload_force.dependicies = {'length_at_no_compression','length_at_open_position','shear_modulus','total_number_of_coils','wire_diameter','inner_diameter'};
 
 spring_rate = Constraint;
 spring_rate.expression = @(Spring) Spring.shear_modulus/8/(Spring.total_number_of_coils-2)*Spring.wire_diameter^4/((Spring.inner_diameter+Spring.wire_diameter)^3);
