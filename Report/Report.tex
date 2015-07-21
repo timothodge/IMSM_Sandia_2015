@@ -90,7 +90,7 @@ Helical compression springs, such as the one in Figure~\ref{fig:Spring}, are pos
 		 
 		 \end{figure}
 
-We can uniquely define a helical compression spring by a set of design parameters, which then determine physical attributes of the spring~\cite{Massad2015}. Figure~\ref{fig:Descriptions} provides visual representations for a few of the basic parameters and a complete list of parameters and attributes follows. 		 
+We can uniquely define a helical compression spring by a set of design parameters, which then determine physical attributes of the spring~\cite{Massad2015}. Figures~\ref{fig:Description1}~and~\ref{fig:Description2} provide visual representations for a few of the basic parameters, and a complete list of parameters and attributes follows. 		 
 		\begin{figure}[h]
 			\centering
 			\begin{subfigure}{.5\textwidth}
@@ -109,74 +109,67 @@ We can uniquely define a helical compression spring by a set of design parameter
 		  \caption{A few figures that show some parameters for a helical compression spring.}
 		\end{figure}
 		
-		% Group parameters and change from enumerate
 		\noindent \textbf{Spring Design Parameters:}
-		\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Ultimate torsional stress:}]
-			\item [Inner Diameter] denoted $\mathbf{d_{i}}$, illustrated in figure \ref{Description2}.
+		\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Young's Modulus}]
+			\item [Inner Diameter] Denoted $d_{i}$, this is the diameter of the circle formed by the spring's interior. See Figure~\ref{fig:Description2}.
 			
-			\item [Outer Diameter] denoted $\mathbf{d_{o}}$, illustrated in figure \ref{Description1}.
+			\item [Outer Diameter] Denoted $d_{\text{o}}$, this is the diameter of the circle formed by the spring including the wire. See Figure~\ref{fig:Description1}.
 			
-			\item [Wire Diameter] denoted $\mathbf{d_{w}}$.
+			\item [Wire Diameter] Denoted $d_{\text{w}}$, this is the diameter of the circular wire used to form the spring.
 			
-			\item[Total Coils] denoted $\mathbf{N_{t}}$, this is the number to rotations of wire in the spring, we allow for partial rotations.
+			\item[Total Coils] Denoted $N_{\text{t}}$, this is the total number of 360 degree rotations in the spring. We allow for partial rotations.
 			
-			\item[Active Coils] denoted $\mathbf{N_{a}}$, active coils are not touching any other coils. The number of active coils is subject to the spring being closed or open. Closed means that the end coils are welded, where as open means they are not. For this reason a spring must have at least 2 coils.
+			\item[Active Coils] Denoted $N_{\text{a}}$, this is the number of coils that do not touch any other coils. The number of active coils depends on $N_{t}$ and the spring's end conditions. If the end condition is \textit{closed} the terminal coils of the spring are welded to their adjacent coils and $N_{a} = N_{t}-2$. If the end condition is \textit{open}, the terminal coils of the spring are free and $N_{a} = N_{t}-1$. Note this relationship creates a lower bound on the total number of coils.
 
-			\item[Free Length] denoted $\mathbf{L_{free}}$, the spring's length without any force applied. i.e., this is the spring length before being installed in the acceleration switch.
+			\item[Free Length] Denoted $L_{\text{free}}$, this is the spring's length without any force acting on it, i.e., the spring's natural length.
 			
-			\item[Solid Length] denoted $\mathbf{L_{solid}}$, the spring's length when all coils are compressed together.
-			\item[Open Length] denoted $\mathbf{L_{open}}$, the spring's length at open position. i.e., for the acceleration switch this would be before the rocket sled test is started. 
+			\item[Solid Length] Denoted $L_{\text{solid}}$, this is the spring's length when its coils are completely compressed. The solid length depends on $N_{\text{t}}$ and $d_{\text{w}}$.
 			
-			\item[Close Length] denoted $\mathbf{L_{close}}$, spring length at close position. i.e., this would be when enough force is applied for the acceleration switch to close and start collecting data.
+			\item[Open Length] Denoted $L_{\text{open}}$, this is the spring's resting length in its application. In the acceleration switch, for example, it is the length of the spring in the switch before the switch is used.
 			
-			\item[Hard Length] denoted $\mathbf{L_{hard}}$, the maximum a spring can compress for the application. i.e., for the acceleration switch this is the maximum compression the acceleration switch's spring should be allowed. 
+			\item[Hard Length] Denoted $L_{\text{hard}}$, this is the minimum length a spring can compress to under a specified force. For the acceleration switch example, the spring cannot compression beyond a certain point under the applied forces because additional compression would reopen the circuit. 
 			
-			\item[Open Force] denoted $\mathbf{F_{open}}$, this is the force on the spring in open position, i.e., the resting force for the acceleration switch.
+			\item[Open Force] Denoted $F_{\text{open}}$, this is the force applied to the spring while it is in the open position. For the acceleration switch, this is the applied force on the spring when the switch is not in use.
 					
-			\item[Pitch] denoted $\mathbf{p}$ illustrated in figure \ref{Description1}, depends on the $\mathbf{d_{w}}$,$\mathbf{L_{free}}$, and $\mathbf{N_{a}}$.			
+			\item[Pitch] Denoted $p$, this is the distance between coils. The pitch depends on $d_{\text{w}}$, $L_{\text{free}}$, $N_{\text{a}}$, and the spring's end conditions. See Figure~\ref{fig:Description1}.			
 			
-			\item[Shear Modulus] (or modulus of rigidity), denoted $\mathbf{G}$, is one of several quantities for measuring the stiffness of materials.
+			\item[Young's Modulus] Denoted $E$, this describes the spring's response to uniaxial stress and helps to define the spring's rigidity. Young's modulus is also know as the modulus of elasticity.
 			
-			\item[Young's Modulus] (or elastic modulus), denoted $\mathbf{E}$, is a measurement of force that is needed  to stretch (or compress) a sample of material.
+			\item[Poisson Ratio] Denoted $\nu$, this is a measurement of how much the spring deforms in two dimensions when it is compressed in the third.
 			
-			\item[Poisson Ratio] denoted $\mathbf{\nu}$, is a measurement of the poisson effect of a material. 
-			
-			\item[Ultimate Torsional Stress] denoted $\mathbf{UTS}$. 
+			\item[Shear Modulus] Denoted $G$, this describes the spring's response to shear stress and helps to define the spring's rigidity. The shear modulus is also known as the modulus of rigidity and depends on $E$ and $\nu$. 
 		
 		\end{description}
 
-% Give context to statement		
-One can see that the above parameters are physical design parameters. Each of these are subject to design tolerances. Below is a set of empirical attributes that within a range of values exhibit typical behavior for a spring. We will assume that these attributes are within that range. 
-
-
-		\begin{center}\textbf{Spring Attributes:}\end{center}
+		\noindent\textbf{Spring Attributes:}
 			\begin{description}
-				\item [Spring Rate (k):] \begin{equation} k = \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}}\end{equation}
-				\end{description}
-			The spring rate is a quantity used to measure the rigidity or stiffness of the object. 
-			\begin{description}	
-			\item[Spring Index (C):]\begin{equation}C = \frac{d_{i}}{d_{w}} + 1.\end{equation}
-			\end{description}
-				 The spring index gives a measurement of the inner diameter to the wire diameter. This is useful because outside of certain values the design will require more tolerance and cost also increases. \cite{SpringIndex}
-			\begin{description}	
-			\item[Coil Binding Gap:]\begin{equation} g = \frac{L_{hard} - L_{solid}(d_{w},N_{a}; ec)}{N_{t} - 1}\end{equation}
-			\end{description}
-				If the spring is allowed to go to solid compression, it is possible the spring could continue compression and cause coils to bind. Think about your favorite slinky. $L_{solid}$, is in terms of $d_{w}$, $N_{a}$, and end conditions (ec). Refer back to $N_{a}$ for what end conditions mean physically.
-		
-
-		\begin{description}
-			 \item[Max Shear Stress:]\begin{equation} \frac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
-d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right]< UTS\end{equation}
-		\end{description}
-				Shear stress is a measurement of stress coplanar to the spring, this puts a maximum we allow. 
-			\begin{description}
-			\item[Diametral Expansion($d_{expand}$):]\begin{equation} d_{expand} = d_{w} + \sqrt{(d_{i} + d_{w})^{2} + \frac{p^{2} - d_{w}}{\pi^{2}}}
+				\item [Spring Rate] \begin{equation} k = \frac{G}{8N_{\text{a}}}\frac{d_{\text{w}}^{4}}{(d_{\text{i}} + d_{\text{w}})^{3}}\end{equation}
+				The spring rate is a measurement of the rigidity or stiffness of the spring. 
+			
+			\item[Spring Index]\begin{equation}C = \frac{d_{\text{i}}}{d_{\text{w}}} + 1.\end{equation}
+				The spring index gives a measurement of the ratio between the spring's inner diameter and wire diameter and often has a direction relationship to the manufacturing cost for the spring~\cite{SpringIndex}.
+			
+			\item[Preload Force]\begin{equation*} F_{\text{open}} = (L_{\text{free}}-L_{\text{hard}})\frac{G}{8N_{\text{a}}}\frac{d_{\text{w}}^{4}}{(d_{\text{i}} + d_{\text{w}})^{3}} \end{equation*}
+				Preload Force is the force applied to the spring while it is in the open position. For the acceleration switch example, this is the applied force on the spring when the switch is not in use.
+				
+			\item[Coil Binding Gap]\begin{equation} g = \frac{L_{\text{hard}} - L_{\text{solid}}(d_{\text{w}},N_{\text{a}})}{N_{\text{t}} - 1}\end{equation}		
+				Coil binding gap is the pitch of the spring when the spring is compressed to its hard length. 
+			 
+			 \item[Buckling Slenderness Ratio]\begin{equation*} \lambda = \frac{L_{\text{free}}}{d_{\text{i}} + d_{\text{w}}} \end{equation*}
+			 	The buckling slenderness ratio is a measurement of the spring's susceptibility to buckling as it is compressed.
+			 
+			 \item[Shear Strength]\begin{equation} UTS = \frac{G(L_{\text{free}} - L_{\text{hard}})}{4 \pi N_{\text{a}}} \left[\frac{d_{\text{w}} (4d_{\text{i}}^{2} + 9.46d_{\text{i}} 
+d_{\text{w}} + 3 d_{\text{w}}^{2})}{d_{\text{i}}(d_{\text{i}}+d_{\text{w}})^{3}}\right]\end{equation}
+				Shear strength is a measurement of the spring's ability to withstand shear stress. 
+			
+			\item[Diametral Expansion]\begin{equation} d_{\text{expand}} = d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}}
 			\end{equation}
-			\end{description}
-			This is the expansion of the diameter as compression of the spring is happening. One may notice that \begin{equation}p^{2} \ge d_{w} - \pi^{2} (d_{i} + d_{w})^{2},\end{equation} this is putting an implicit constraint on how much the spring can be extended/compressed.
+				The diametral expansion is the measurement of how much the diameter of the spring increases as the spring is compressed. Note that the discriminant of the square root is necessarily positive, so diametral expansion can put additional constraints on the relationship between some parameters.	
 			
+			\end{description}
 
-Design an algorithm that optimizes springs with interchangeable objectives and constraints. In addition, attempt to incorporate properties stress relaxation and creep into the available objectives and constraints. 
+This list of parameters and attributes is not exhaustive, but it does demonstrate the inherent complexities found in spring design. 
+
 
 A list of possible constraints/objectives given in minimization form is below, please note that \\$d_{i}^{max}, d_{o}^{max}, k_{max}, C_{max}$, and $g_{min}$ are user defined bounds. 
  % remove repetitions
