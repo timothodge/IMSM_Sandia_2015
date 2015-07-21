@@ -57,12 +57,12 @@ Sean Webb\footnote{Sandia National Laboratory};
 %It should be written as much as possible in non-technical terms, so that a
 %lay reader can understand the context and the contribution of the paper.
 
-Springs have many everyday uses, such as in cars, homes, gyms, and industry. For example, springs are used in acceleration switches like the one seen in Figure~\ref{Acceleration Switch}. Their purpose in this instance is to close an electrical circuit once the object carrying the switch reaches a certain acceleration. This mechanism provides power to sensory equipment and data recorders for very precise amounts of time, and an application of its use is to collect data from rocket sled experiments. 
+Springs have many everyday uses, such as in cars, homes, gyms, and industry. For example, springs are used in acceleration switches like the one seen in Figure~\ref{fig:Acceleration_Switch}. Their purpose in this instance is to close an electrical circuit once the object carrying the switch reaches a certain acceleration. This mechanism provides power to sensory equipment and data recorders for very precise amounts of time, and an application of its use is to collect data from rocket sled experiments. 
 
 		\begin{figure}[h]
 		 \begin{center}\includegraphics[scale=.2]{Acceleration_Switch.png}\end{center}
 		 \caption{An example of an acceleration switch, see reference \cite{Massad2015}.}
-		 \label{Acceleration Switch}
+		 \label{fig:Acceleration_Switch}
 		 
 		 \end{figure}	 
 		
@@ -72,7 +72,7 @@ Spring design under these conditions amounts to a constrained optimization probl
 
 Designing an optimal spring is not a new problem. Brake et al. considered the design of an acceleration switch with enabled uncertainty~\cite{IMSM2010}. Alternatively, Sastry et al. implemented probabilistic response surface methodology to investigate the complications of uncertainty in designing a spring~\cite{Reliability}. Others have considered the reduction of the optimization problem to focus on a single parameter~\cite{Robust}. Similar tools to the ones mentioned above also exist~\cite{Paredes}.
 
-Motivated by a workflow premise, we produce a novel tool with new capabilities. The novelties we include are the inherit flexibility in our tool's framework, tools to visualize the existence of solutions for constrained optimization problems, sensitivity analysis capabilities, and design optimization under uncertainty. We also discuss the inclusion of stress relaxation constraints in the spring design, which to our knowledge has not been considered before. We provide details regarding these items as follows. Section~\ref{sec:The_Problem} formally defines the spring design problem for helical compression springs. Section~\ref{sec:The_Approach} outlines the workflow. Section~\ref{Computational_Experiments} shares cases studies using our approach, and Section~\ref{Summary} summarizes our work and provides suggestions for future work.
+Motivated by a workflow premise, we produce a novel tool with new capabilities. The novelties we include are the inherit flexibility in our tool's framework, tools to visualize the existence of solutions for constrained optimization problems, sensitivity analysis capabilities, and design optimization under uncertainty. We also discuss the inclusion of stress relaxation constraints in the spring design, which to our knowledge has not been considered before. We provide details regarding these items as follows. Section~\ref{sec:The_Problem} formally defines the spring design problem for helical compression springs. Section~\ref{sec:The_Approach} outlines the workflow. Section~\ref{sec:Computational_Experiments} shares cases studies using our approach, and Section~\ref{sec:Summary} summarizes our work and provides suggestions for future work.
 
 			
 \section{The Problem} 
@@ -81,67 +81,67 @@ Motivated by a workflow premise, we produce a novel tool with new capabilities. 
 \subsection{Helical Compression Springs}
 \label{sec:Springs}
 
-Helical springs are the typical spring that comes to most peoples mind, for illustrative purposes, see figure \ref{Spring}. 
+Helical compression springs, such as the one in Figure~\ref{fig:Spring}, are possibly the most recognizable type of spring and are the spring of choice for this work. 
 
 		\begin{figure}[h]
 		 \begin{center}\includegraphics[scale=.2]{Spring.png}\end{center}
-		 \caption{An example of a helical compression spring, from \cite{Massad2015}}
-		 \label{Spring}
+		 \caption{An example of a helical compression spring~\cite{Massad2015}.}
+		 \label{fig:Spring}
 		 
 		 \end{figure}
 
-The above spring has many design parameters. These range from physical parameters such as wire diameter, to purely empirical attributes. The empirical attributes have to be assumed in a range of values. If they are not extreme values will exhibit behavior we do not wish to consider. Below is a list of a spring's key design parameters and empirical attributes. We have added a few figures to illustrate some of the parameters. \cite{Massad2015}		 
+We can uniquely define a helical compression spring by a set of design parameters, which then determine physical attributes of the spring~\cite{Massad2015}. Figure~\ref{fig:Descriptions} provides visual representations for a few of the basic parameters and a complete list of parameters and attributes follows. 		 
 		\begin{figure}[h]
 			\centering
 			\begin{subfigure}{.5\textwidth}
 				\includegraphics[scale=.2]{Spring_Description.png}
 				\caption{Pitch, outer diameter, and length of a spring.}
-				\label{Description1}
+				\label{fig:Description1}
 			\end{subfigure}%
 			\begin{subfigure}{.5\textwidth}
 				  \centering
 		 		\includegraphics[scale=.2]{Spring_Description2.png}
 				\caption{Inner diameter}
-				  \label{Description2}
+				  \label{fig:Description2}
 		  		
 			\end{subfigure}
-			 \label{Descriptions}
+			 \label{fig:Descriptions}
 		  \caption{A few figures that show some parameters for a helical compression spring.}
 		\end{figure}
 		
 		% Group parameters and change from enumerate
-		\noindent \textbf{Spring Parameters:}
+		\noindent \textbf{Spring Design Parameters:}
 		\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Ultimate torsional stress:}]
-			\item [Inner diameter:] denoted $\mathbf{d_{i}}$, illustrated in figure \ref{Description2}.
+			\item [Inner Diameter] denoted $\mathbf{d_{i}}$, illustrated in figure \ref{Description2}.
 			
-			\item [Outer diameter:] denoted $\mathbf{d_{o}}$, illustrated in figure \ref{Description1}.
+			\item [Outer Diameter] denoted $\mathbf{d_{o}}$, illustrated in figure \ref{Description1}.
 			
-			\item [Wire diameter:] denoted $\mathbf{d_{w}}$.
+			\item [Wire Diameter] denoted $\mathbf{d_{w}}$.
 			
-			\item[Total coils:] denoted $\mathbf{N_{t}}$, this is the number to rotations of wire in the spring, we allow for partial rotations.
+			\item[Total Coils] denoted $\mathbf{N_{t}}$, this is the number to rotations of wire in the spring, we allow for partial rotations.
 			
-			\item[Active coils:] denoted $\mathbf{N_{a}}$, active coils are not touching any other coils. The number of active coils is subject to the spring being closed or open. Closed means that the end coils are welded, where as open means they are not. For this reason a spring must have at least 2 coils.
+			\item[Active Coils] denoted $\mathbf{N_{a}}$, active coils are not touching any other coils. The number of active coils is subject to the spring being closed or open. Closed means that the end coils are welded, where as open means they are not. For this reason a spring must have at least 2 coils.
 
-			\item[Free length:] denoted $\mathbf{L_{free}}$, the spring's length without any force applied. i.e., this is the spring length before being installed in the acceleration switch.
+			\item[Free Length] denoted $\mathbf{L_{free}}$, the spring's length without any force applied. i.e., this is the spring length before being installed in the acceleration switch.
 			
-			\item[Solid length:] denoted $\mathbf{L_{solid}}$, the spring's length when all coils are compressed together.
-			\item[Open length:] denoted $\mathbf{L_{open}}$, the spring's length at open position. i.e., for the acceleration switch this would be before the rocket sled test is started. 
+			\item[Solid Length] denoted $\mathbf{L_{solid}}$, the spring's length when all coils are compressed together.
+			\item[Open Length] denoted $\mathbf{L_{open}}$, the spring's length at open position. i.e., for the acceleration switch this would be before the rocket sled test is started. 
 			
-			\item[Close length:] denoted $\mathbf{L_{close}}$, spring length at close position. i.e., this would be when enough force is applied for the acceleration switch to close and start collecting data.
+			\item[Close Length] denoted $\mathbf{L_{close}}$, spring length at close position. i.e., this would be when enough force is applied for the acceleration switch to close and start collecting data.
 			
-			\item[Hard length:] denoted $\mathbf{L_{hard}}$, the maximum a spring can compress for the application. i.e., for the acceleration switch this is the maximum compression the acceleration switch's spring should be allowed. 
+			\item[Hard Length] denoted $\mathbf{L_{hard}}$, the maximum a spring can compress for the application. i.e., for the acceleration switch this is the maximum compression the acceleration switch's spring should be allowed. 
 			
-			\item[Open force:] denoted $\mathbf{F_{open}}$, this is the force on the spring in open position, i.e., the resting force for the acceleration switch.
+			\item[Open Force] denoted $\mathbf{F_{open}}$, this is the force on the spring in open position, i.e., the resting force for the acceleration switch.
 					
-			\item[Pitch:] denoted $\mathbf{p}$ illustrated in figure \ref{Description1}, depends on the $\mathbf{d_{w}}$,$\mathbf{L_{free}}$, and $\mathbf{N_{a}}$.			
+			\item[Pitch] denoted $\mathbf{p}$ illustrated in figure \ref{Description1}, depends on the $\mathbf{d_{w}}$,$\mathbf{L_{free}}$, and $\mathbf{N_{a}}$.			
 			
-			\item[Shear modulus:] (or modulus of rigidity), denoted $\mathbf{G}$, is one of several quantities for measuring the stiffness of materials.
+			\item[Shear Modulus] (or modulus of rigidity), denoted $\mathbf{G}$, is one of several quantities for measuring the stiffness of materials.
 			
-			\item[Young's modulus:] (or elastic modulus), denoted $\mathbf{E}$, is a measurement of force that is needed  to stretch (or compress) a sample of material.
+			\item[Young's Modulus] (or elastic modulus), denoted $\mathbf{E}$, is a measurement of force that is needed  to stretch (or compress) a sample of material.
 			
-			\item[Poisson ratio:] denoted $\mathbf{\nu}$, is a measurement of the poisson effect of a material. 
+			\item[Poisson Ratio] denoted $\mathbf{\nu}$, is a measurement of the poisson effect of a material. 
 			
-			\item[Ultimate torsional stress:] denoted $\mathbf{UTS}$. 
+			\item[Ultimate Torsional Stress] denoted $\mathbf{UTS}$. 
 		
 		\end{description}
 
@@ -256,7 +256,7 @@ Our approach follow the workflow illustrated in Figure~\ref{Workflow}. This is a
 		 \end{figure}
 
 \subsection{User Input}
-\label{sec:User Input}
+\label{subsec:User_Input}
 
 The first step in our work flow is receiving spring design specifications from the user. In general, this includes an optimization objective, a list of design variables, and a set of constraints. The first task in our work flow is to maximize the user's ability to specify a problem while still being able to generate a meaningful solution. As a solution, we place some limits the user's input and designed a program capable of solving this restricted class of problems.
 
@@ -275,12 +275,12 @@ This approach is also implemented in the design of a constraint and objective. A
 Along with the flexible software design, we have implemented the ability to run feasibility and sensitivity checks before trying to optimize. This will allow the user to know additional information about the problem. First, from feasibility, the user will know quickly if the run is unable to find a feasible point to run optimization. Second, from sensitivity, the user can know which parameters will dramatically change the optimization versus which parameters are unnecessarily adding to the dimension of the optimization space. 
 
 \subsection{Problem Definition}
-\label{sec:Problem Definition}
+\label{sec:Problem_Definition}
 
 
 % Check capitalization
 \subsection{Feasibility}
-\label{sec:Feasibility}
+\label{subsec:Feasibility}
 
 Once the user has set a problem, the next step is determining the nature of the feasible region.  To assess feasibility, we use a Latin Hypercube sampling method.  In Latin Hypercube sampling, the samples are designed to cover the entire domain.  This approach is used because the user defined constraints can be of a general nature (for example, linear or non-linear).  If a feasible point cannot be identified, the algorithm will terminate and the user is informed a feasible point cannot be found.  At this point, the user can try a more exhaustive search or reformulate the problem.
 
@@ -292,7 +292,7 @@ The feasibility of a solution depends on if a solution satisfies all the constra
 Refer to section \ref{sec:Experiments} to see plots that are showing feasibility given two or three state variables.
 
 \subsection{Sensitivity Analysis}
-\label{sec:Sensitivity}
+\label{subsec:Sensitivity}
 \hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. 
 
 Dimension reduction approaches have been divided into two categories - (1)filter approach, and (2)wrapper approach. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. 
@@ -311,7 +311,7 @@ Given a design range (lower and upper bounds), a variable can be assumed to be u
 
 
 \subsection{Optimization}
-\label{sec:Optimization}
+\label{subsec:Optimization}
 \hspace{5 mm} A general constrained design optimization problem can be formulated as follows
 
 \centerline{$Min \hspace{2 mm} f(X)$}
@@ -339,7 +339,8 @@ such that
 
 \cite{Derivative} \cite{DirectPaper} \cite{MATLAB:2014a} \cite{DirectUserGuide}
  
- \subsection{Post Processing}
+\subsection{Post Processing}
+\label{subsec:Post_Processing}
 
 \section{Computational Experiments}
 \label{sec:Computational_Experiments}
@@ -348,7 +349,7 @@ such that
 
 \newpage
 \subsection{Case 1:}
-\label{sec:Case1}
+\label{subsec:Case1}
 %Case_56_28910
 	\textbf{Objectives:} Minimize spring rate and spring index.\\
 	\textbf{Constraints:} Inner diameter and outer diameter relation, elation on inner, wire, and outer diameter, coil binding gap, buckling slenderness, and maximum shear stress. \\
@@ -356,7 +357,7 @@ such that
 
 \newpage
 \subsection{Case 2:}
-\label{sec:Case2}
+\label{subsec:Case2}
 %Case_56_34891011
 
 	\textbf{Objectives:} Minimize spring rate and spring index.\\
@@ -365,7 +366,7 @@ such that
 
 \newpage
 \subsection{Case 3:}
-\label{sec:Case3}
+\label{subsec:Case3}
 %Case_7_348910
 	\textbf{Objectives:} Minimize force at open position.\\
 	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress. \\
@@ -373,7 +374,7 @@ such that
 
 \newpage
 \subsection{Case 4:}
-\label{sec:Case4} 
+\label{subsec:Case4} 
 %Case_11_348
 
 	
@@ -393,7 +394,7 @@ such that
 
 \newpage
 \subsection{Case 5:}
-\label{sec:Case5}
+\label{subsec:Case5}
 %Case_511_34810
 
 	\textbf{Objectives:} Minimize spring rate and maximize stress relaxation.\\
@@ -410,7 +411,7 @@ such that
 
 \newpage
 \subsection{Case 6:}
-\label{sec:Case6}
+\label{subsec:Case6}
 %Case_58_3468910
 \textbf{Saideep added a 7a, need to deal with it.}\\
 	\textbf{Objectives:} Minimize spring rate and coil binding gap.\\
