@@ -4,6 +4,9 @@
 \usepackage{amsmath}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{calc}
 
 \topmargin-.5in
 \textwidth6.6in
@@ -21,21 +24,24 @@
 
 \def\thefootnote{\arabic{footnote}}
 \begin{center}
-  Justin Krueger\footnote{Mathematics, Virginia Tech University},
+  
   Alistair Bentley\footnote{Mathematics, Clemson University},
-  Tianyu Qiu\footnote{Mathematics, University of Delaware},
+   Tim Hodges\footnote{Mathematics, Colorado State University},
+   Jiahua Jiang\footnote{Mathematics, University of Massachusetts Dartmouth },
+  Justin Krueger\footnote{Mathematics, Virginia Tech},
   Saideep Nannapaneni\footnote{Civil \& Environmental Engineering,Vanderbilt University},
-  Jiahua Jiang\footnote{Mathematics, University of Massachusetts Dartmouth },
-  Tim Hodges\footnote{Mathematics, Colorado State University}
+  Tianyu Qiu\footnote{Mathematics, University of Delaware}
+   
 \end{center}
+
 
 %\vspace{.1truein}
 
 \begin{center}
-Problem Presenters: Jordan Massad \footnote{Sandia National Laboratory},
-Sean Webb \footnote{Sandia National Laboratory},
-	Faculty Mentors: Ilse Ipsen\footnote{North Carolina State University},
-	Ralph Smith\footnote{North Carolina State University}, 
+Problem Presenters: Jordan Massad\footnote{Sandia National Laboratory},
+Sean Webb\footnote{Sandia National Laboratory};
+	Faculty Mentors: Ilse Ipsen\footnote{Mathematics, North Carolina State University},
+	Ralph Smith\footnote{Mathematics, North Carolina State University}, 
 \end{center}
 
 
@@ -46,238 +52,244 @@ Sean Webb \footnote{Sandia National Laboratory},
 
 
 
-
 \section{Introduction}
+\label{sec:Introduction}
 %It should be written as much as possible in non-technical terms, so that a
 %lay reader can understand the context and the contribution of the paper.
 
-The use of mechanical switches in industry is a cornerstone of the modern world. Many mechanical switches are designed to use a spring. Depending on the use of the switch, the spring can be optimized for the function of the spring. 
-
-For example, consider an acceleration switch in figure \ref{Acceleration Switch}. 
+Springs have many everyday uses, such as in cars, homes, gyms, and industry. For example, springs are used in acceleration switches like the one seen in Figure~\ref{fig:Acceleration_Switch}. Their purpose in this instance is to close an electrical circuit once the object carrying the switch reaches a certain acceleration. This mechanism provides power to sensory equipment and data recorders for very precise amounts of time, and an application of its use is to collect data from rocket sled experiments. 
 
 		\begin{figure}[h]
 		 \begin{center}\includegraphics[scale=.2]{Acceleration_Switch.png}\end{center}
-		 \caption{An example of an acceleration switch}
-		 \label{Acceleration Switch}
+		 \caption{An example of an acceleration switch, see reference \cite{Massad2015}.}
+		 \label{fig:Acceleration_Switch}
 		 
-		 \end{figure}
-		 
+		 \end{figure}	 
 		
-\textbf{Describe problem, approach, and summarize contribution and results.}
-This switch is used in high acceleration testing. The use is to only record information at crucial times of the test. For this reason when a certain force is exerted on the switch the pins at both ends will connect. When this happens we have a circuit that will enable data collection. It is important that the switch does not open too soon or too late otherwise the data collection will be too large or too little.This is just one example of a switch that we must know the best spring to make the performance maximal. For a more in depth look at this example look at \cite{IMSM2010}
+These rocket sled tests include very high velocities and accelerations and end in a destructive impact. Since the test is not easily replicated, we must have the ability to consistently and correctly collect data. This means we require that the spring in the acceleration switch must behave as expected to the forces exerted on it, and having a switch that is closed earlier or later than expected is undesirable~\cite{IMSM2010}. Designing a spring to behave as desired is a complicated problem that requires satisfying numerous constraints on the spring's physical properties. That the desired spring can vary depending on the application further complicates the problem. 
 
-Given that a switch may be used in a myriad of ways, it is important that one can find an optimal spring, after the use of the spring is known. This leads to an optimization problem. Even more this leads to an optimization problem that requires flexibility to allow how a spring is determined to be optimal. In other words, the objective function and constraints must be interchangeable. In addition there are fabrication constraints that exist during manufacturing to consider.  
+Spring design under these conditions amounts to a constrained optimization problem where certain properties of the spring may need to be maximized or minimized subject to bounds on some or all of the spring's other properties. Extending the scope of focus beyond springs' use in acceleration switches, which already cover a vast spread of specific spring designs, results in even more possibilities for design specifications. Rather than developing methods to solve these problems on an ad hoc basis, developing a tool to address a wide variety of constrained optimization problems for spring design would be beneficial. 
 
-Given any constraint or objective function it will depend on a set of variables. In optimization we only wish to concern ourselves with the state variables that are allowed to change during optimization. For this reason, we construct a spring object that will hold all attributes of a spring and we can pull the relevant variables when it is determined what they are. 
+Designing an optimal spring is not a new problem. Brake et al. considered the design of an acceleration switch with enabled uncertainty~\cite{IMSM2010}. Alternatively, Sastry et al. implemented probabilistic response surface methodology to investigate the complications of uncertainty in designing a spring~\cite{Reliability}. Others have considered the reduction of the optimization problem to focus on a single parameter~\cite{Robust}. Similar tools to the ones mentioned above also exist~\cite{Paredes}.
 
-In addition to this spring object, to reduce the uncertainty of the problem we conduct a sensitivity analysis of the objective function subject to the constraints and variables given. Allowing the user to reduce the state variables if it is determined that for a set of variables given there exist insensitive state variables. 
+Motivated by a workflow premise, we produce a novel tool with new capabilities. The novelties we include are the inherit flexibility in our tool's framework, tools to visualize the existence of solutions for constrained optimization problems, sensitivity analysis capabilities, and design optimization under uncertainty. We also discuss the inclusion of stress relaxation constraints in the spring design, which to our knowledge has not been considered before. We provide details regarding these items as follows. Section~\ref{sec:The_Problem} formally defines the spring design problem for helical compression springs. Section~\ref{sec:The_Approach} outlines the workflow. Section~\ref{sec:Computational_Experiments} shares cases studies using our approach, and Section~\ref{sec:Summary} summarizes our work and provides suggestions for future work.
 
-A main contribution of this work is the framework to add constraints and objectives that may be unknown at the point of this paper. In addition a model of stress relaxation and uni-axial creep has been incorporated. If the reader does not approve of our stress relaxation and creep models, it is easy for the reader to incorporate other models into possible constraints and objectives. 
-\textbf{ADD!}
+			
+\section{The Problem} 
+\label{sec:The_Problem}
 
+\subsection{Helical Compression Springs}
+\label{sec:Springs}
 
-\textbf{review history and existing literature}
-Designing an optimal spring is not a new problem. In 2010 at the SAMSI IMSM workshop a team considered the design of an acceleration switch with enabled uncertainty. In fact, the switch they considered was in figure \ref{Acceleration Switch}. This approach lead to a paper \cite{IMSM2010}. This is not the only approach to uncertainty, in \cite{Reliability} probabilistic response surface methodology was implemented to investigate the complications of uncertainty in designing a spring. In addition to these types of approaches it is possible to narrow focus to a single parameter, in \cite{Robust} they focus on the spring stiffness. In \cite{Paredes} they attempt to design an optimal spring, with the introduction of a sizing tool. All references listed are informed to some extent by \cite{Wahl}. 
-
-Our approach is not limited to an acceleration switch, instead it is but a special case of our approach. We do not focus on a set of parameters or attempt to fix the uncertainty of the spring design problem initially. We attempt to allow any possible construction of a spring optimization possible. 
-
-This does not rule out if a construction is not physically or mathematically invalid. We will dispose of that case when we are unable to find a feasible point for optimization within our feasibility check. In summary, we need to allow any possible construction of a spring design problem, and adjust accordingly. 
-
-
-\textbf{outline}
-In this paper we will give a description of the springs of interest, helical compression springs. Next, the formulation of the problem, and the approach taken to the problem. Following will be a section on workflow with descriptions of each step in the workflow. Lastly, we will discuss a few case studies given the framework constructed and a summary with future work that can be worked on.
-
-
-
-
-
-\section{Helical Compression Springs}
-
-Helical springs are the typical spring that comes to most peoples mind, for illustrative purposes, see figure \ref{Spring}. 
+Helical compression springs, such as the one in Figure~\ref{fig:Spring}, are possibly the most recognizable type of spring and are the spring of choice for this work. 
 
 		\begin{figure}[h]
 		 \begin{center}\includegraphics[scale=.2]{Spring.png}\end{center}
-		 \caption{An example of a helical compression spring.}
-		 \label{Spring}
+		 \caption{An example of a helical compression spring~\cite{Massad2015}.}
+		 \label{fig:Spring}
 		 
 		 \end{figure}
 
-Below is a list of a spring's key design parameters. We have added a few illustrations to illustrate some of the parameters. 		 
+We can uniquely define a helical compression spring by a set of design parameters, which then determine physical attributes of the spring~\cite{Massad2015}. Figure~\ref{fig:Descriptions} provides visual representations for a few of the basic parameters and a complete list of parameters and attributes follows. 		 
 		\begin{figure}[h]
 			\centering
 			\begin{subfigure}{.5\textwidth}
 				\includegraphics[scale=.2]{Spring_Description.png}
 				\caption{Pitch, outer diameter, and length of a spring.}
-				\label{Description1}
+				\label{fig:Description1}
 			\end{subfigure}%
 			\begin{subfigure}{.5\textwidth}
 				  \centering
 		 		\includegraphics[scale=.2]{Spring_Description2.png}
 				\caption{Inner diameter}
-				  \label{Description2}
+				  \label{fig:Description2}
 		  		
 			\end{subfigure}
-			 \label{Descriptions}
-		  \caption{A few illustrations of parameters for a helical compression spring.}
+			 \label{fig:Descriptions}
+		  \caption{A few figures that show some parameters for a helical compression spring.}
 		\end{figure}
 		
-		\begin{enumerate}
-			\item Spring's inner diameter $d_{i}$, illustrated in figure \ref{Description2}.
-			\item Spring's outer diameter $d_{o}$ illustrated in figure \ref{Description1}.
-			\item Spring's wire diameter $d_{w}$.
-			\item Total number of spring coils $N_{t}$.
-			\item Active number of spring coils $N_{a}$, active coils are not touching any other coils, and is subject to the spring being closed or open. 
-			\item Pitch $p$ illustrated in figure \ref{Description1}.
-			\item Spring's free length $L_{free}$, the spring's length without any force applied. 
+		% Group parameters and change from enumerate
+		\noindent \textbf{Spring Design Parameters:}
+		\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Ultimate torsional stress:}]
+			\item [Inner Diameter] denoted $\mathbf{d_{i}}$, illustrated in figure \ref{Description2}.
 			
-			\item Spring's solid length $L_{solid}$, the spring's length when all coils are compressed together.
-			\item Spring's open length $L_{open}$, the spring's length at open position, open is beginning state.
-			\item Spring's open length $L_{close}$, spring length at close position, close is the ending state.
-			\item Spring's open length $L_{hard}$, the maximum a spring can compress for the application.
-			\item Spring's open force $F_{open}$, this is the force on the spring in open position.
+			\item [Outer Diameter] denoted $\mathbf{d_{o}}$, illustrated in figure \ref{Description1}.
 			
+			\item [Wire Diameter] denoted $\mathbf{d_{w}}$.
 			
-			\item Spring's shear modulus $G$, this is determined by the material of the spring.
-			\item Spring's youngs modulus $E$, this is determined by the material of the spring.
-			\item Spring's poisson ratio $\nu$, this is determined by the material of the spring.
-			\item Ultimate torsional stress, UTS. 
+			\item[Total Coils] denoted $\mathbf{N_{t}}$, this is the number to rotations of wire in the spring, we allow for partial rotations.
+			
+			\item[Active Coils] denoted $\mathbf{N_{a}}$, active coils are not touching any other coils. The number of active coils is subject to the spring being closed or open. Closed means that the end coils are welded, where as open means they are not. For this reason a spring must have at least 2 coils.
+
+			\item[Free Length] denoted $\mathbf{L_{free}}$, the spring's length without any force applied. i.e., this is the spring length before being installed in the acceleration switch.
+			
+			\item[Solid Length] denoted $\mathbf{L_{solid}}$, the spring's length when all coils are compressed together.
+			\item[Open Length] denoted $\mathbf{L_{open}}$, the spring's length at open position. i.e., for the acceleration switch this would be before the rocket sled test is started. 
+			
+			\item[Close Length] denoted $\mathbf{L_{close}}$, spring length at close position. i.e., this would be when enough force is applied for the acceleration switch to close and start collecting data.
+			
+			\item[Hard Length] denoted $\mathbf{L_{hard}}$, the maximum a spring can compress for the application. i.e., for the acceleration switch this is the maximum compression the acceleration switch's spring should be allowed. 
+			
+			\item[Open Force] denoted $\mathbf{F_{open}}$, this is the force on the spring in open position, i.e., the resting force for the acceleration switch.
+					
+			\item[Pitch] denoted $\mathbf{p}$ illustrated in figure \ref{Description1}, depends on the $\mathbf{d_{w}}$,$\mathbf{L_{free}}$, and $\mathbf{N_{a}}$.			
+			
+			\item[Shear Modulus] (or modulus of rigidity), denoted $\mathbf{G}$, is one of several quantities for measuring the stiffness of materials.
+			
+			\item[Young's Modulus] (or elastic modulus), denoted $\mathbf{E}$, is a measurement of force that is needed  to stretch (or compress) a sample of material.
+			
+			\item[Poisson Ratio] denoted $\mathbf{\nu}$, is a measurement of the poisson effect of a material. 
+			
+			\item[Ultimate Torsional Stress] denoted $\mathbf{UTS}$. 
 		
-		\end{enumerate}
+		\end{description}
+
+% Give context to statement		
+One can see that the above parameters are physical design parameters. Each of these are subject to design tolerances. Below is a set of empirical attributes that within a range of values exhibit typical behavior for a spring. We will assume that these attributes are within that range. 
+
+
+		\begin{center}\textbf{Spring Attributes:}\end{center}
+			\begin{description}
+				\item [Spring Rate (k):] \begin{equation} k = \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}}\end{equation}
+				\end{description}
+			The spring rate is a quantity used to measure the rigidity or stiffness of the object. 
+			\begin{description}	
+			\item[Spring Index (C):]\begin{equation}C = \frac{d_{i}}{d_{w}} + 1.\end{equation}
+			\end{description}
+				 The spring index gives a measurement of the inner diameter to the wire diameter. This is useful because outside of certain values the design will require more tolerance and cost also increases. \cite{SpringIndex}
+			\begin{description}	
+			\item[Coil Binding Gap:]\begin{equation} g = \frac{L_{hard} - L_{solid}(d_{w},N_{a}; ec)}{N_{t} - 1}\end{equation}
+			\end{description}
+				If the spring is allowed to go to solid compression, it is possible the spring could continue compression and cause coils to bind. Think about your favorite slinky. $L_{solid}$, is in terms of $d_{w}$, $N_{a}$, and end conditions (ec). Refer back to $N_{a}$ for what end conditions mean physically.
 		
-		In addition to these parameters there are the following attributes that are empirical. We care about these attributes within some regime. This is because outside of certain conditions these attributes exhibit special behavior. 
-		
-			%\begin{enumerate}
-			%	\item 
-			Spring Rate:\begin{equation} k = \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}}\end{equation}
-				
-				 Spring Index:\begin{equation}C = \frac{d_{i}}{d_{w}} + 1.\end{equation}
-				
-				Coil Binding Gap\begin{equation} g = \frac{L_{hard} - L_{solid}(d_{w},N_{a}; ec)}{N_{t} - 1}\end{equation}
-		
-				 Max Shear Stress\begin{equation} \frac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
+
+		\begin{description}
+			 \item[Max Shear Stress:]\begin{equation} \frac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
 d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right]< UTS\end{equation}
-		
-				Diametral Expansion\begin{equation} d_{expand} = d_{w} + \sqrt{(d_{i} + d_{w})^{2} + \frac{p^{2} - d_{w}}{\pi^{2}}}
+		\end{description}
+				Shear stress is a measurement of stress coplanar to the spring, this puts a maximum we allow. 
+			\begin{description}
+			\item[Diametral Expansion($d_{expand}$):]\begin{equation} d_{expand} = d_{w} + \sqrt{(d_{i} + d_{w})^{2} + \frac{p^{2} - d_{w}}{\pi^{2}}}
 			\end{equation}
+			\end{description}
+			This is the expansion of the diameter as compression of the spring is happening. One may notice that \begin{equation}p^{2} \ge d_{w} - \pi^{2} (d_{i} + d_{w})^{2},\end{equation} this is putting an implicit constraint on how much the spring can be extended/compressed.
 			
-\section{The Problem} 
 
 Design an algorithm that optimizes springs with interchangeable objectives and constraints. In addition, attempt to incorporate properties stress relaxation and creep into the available objectives and constraints. 
 
-A list of possible constraints/objectives given in minimization form is below
+A list of possible constraints/objectives given in minimization form is below, please note that \\$d_{i}^{max}, d_{o}^{max}, k_{max}, C_{max}$, and $g_{min}$ are user defined bounds. 
+ % remove repetitions
+%\begin{enumerate}
+%	\item $d_{i} < d_{i}^{max}$, this sets a design constraint on what we will allow the inner diamter to be. For the acceleration switch, we must have a spring that will fit the housing of the switch.
+%	\item $d_{i} < d_{o}$, physically we must have a bigger outer diameter than inner diameter.
+%	\item $d_{i} + 2d_{w} < d_{o}^{max}$, The outer diameter cannot exceed some design limitation.
+%	\item$d_{expand} - d_{0}^{max} < 0 $, we will not allow the spring to expand more than a certain amount during compression.
+%	\item$ \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}} - k_{max} \le 0 $, there is a maximum spring rate or stiffness that we will allow. 
+%
+%	\item $\frac{d_{i}}{d_{w}} + 1 - C_{max}< 0$, similarly we will only allow a maximum ratio between the inner diameter and wire diameter. 
+%
+%	\item $(L_{free} - L_{open})\frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}} - F_{open} = 0 $, $F_{open}$ should be physically possible given its formulation.
+%
+%	\item $\frac{L_{hard} - L_{solid}}{N_{t} - 1} + g_{min} \le  0$. There is a minimum gap we wish to have to ensure our coils cannot bind. 
+%
+%	\item$\frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}}$, if a spring is slender, it may buckle or fold on itself. This is a constraint to address this physical attribute. 
+%
+%	\item$-UTS + \frac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
+%d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] < 0$
+%
+%We do not wish to allow the torsional stress to exceed a certain amount, the ultimate torsional stress, $UTS$.
+%
+%\end{enumerate}	
 
-\begin{enumerate}
-\item $d_{i} < d_{i}^{max}$
-\item $d_{i} < d_{o}$
-\item $d_{i} + 2d_{w} < d_{o}^{max}$
-\item$d_{expand} - d_{0}^{max} < 0 $
-\item$ \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}} - k_{max} \le 0 $
-\item $\frac{d_{i}}{d_{w}} + 1 - C_{max}< 0$
-\item $(L_{free} - L_{open})\frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}} - F_{open} = 0 $
-\item $\frac{L_{hard} - L_{solid}}{N_{t} - 1} + g_{min} \le  0$
-\item$\frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}}$
-\item$-UTS + \frac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
-d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] < 0$
-\end{enumerate}	
-
-This list is not exhaustive as we want a user to be able to define new constraints and objectives. 
-In addition to these we should be able to minimize any parameter of the spring. 
-
-
-\textbf{ADD RELAXATION HERE!}
+This set of attributes and parameters define a spring's design and can all play a role in designing an optimal spring for a particular situation. The length of this list is what makes constructing a tool to handle a variety of 
 
 
 
+This list is not exhaustive as we want a user to be able to define new constraints and objectives. The incorporation of stress relaxation and creep are two examples of this. If the reader wishes to read about these in detail please check out section \ref{sec:stress}. 
 
-In order to simplify the problem we have made some assumptions. First, we have assumed that constraints and objectives are all in terms of the number of total coils. This is to reduce the complexity of knowing if a constraint is dependent on the active number or total number of coils. These two numbers are dependent on the end conditions of the spring, whether it is open or closed at the end. 
+In addition to these we should be able to minimize any parameter of the spring. It may be possible they wish to minimize the wire diameter, or the length of the spring at a certain state.  
 
-For simplicity we also will consider all springs to be have a closed end condition. With these assumptions we simplify our constraints for pitch, $p$, solid length, $L_{solid}$, and the diametral expansion, $d_{expand}$. 
+In order to simplify the problem we have some assumptions. First, we have assumed that constraints and objectives are all in terms of the number of total coils. This is to reduce the complexity of knowing if a constraint is dependent on the active number or total number of coils. These two numbers are dependent on the end conditions of the spring, whether it is open or closed at the end. 
 
-\textbf{JUSTIFY ASSUMPTIONS}
+For this reason we also will consider all springs to be have a closed end condition. With these assumptions we simplify our constraints for pitch, $p$, solid length, $L_{solid}$, and the diametral expansion, $d_{expand}$.
 
-\textbf{Describe your data, how you collected them, their properties,
-and whether you did 
-anything to them (removed noise, filled in missing data, 
-applied normalizations).}
 
-\section{The Problem}
+These assumptions have reduced the set of design parameters and have allowed us to simplify the problem. Without these assumptions we would need to deduce at run time what formulas we can use and this is a challenging problem from an implementation stand point. Also, we have a very complicated formula for diametral expansion if the end conditions are not closed. This presents issues of solving a cubic without the ability of discerning if the roots will be physically meaningful. 
+
+
+\subsection{Constrained Optimization}
+\label{sec:Constrained_Optimization}
+
+Given an input of objectives and constraints on those objectives which are both defined by a set of design variables, we can formulate the challenge of designing an optimal spring as a constrained optimization problem. The general formulation of such a problem is 
+				\begin{equation*}
+ 					\begin{aligned}
+ 						& \underset{\textbf{x}}{\text{min}}
+ 						& & F(\textbf{x}), \\
+ 						& \text{subject to}
+ 						& & G(\textbf{x}) \le 0.
+ 					\end{aligned}
+				\end{equation*}
+
 \begin{itemize}
-\item Give a precise technical description of your problem. 
-
-\item State and justify all your assumptions. 
-
-\item Define notation. 
-
-\item Describe your data, how you collected them, their properties,
-and whether you did 
-anything to them (removed noise, filled in missing data, 
-applied normalizations).
+	\item \textbf{x} is a set of variables for optimization, they are user specified.
+	
+	\item F(\textbf{x}) is the objective function. It is comprised of any parameters or attributes described above. It can also include other user defined attributes and parameters not considered in this paper. The user specifies the objective function.  
+	
+	\item G(\textbf{x}) is the list of constraints. It is comprised of any parameters or attributes described above. It can also include other user defined attributes and parameters not considered in this paper. The user specifies the constraints to use.
 \end{itemize}
 
+% pull top stuff down into sections
 
 \section{The Approach}
-
-\section{User Input}
-
-The first step in our work flow is receiving an arbitrary optimization problem from the user.  In general, this includes an optimization function, a list of free variables and a set of constraints.  From a practical standpoint, it is not feasible to build an algorithm that handles such a large set of problems.  Thus, the first task in our work flow is to maximize the user's ability to specify a problem while still being able to generate a meaningful solution.  As a solution, we place some limits the user's input and designed a program capable of solving this restricted class of problems.
-
-To reduce the size of the permissible problem space, two restrictions are put on the user's input problem.  First, the user must specify the optimization function as a weighted sum of minimums and maximums.  While other methods for multicriteria optimization exist, implementing these into our scheme has been left to future work.  Second, based on discussions with engineers experienced with spring design, we restricted the space of free variables to those that are considered most important.
-
-Next, to allow our program to handle any problem formulated on this reduced problem space, our software uses an object oriented design.  Object-oriented programming is an approach to software design that centers around classes.  Classes are essentially data containers capable of performing a predefined set of tasks.  For example, our program uses a \textbf{constraint} class that includes the constraint's function, and a way to check whether the constraint is violated at a given point.
-
-Using classes allow flexibility because the program's algorithm can be designed to operate on the classes.  For example, the \textbf{OptimizationProblem} class generates the input for the optimizer and sensitivity analysis.  Thus when the user inputs a new problem, the program generates an \textbf{OptimizationProblem} with a specific optimization function and set of constraints.  Thus, the final stage of the user input process is translating the set of optimization parameters into instances of the program's classes.
-
-Additional points to consider...adding new constraint functions and the predefined constraints list.
-
-\section{Feasibility}
-
-Once the user has set a problem, the next step is determining the nature of the feasible region.  To assess feasibility, we use a Latin Hypercube sampling method.  In Latin Hypercube sampling, the samples are designed to cover the entire domain.  This approach is used because the user defined constraints can be of a general nature (for example, linear or non-linear).  If a feasible point cannot be identified, the algorithm will terminate and the user is informed a feasible point cannot be found.  At this point, the user can try a more exhaustive search or reformulate the problem.
-
-Additionally, a graphical tool has been added to help the user analyze the problem's feasible region.  As illustrated in figure-xx, a plot with two or three state variables can be displayed that highlights the problem's overall feasible region and the contributions from each individual constraint.  This will allow the user to see which constraints are most restrictive in the context of their problem.
+\label{sec:The_Approach}
 
 
 
-The first restriction placed on the user's problem statement was to require that the optimization problem is formulated as a minimization or maximization of a weight sum of predefined objectives.  Second, the list of potential constraints.  
+Our approach follow the workflow illustrated in Figure~\ref{Workflow}. This is an iterative process that receives a user specified problem, reformulates and solves the problem, and then returns a result for the user to accept or decline. The remainder of this section expands upon the details of each element in this diagram.
 
-
-First, we require the user to present the optimization as a weighted combination of objective functions to be minimized.  
-
-
-
-In our problem, we studied optimal spring designs.  Our approach included designing software that optimizes a spring design to a set of user specified objectives and constraints, analyzing potential constraints that have not been well specified and extending the optimization problem to account for uncertainty.
-
-
-To be as flexible as possible we must be able to handle constraints and objectives that have an unknown number of  variables a priori. To handle this uncertainty we instead of evaluating an objective or constraint with a set of values we evaluate with a "spring object" in the programming sense \cite{OOP}. This spring has all the attributes of interest and the function merely picks what values it needs for evaluation. 
-
-This approach is also implemented in the design of a constraint and objective. An objective is an expression that we must be able to evaluate. A constraint is an expression that we must evaluate and check if this evaluationa violates the constraint condition. We use the idea of inheritance and let a constraint inherit the properties of being an objective with additional framework to compare to a condition. This allows the user to interchange constraints and objectives seamlessly.
-
-Along with the flexible software design, we have implemented the ability to run feasibility and sensitivity checks before trying to optimize. This will allow the user to know additional information about the problem. First, from feasibility, the user will know quickly if the run is unable to find a feasible point to run optimization. Second, from sensitivity, the user can know which parameters will dramatically change the optimization versus which parameters are unnecessarily adding to the dimension of the optimization space. 
- 
-
-\section{The Approach}
-\begin{itemize}
-\item Present and justify your approach for solving the problem. 
-\item Explain the advantages of your approach over existing ones.
-
-\item Tell a story.
-Don't just say: ``I did this, then I did this, and at last I did this''.
-\end{itemize}
-\newpage
-\section{Workflow}
- 		\begin{figure}[h!]
+		\begin{figure}[h!]
 		 \begin{center}\includegraphics[scale=.4]{IMSM_Workflow.png}\end{center}
 		 \caption{Illustration of the flow of our approach.}
 		 \label{Workflow}
 		 
 		 \end{figure}
-Above is an illustration of the workflow that is our approach. This section will go in depth into the feasibility, sensitivity analysis and optimization of our approach.
 
+\subsection{User Input}
+\label{subsec:User_Input}
+
+The first step in our work flow is receiving spring design specifications from a user interested in building a spring for use in some industrial application.  The application will typically involve a set of attributes (eg. spring rate) to optimize and some design constraints (eg. the spring's height or diameter).  For example, consider the acceleration switch discussed during the introduction.  In this case, the user would like to achieve the smallest possible spring rate and spring index, while satisfying the physical dimensions of the acceleration switch.
+
+\subsection{Problem Definition}
+\label{sec:Problem_Definition}
+
+Once the user has provided their input, the next step is formulating the problem.  This requires specifying an optimization objective, design variables and constraints.  To reduce the size of the permissible problem space, the user must specify the optimization function as a weighted sum of minimums and maximums.  While there are other methods for multicriteria optimization, including these in our scheme has been left to future work.  Also, we have reduced the space of design variables based on discussions with engineers experienced with spring design.
+
+After formulating the problem, a library of predefined constraints and objectives is called to initialize the optimization software.  In some problems, however, the designer may need to constrain or optimize an attribute that is not part of the existing library.  If the user has a mathematical formulation for the desired attribute, it can be added to the constraint library for use in the problem formulation.
+
+Our team's integration of stress relaxation provides a useful example of this process.  In some design problems, relaxation is an important objective or constraint.  To our knowledge, however, there are no spring design processes which accounting for the effects of relaxation.  Thus, our team undertook a study of stress relaxation to find a mathematical formulation (see Appendix-xx for technical details) which was added to the function library and can now be used in any problem formulation.
+
+To allow the user maximum flexibility in their problem formulation, our software uses an object oriented design.  Object-oriented programming is an approach to software design that centers around classes which are data containers capable of performing a predefined set of tasks.  For example, our program has a \textbf{Constraint} class that includes the constraint's function, and a way to check whether the constraint is violated at a given point.
+
+Using classes allow flexibility because the program's algorithm are designed to operate on the classes.  For example, the \textbf{OptimizationProblem} class generates the input for the optimizer and sensitivity analysis.  When the user inputs a new problem, the program generates an \textbf{OptimizationProblem} with a specific optimization function and set of constraints.  Thus, once the user has a problem formulation, our software can convert their problem into the objects needed for the optimizer to run.
+
+% Check capitalization
 \subsection{Feasibility}
+\label{subsec:Feasibility}
+
+Once the user has set a problem, the next step is determining the nature of the feasible region.  To assess feasibility, we use a Latin hypercube sampling method, which is designed to ensure sampling coverage over the entire domain.  This approach is used because the user defined constraints are very general in nature (for example, they can be linear or non-linear).  If a feasible point cannot be identified, the algorithm terminates and informs the user that a feasible point cannot be found.  At this point, the user can try a more exhaustive search or reformulate the problem.
+
+Additionally, a graphical tool has been added to help the user analyze the problem's feasible region and the value of the objective function over the region.  As illustrated in the case studies, a plot with two or three state variables can be displayed highlighting the problem's overall feasible region and the contributions from each individual constraint.  This will allow the user to identify the nature of the constraints in their problem.
+
 
 \subsection{Sensitivity Analysis}
-\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches, in the literature have been divided into two categories - (1)filter approach, and (2)wrapper approach. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. An optimization technique is used to obtain the best subset of input variables. In this work, the variance-based Global Sensitivity Analysis (GSA), a filter approach, is used for dimension reduction. Note that the input variables represent the design variables for the objective function. 
+\label{subsec:Sensitivity}
+\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. 
 
-\hspace{5 mm} Consider a objective function, $G$, with $n$ design variables given by $x_{1}$, $x_{2}$, ...  $x_{n}$, given by
+Dimension reduction approaches have been divided into two categories - (1)filter approach, and (2)wrapper approach. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. 
+
+Two types of sensitivity analysis have been developed in the literature - local sensitivity analysis and global sensitivity analysis. The local sensitivity index of a variable measures the sensitivity of the model output when the variable is fixed at a single value whereas the global sensitivity (GSA) index measures the variation of model output when the variable is varied over its range. Therefore, GSA is used as it considers the entire range of a variable in computing the sensitivity to the output. Note that the input variables represent the design variables and model represents the objective function.
+Consider a objective function, $G$, with $n$ design variables given by $x_{1}$, $x_{2}$, ...  $x_{n}$, given by
 
 \centerline{$Y = G(x_{1}, x_{2}, ... x_{n})$}
 
@@ -286,29 +298,164 @@ In GSA, two types of indices can be calculated for each variable - first order i
 \centerline{$S_{i}^{I} = \frac{V_{X_i}(E_{X_{-i}}(Y|X_{i}))}{V(Y)}$}
 \centerline{$S_{i}^{T} = \frac{E_{X_{-i}}(V_{X_{i}}(Y|X_{-i}))}{V(Y)}$}
 
-Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the total-effects index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization.\cite{Bioinformatics} \cite{Wrappers} \cite{Error} \cite{Global}
-\subsection{Optimization}
+Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the first-order index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. Thus, dimension reduction is implemented for a faster design optimization.\cite{Bioinformatics} \cite{Wrappers} \cite{Error} \cite{Global}
 
-Given a constrained optimization problem, we usually have many ways to solve it, eg. Trust Region Reflective Algorithm, Direct optimization algorithm, Conjugate Gradient Algorithm, Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm,etc. For difficult global optimization problem with bound constraints, Direct optimization algorithm is one of the most simple and effective methods. It requires no knowledge of the Lipschitz constant or even the Lipschitz continuous of the objective function. That is, it can be implemented in optimization problem with more difficult objective function. Given that our objective function is subject to change, it is best for us to use a global optimization technique. 
+
+\subsection{Optimization}
+\label{subsec:Optimization}
+\hspace{5 mm} A general constrained design optimization problem can be formulated as follows
+
+\centerline{$Min \hspace{2 mm} f(X)$}
+such that
+
+\centerline{$g(X) \leq 0$}
+\centerline{$lb_{X} \leq X \leq ub_{X}$}
+
+\noindent Several optimization algorithms (both local and global) are available to solve the above optimization problem. Two algorithms - BFGS (local) and DIRECT (global) have been tried for design optimization. The key differences between the two algorithms are described below. BFGS algorithm requires the gradient and Hessian of the objective function, and also an initial point for optimization whereas DIRECT does not require the objective function to be differentiable. Since DIRECT is a global algorithm, it does not require an initial point. A downside of DIRECT is that it requires more computations compared to BFGS. The 'fmincon' function in MATLAB, which implements the BFGS algorithm, requires the linear and non-linear constraints to be provided separately. Separation of linear and non-linear constraints is hard to implements in an automated software framework because they are problem-dependent whereas DIRECT does not require such segregation between constraints. Therefore, DIRECT global algorithm is used for optimization.
+
+% new subsection
+
+\hspace{5 mm} It is also essential to account for the variability in the manufacturing process(tolerance) in the design of springs. The tolerance for each of the spring parameters is assumed to be equal to one percent of the value of the variable. Thus, each variable follows a uniform distribution with unknown mean and known variance. The optimization formulation after accounting for tolerances can now be written as 
+
+\centerline{$Min \hspace{2mm} \mu_{f} (X,d)$}
+
+such that
+
+\centerline{$Pr(g_{i}(X,d) \leq 0)\geq p_{t}^{i}$}
+\centerline{$Pr(X \geq lb_{X})\geq p_{lb}$}
+\centerline{$Pr(X \leq ub_{X})\geq p_{ub}$}
+\centerline{$lb_{d} \leq d \leq ub_{d}$}
+
+\noindent where $X,d$ represent the design variables with tolerances and non-design variables with tolerances respectively. The first constraint represents the probabilistic inequality constraint and the other constraints represent the bounds for the design variables. Optimization with tolerance is a nested double loop process where optimization is carried out in the outer loop (using DIRECT)and in each iteration of optimization, reliability analysis is carried out in the inner loop to check the probabilistic constraints. In this work, Monte Carlo simulations are used to carry out reliability analysis. 
 
 \cite{Derivative} \cite{DirectPaper} \cite{MATLAB:2014a} \cite{DirectUserGuide}
  
- 
+\subsection{Post Processing}
+\label{subsec:Post_Processing}
 
 \section{Computational Experiments}
-\subsection{Basics about uni-axial creep and stress relaxation}
-The spring is heated to $0.3-0.5T_m$ ($T_m$ is the melting temperature of the material) and loaded by a tensile force. The induced normal stress $\sigma$ is much less than the yield limit of the material $\sigma_y$. The load and temperature are constant throughout the test. The strain $\epsilon^{cr}$ will slowly increase.
+\label{sec:Computational_Experiments}
 
-Conventionally, creep can be divded into $3$ stages. In the first stage(primary/reduced/trasient) ,the creep strain rate decreases to a certain value(minimum creep rate). The second stage(secondary/steady/stationary creep) is characterized by a nearly constant creep rate(minimum creep rate). In the third stage(tertiary creep), the creep strain rates increases rapidly and leads to rupture. The first stage is usually reversible with time after unloading, while the second/third ones are not. Since the primary creep occurs in a short duration and the tertiary one leads quickly to rupture, the secondary creep is under most serious consideration in many design in many engineering applications.
+% Include case 1 before submitting draft
 
-Stress relaxation is the phenomenon that the stress decreases when the strain is held constant in time. During the test the load is continuously decreased in such a way that the initial strain remains constant.
+\newpage
+\subsection{Case 1:}
+\label{subsec:Case1}
+%Case_56_28910
+	\textbf{Objectives:} Minimize spring rate and spring index.\\
+	\textbf{Constraints:} Inner diameter and outer diameter relation, elation on inner, wire, and outer diameter, coil binding gap, buckling slenderness, and maximum shear stress. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+\newpage
+\subsection{Case 2:}
+\label{subsec:Case2}
+%Case_56_34891011
+
+	\textbf{Objectives:} Minimize spring rate and spring index.\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress, stress relaxation. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+\newpage
+\subsection{Case 3:}
+\label{subsec:Case3}
+%Case_7_348910
+	\textbf{Objectives:} Minimize force at open position.\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+\newpage
+\subsection{Case 4:}
+\label{subsec:Case4} 
+%Case_11_348
+
+	
+	\textbf{Objectives:} Maximize stress relaxation\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, and coil binding gap. \\
+	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+
+%
+%		\begin{figure}[h]
+%		 \begin{center}\includegraphics[scale=.75]{Case_11_348.eps}\end{center}
+%		 \caption{Feasible region for case 4.}
+%		 \label{Feasible Case 4}
+%		 
+%		 \end{figure}
+ 		\textbf{Axes need to be worked on.}
+
+\newpage
+\subsection{Case 5:}
+\label{subsec:Case5}
+%Case_511_34810
+
+	\textbf{Objectives:} Minimize spring rate and maximize stress relaxation.\\
+	\textbf{Constraints:}  Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, and maximum shear stress. \\
+		\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+		
+%				\begin{figure}[h!]
+%		 \begin{center}\includegraphics[scale=.50]{Case_511_34810.eps}\end{center}
+%		 \caption{Feasible region for case 5}
+%		 \label{Feasible Case 5}
+%		 
+%		 \end{figure}
+		 \textbf{Axes need to be worked on.}
+
+\newpage
+\subsection{Case 6:}
+\label{subsec:Case6}
+%Case_58_3468910
+\textbf{Saideep added a 7a, need to deal with it.}\\
+	\textbf{Objectives:} Minimize spring rate and coil binding gap.\\
+	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress. \\
+		\textbf{State Variables:}$d_{i}$, $d_{w}$, $L_{hard}$, and $N_{t}$ \\
+
+\newpage
+
+\section{Summary and Future Work}
+\label{sec:Summary}
+The ability to interchange constraints and objective functions with any number of design variables allows the user the utmost flexibility. With the addition of feasibility and sensitivity analysis it is possible for any configuration of objective function, constraints, and design variables to be analyzed for refinement. The quantification of stress relaxation and creep allow the user a chance to incorporate these properties into any configuration, especially those that have never been tested. 
+
+Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be ported in. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
+
+Future work is bountiful for this approach. More analysis of the stress relaxation and creep could result in better performance. An in depth analysis of different models of stress relaxation and their performance in our model would be beneficial. The flexibility allows the inclusion of many different models of stress relaxation and creep to be added
+
+This work developed an intelligent tool for the design of helical compression springs. The key highlights of this tool are (1) Allows for flexible optimization, which enables design of springs with interchanging objective functions and constraints, (2)Can incorporate stress relaxation in the design process, (3) Provides a feasibility design space given the constraints, (4)Provide the global sensitivity indices of the design variables to the objective function. The ability to interchange constraints and objective functions with any number of design variables allows the user the utmost flexibility. With the addition of feasibility and sensitivity analysis it is possible for any configuration of objective function, constraints, and design variables to be analyzed for refinement. The quantification of stress relaxation and creep allow the user a chance to incorporate these properties into any configuration, especially those that have never been tested. The sensitivity indices serves two purposes - help the designer understand which variables have the most influence on the objective function and also help in dimension reduction in the design space for a faster optimization.
+
+Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be ported in. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
+
+%Provide some highlights of object-oriented programming for Spring model design
+%
+%A couple of sentences of stress relaxation
+
+In this work, the DIRECT algorithm for global optimization is used for the design of springs. Also, computational experiments have been carried to perform design optimization considering tolerances in design variables but not incorporated in the design tool; this is an future work of importance. 
+
+More analysis of the stress relaxation and creep could result in better performance. An in depth analysis of different models of stress relaxation and their performance in our model would be beneficial. The flexibility allows the inclusion of many different models of stress relaxation and creep to be added. In this work, the nested double-loop approach is used for global sensitivity analysis. As the dimension of design variables increases, the nested double-loop approach becomes computationally very intensive. Therefore, more faster single-loop techniques should be considered. Also, reliability analysis within the optimization procedure is carried out using Monte Carlo sampling. As the complexity of the problem increases, in terms of the number of design variables and the number of constraints, Monte Carlo sampling becomes very intensive. Therefore, faster analytical and sampling techniques such as First Order Reliability Methods (FORM), Importance sampling need to be considered.
+
+
+\textbf{Senstivity for optimization}
+
+
+\textbf{Uncertainty Quantification incorporation into the model.}
+
+
+
+\subsection{Basics about creep and stress relaxation}
+\label{sec:stress}
+A rocket mounted spring is expected to deliver normal mechanical output under extreme temperatures. The analysis of creep behavior helps us design a spring to meet the requirements under rough conditions.
+
+Creep is the strain increase under constant stress, usually activated by high temperatures. Three mechanisms have been proposed to account for the phenomenon: dislocation slip and climb, grain boundary sliding and diffusional flow. We focus on the creep caused by the dislocation mechanism. The material's creep tendency is determined by a creep test. During a test, the spring is kept at $0.3-0.5T_m$ ($T_m$ is the melting temperature of the material) and loaded by a constant tensile force.
+
+Conventionally, creep can be divded into $3$ stages. In the first stage (primary/ reduced/trasient) ,the creep strain rate decreases to a certain value(minimum creep rate). The second stage(secondary/steady/stationary creep) is characterized by a nearly constant creep rate(minimum creep rate). In the third stage(tertiary creep), the creep strain rates increases rapidly and leads to rupture. The first stage is usually reversible with time after unloading, while the second/third ones are not. Since the primary creep occurs in a short duration and the tertiary one leads quickly to rupture, the secondary creep is under most serious consideration in many engineering designs.
+
+Another common test to determine the material's susceptibility to high temperature is called stress relaxation. During the test the load is continuously decreased in such a way that the initial strain remains constant. The mechanism is more or less the same as that of creep.
 
 \subsection{Creep rate law of material}
-The starting point is the assumption that the creep rate may be described as a product of two separate functions of stress, temperature and time
+\label{sec:Creep}
+The starting point is the assumption that the creep rate may be described as a product of three separate functions of stress, temperature and time
 \[
-\epsilon^{cr}=f_\sigma (\sigma) f_T(T) f_t(t)
+\epsilon_{cr}(\sigma,T,t)=f_\sigma (\sigma) f_T(T) f_t(t)
 \]
-The widely used functions of stress $f_\sigma(\sigma)$ are:
+The widely used functions of stress $f_\sigma(\sigma)$ are (\cite{NaKo2006}):
 
 \begin{tabular}{ll}
 $a\sigma^n$ & Norton, 1929, Bailey, 1929 \\
@@ -318,13 +465,13 @@ $a_1\sigma^{n_1} + a_2 \sigma^{n_2}$ & Johnson et al., 1963 \\
 $a\mathop{sinh} \left( {\sigma\over \sigma_0}\right)^n$ & Garofalo, 1965
 \end{tabular}
 
-where $a,b,a_1,a_2,\sigma_0,n_1,n_2$ are material constants that could depend on time $t$. The dependence on the temperature $f_T(T)$ is usually expressed by the Arrhenius law
+where $a,b,a_1,a_2,\sigma_0,n_1,n_2$ are material constant. The dependence on the temperature $f_T(T)$ is usually expressed by the Arrhenius law
 \[
 f_T(T) = \exp \left( {-Q\over RT}\right)
 \]
 where $Q$ and $R$ denote the activation energy and the Boltzmann's constant.
 
-The time dependence part $f_t(t)$ is
+The time dependence part $f_t(t)$ is assumed to be (\cite{Ch2000}):
 
 \begin{tabular}{ll}
 $t$ & secondary creep \\
@@ -333,8 +480,60 @@ $(1+bt^{1/3})\exp{kt}$ & Andrade\\
 $\sum_j a_j t^{m_j}$ & Graham and Walles
 \end{tabular}
 
-For simplicity, we are going to only use the Norton-Bailey law.
+For simplicity, we are going to only use the Norton-Bailey law and ignore any dependence on the temperature since the temperature is constant.
+\section{Stress relaxation of helical spring}
+The following section is based on the paper(\cite{SiAt1970}). Due to conservation of the total shear strain, the sum of the creep strain $\epsilon_{cr}$'s rate of change and that of elastic shear strain $\epsilon_{el}$ is zero:
+\[
+\dot{\epsilon}_{cr} + \dot{\epsilon}_{el} = 0
+\]
+Dot is meant as differentiation in time. The elastic shear strain is related to the shear stress by shear modulus $G$: $\epsilon_{el} = \sigma/G$ and taking the derivative with time on both sides, we arrive at
+\[
+\dot{\epsilon}_{el} = \dot{\sigma}/G
+\]
+According to Norton-Bailey law(also known as time hardening law),
+\begin{equation} \label{eq:N-B}
+\dot{\epsilon}_{cr}(t)=c\sigma^{n+1} t^{k-1}
+\end{equation}
+where $c$ is the shear strain rate, $n,k$ are temperature dependent material constants.
+
+Substituting the above two equations to the conservation law,
+\begin{equation} \label{eq:diff}
+\dot{\sigma}(t)/G+c\sigma(t)^{n+1} t^{k-1}=0
+\end{equation}
+The initial condition is
+\[
+\sigma (0) = G\theta r
+\]
+where $\theta$ is the initial twist angle per unit length, $r$ the radius of wire.
+
+\[
+\sigma = \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}}
+\]
+
+The torque can be written as
+\begin{align*}
+&M(t) = 2\pi \int_0^{d_w} r^2 \sigma(r,t)\,\mathrm{d} r\\
+&M(0)={1\over 2} G\pi\theta d_w^4
+\end{align*}
+where $d_w$ is the wire diameter.
+
+Since the spring load is linearly related the torque $P_z(t)\propto M(t)$, given the constant deflection $s$,
+\[
+{P_z(t)\over P_z(0)} = {M(t)\over M(0)} = {4\over G\theta d_w^4}\int_0^{d_w} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r
+\]
+where
+\[
+\theta = {2s\over \pi N_a ((d_i+d_o)/2)^2}
+\]
+The integral has no endpoint singularity and can be integrated to high order precision using the Gauss quadrature formula. The closer this quantity is to $1$, the better the spring quality is. We notice that a seemingly simpler form has been presented in the paper.
+\[
+{}_{2}F_1 \left( {4\over n},{1\over n};{4+n\over n};{c\theta^n G^{n+1} n t^k\over k} {d_w^n\over 2^n}\right)
+\]
+which we find to yield unrealistic values due to divergence issues.
+
 \subsection{Stress relaxation of helical spring}
+\label{sec:Relaxation}
+
 Due to conservation of the total shear strain, the sum of the creep strain $\epsilon^{cr}$'s rate of change and that of elastic shear strain $\epsilon_{el}$ is zero:
 \[
 \dot{\epsilon}_{cr} + \dot{\epsilon}_{el} = 0
@@ -384,9 +583,9 @@ where
 The closer this quantity is to $1$, the better the spring quality is.
 
 \subsection{Creep of helical spring}
-The starting point is still the Norton-Bailey law (\label{eq:N-B}). There is naturally another way to write the shear strain rate:
+This section is based on the paper(\cite{Ko2014}). The starting point is still the Norton-Bailey law (\ref{eq:N-B}). There is naturally another way to write the shear strain rate:
 \[
-\dot{\epsilon}^{cr} = \dot{\theta} r = {8\dot{s} r\over \pi N_a (d_i+d_o)^2}
+\dot{\epsilon}_{cr} = \dot{\theta} r = {8\dot{s} r\over \pi N_a (d_i+d_o)^2}
 \]
 We obtain $\sigma$ from substiting the above equation into Norton-Bailey law. Given the constant spring force $P_z^0$,
 \[
@@ -398,36 +597,16 @@ It can be deduced that the spring length $s$ follows
 s(t) = s(0) + \left( {(d_i+d_o)P_z^0\over \pi}{4+3n\over n+1} \right)^{n+1} {\pi (d_i+d_o)^2 N_a c\over 8kd_w^{4+3n}} t^k
 \]
 where $s(0)$ is the initial spring length. The less the difference of the spring length $s(t)-s(0)$, the better the spring quality is.
+ 
+ \cite{Ch2000} \cite{Relaxation1} \cite{Relaxation2} \cite{Relaxation3} \cite{Creep} 
+\subsection{Analysis of stress relaxation and creep models}
+\label{sec:stressanalysis}
 
-Give enough details so that readers can duplicate your experiments.
-
-\begin{itemize}
-\item Describe the precise purpose of the experiments, and what they 
-are supposed to show.
-
-\item Describe and justify your test data, and any assumptions you made to 
-simplify the problem.
-
-\item Describe the software you used, and the 
-parameter values you selected.
-
-\item 
-For every figure, describe the meaning and units of the coordinate axes, 
-and what is being plotted.
-
-\item Describe the conclusions you can draw from your experiments
-\end{itemize}
-
-\section{Summary and Future Work}
-The ability to interchange constraints and objective functions with any number of design variables allows the user the utmost flexibility. With the addition of feasibility and sensitivity analysis it is possible for any configuration of objective function, constraints, and design variables to be analyzed for refinement. The quantification of stress relaxation and creep allow the user a chance to incorporate these properties into any configuration, especially those that have never been tested. 
-
-Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be ported in. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
-
-Future work is bountiful for this approach. More analysis of the stress relaxation and creep could result in better performance. An in depth analysis of different models of stress relaxation and their performance in our model would be beneficial. 
 
 
 
 \vfill\pagebreak
+
 
 	
 	\bibliographystyle{ieetr}
