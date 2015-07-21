@@ -56,7 +56,8 @@ Sean Webb\footnote{Sandia National Laboratory};
 %It should be written as much as possible in non-technical terms, so that a
 %lay reader can understand the context and the contribution of the paper.
 
-Springs have many everyday uses, and we have studied them thoroughly as a result~\cite{Wahl}. We find them in cars, homes, gyms, and industry, and one common use of helical compression springs, in particular, is in mechanical switches~\cite{SpringDevice}. Acceleration switches, such as the one seen in Figure~\ref{Acceleration Switch}, are used to close electrical circuits once the object carrying the switch reaches a certain acceleration. The main use of such switches is to provide power to sensory equipment and data recorders for very precise amounts of time, and one example of their use is collecting data from rocket sled experiments. 
+% Fix long sentence remove figure
+Springs have many everyday uses, and scientists have studied them thoroughly as a result~\cite{Wahl}. We find them in cars, homes, gyms, and industry, and one common use of helical compression springs, in particular, is in mechanical switches~\cite{SpringDevice}. Acceleration switches, such as the one seen in Figure~\ref{Acceleration Switch}, are used to close electrical circuits once the object carrying the switch reaches a certain acceleration. The main use of such switches is to provide power to sensory equipment and data recorders for very precise amounts of time, and one example of their use is collecting data from rocket sled experiments. 
 
 		\begin{figure}[h]
 		 \begin{center}\includegraphics[scale=.2]{Acceleration_Switch.png}\end{center}
@@ -67,11 +68,11 @@ Springs have many everyday uses, and we have studied them thoroughly as a result
 		
 These rocket sled tests include very high velocities and accelerations and end in a destructive impact, and since the test is not easily replicated, we must have the ability to consistently and correctly collect data. This means we require that the spring in the acceleration switch must behave as expected to the forces exerted on it, and having a switch that is closed earlier or later than expected is undesirable~\cite{IMSM2010}. Designing a spring to behave as desired is a complicated problem that requires satisfying numerous constraints on the spring's physical properties. That the desired spring can vary depending on the application further complicates the problem. 
 
-Designing an optimal spring is not a new problem, though. Brake et al. considered the design of an acceleration switch with enabled uncertainty~\cite{IMSM2010}. Alternatively, Sastry et al. implemented probabilistic response surface methodology to investigate the complications of uncertainty in designing a spring\cite{Reliability}. Others have considered the reduction of the optimization problem to focus on a single parameter~\cite{Robust}. 
-
 Spring design under these conditions amounts to a constrained optimization problem where certain properties of the spring may need to be maximized or minimized subject to bounds on some or all of the spring's other properties. Extending the scope of focus beyond springs' use in mechanical switches, which already cover a vast spread of specific spring designs, results in even more possibilities for design specifications. Rather than developing methods to solve these problems on an ad hoc basis, developing tools to address a wide variety of constrained optimization problem formulations for spring design would be beneficial. 
 
-Similar tools have been developed in the past~\cite{Paredes}, and in this manuscript we build on this work. Motivated by the premise of the workflow shown in Figure~\ref{Workflow}, we produce a novel tool with new capabilities. 
+Designing an optimal spring is not a new problem. Brake et al. considered the design of an acceleration switch with enabled uncertainty~\cite{IMSM2010}. Alternatively, Sastry et al. implemented probabilistic response surface methodology to investigate the complications of uncertainty in designing a spring~\cite{Reliability}. Others have considered the reduction of the optimization problem to focus on a single parameter~\cite{Robust}. Similar tools to the ones mentioned above also exist~\cite{Paredes}.
+
+Motivated by the premise of the workflow shown in Figure~\ref{Workflow}, we produce a novel tool with new capabilities. 
 
 		\begin{figure}[h!]
 		 \begin{center}\includegraphics[scale=.4]{IMSM_Workflow.png}\end{center}
@@ -149,6 +150,7 @@ The above spring has many design parameters. These range from physical parameter
 		  \caption{A few figures that show some parameters for a helical compression spring.}
 		\end{figure}
 		
+		% Group parameters and change from enumerate
 		\begin{enumerate}
 			\item Spring's inner diameter $d_{i}$, illustrated in figure \ref{Description2}.
 			
@@ -183,9 +185,10 @@ The above spring has many design parameters. These range from physical parameter
 			\item Ultimate torsional stress, UTS. 
 		
 		\end{enumerate}
-		
+
+% Give context to statement		
 One can see that the above parameters are physical design parameters. Each of these are subject to design tolerances. Below is a set of empirical attributes that within a range of values exhibit typical behavior for a spring. We will assume that these attributes are within that range. 
-		
+			
 			%\begin{enumerate}
 			%	\item 
 			Spring Rate:\begin{equation} k = \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}}\end{equation}
@@ -222,7 +225,7 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right]< UTS\end{equation}
 Design an algorithm that optimizes springs with interchangeable objectives and constraints. In addition, attempt to incorporate properties stress relaxation and creep into the available objectives and constraints. 
 
 A list of possible constraints/objectives given in minimization form is below, please note that \\$d_{i}^{max}, d_{o}^{max}, k_{max}, C_{max}$, and $g_{min}$ are user defined bounds. 
-
+ % remove repetitions
 \begin{enumerate}
 	\item $d_{i} < d_{i}^{max}$, this sets a design constraint on what we will allow the inner diamter to be. For the acceleration switch, we must have a spring that will fit the housing of the switch.
 	\item $d_{i} < d_{o}$, physically we must have a bigger outer diameter than inner diameter.
@@ -245,6 +248,7 @@ We do not wish to allow the torsional stress to exceed a certain amount, the ult
 
 \end{enumerate}	
 
+% remove the extra specifics
 This list is not exhaustive as we want a user to be able to define new constraints and objectives. The incorporation of stress relaxation and creep are two examples of this. If the reader wishes to read about these in detail please check out section \ref{sec:stress}. 
 
 In addition to these we should be able to minimize any parameter of the spring. It may be possible they wish to minimize the wire diameter, or the length of the spring at a certain state.  
@@ -279,6 +283,7 @@ These assumptions have reduced the set of design parameters and have allowed us 
 	\item C(\textbf{x}) is the list of constraints. It is comprised of any parameters or attributes described above. It can also include other user defined attributes and parameters not considered in this paper. The user specifies the constraints to use.
 \end{itemize}
 
+% pull top stuff down into sections
 
 \section{The Approach}
 \label{sec:The_Approach}
@@ -321,7 +326,7 @@ Using classes allow flexibility because the program's algorithm can be designed 
 
 Additional points to consider...adding new constraint functions and the predefined constraints list.
 
-
+% Check capitalization
 \subsection{Feasibility}
 \label{sec:Feasibility}
 
@@ -336,7 +341,11 @@ Refer to section \ref{sec:Experiments} to see plots that are showing feasibility
 
 \subsection{Sensitivity Analysis}
 \label{sec:Sensitivity}
-\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches have been divided into two categories - (1)filter approach, and (2)wrapper approach. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. Two types of sensitivity analysis have been developed in the literature - local sensitivity analysis and global sensitivity analysis. The local sensitivity index of a variable measures the sensitivity of the model output when the variable is fixed at a single value whereas the global sensitivity (GSA) index measures the variation of model output when the variable is varied over its range. Therefore, GSA is used as it considers the entire range of a variable in computing the sensitivity to the output. Note that the input variables represent the design variables and model represents the objective function.
+\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. 
+
+Dimension reduction approaches have been divided into two categories - (1)filter approach, and (2)wrapper approach. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. 
+
+Two types of sensitivity analysis have been developed in the literature - local sensitivity analysis and global sensitivity analysis. The local sensitivity index of a variable measures the sensitivity of the model output when the variable is fixed at a single value whereas the global sensitivity (GSA) index measures the variation of model output when the variable is varied over its range. Therefore, GSA is used as it considers the entire range of a variable in computing the sensitivity to the output. Note that the input variables represent the design variables and model represents the objective function.
 Consider a objective function, $G$, with $n$ design variables given by $x_{1}$, $x_{2}$, ...  $x_{n}$, given by
 
 \centerline{$Y = G(x_{1}, x_{2}, ... x_{n})$}
@@ -360,6 +369,8 @@ such that
 \centerline{$lb_{X} \leq X \leq ub_{X}$}
 
 \noindent Several optimization algorithms (both local and global) are available to solve the above optimization problem. Two algorithms - BFGS (local) and DIRECT (global) have been tried for design optimization. The key differences between the two algorithms are described below. BFGS algorithm requires the gradient and Hessian of the objective function, and also an initial point for optimization whereas DIRECT does not require the objective function to be differentiable. Since DIRECT is a global algorithm, it does not require an initial point. A downside of DIRECT is that it requires more computations compared to BFGS. The 'fmincon' function in MATLAB, which implements the BFGS algorithm, requires the linear and non-linear constraints to be provided separately. Separation of linear and non-linear constraints is hard to implements in an automated software framework because they are problem-dependent whereas DIRECT does not require such segregation between constraints. Therefore, DIRECT global algorithm is used for optimization.
+
+% new subsection
 
 \hspace{5 mm} It is also essential to account for the variability in the manufacturing process(tolerance) in the design of springs. The tolerance for each of the spring parameters is assumed to be equal to one percent of the value of the variable. Thus, each variable follows a uniform distribution with unknown mean and known variance. The optimization formulation after accounting for tolerances can now be written as 
 
