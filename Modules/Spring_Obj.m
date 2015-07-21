@@ -69,6 +69,14 @@ classdef Spring_Obj
         minimum_force_at_open_position; 
         maximum_force_at_open_position; 
         
+        force_at_solid_position; 
+        minimum_force_at_solid_position; 
+        maximum_force_at_solid_position; 
+        
+        force_at_hard_position; 
+        minimum_force_at_hard_position; 
+        maximum_force_at_hard_position; 
+        
         spring_rate; % k
         minimum_spring_rate;
         maximum_spring_rate; %k_max   
@@ -104,6 +112,7 @@ classdef Spring_Obj
         %for stress relaxation test
         stress_relaxation;
         minimum_stress_relaxation = 0.85;
+        maximum_stress_relaxation;
         time_stress_relaxation = 3E6;
         shear_modulus_stress_relaxation = 6E10;
         Norton_Bailey_c = 5E-20;
