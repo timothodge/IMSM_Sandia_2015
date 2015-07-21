@@ -128,8 +128,6 @@ We can uniquely define a helical compression spring by a set of design parameter
 			\item[Open Length] Denoted $L_{\text{open}}$, this is the spring's resting length in its application. In the acceleration switch, for example, it is the length of the spring in the switch before the switch is used.
 			
 			\item[Hard Length] Denoted $L_{\text{hard}}$, this is the minimum length a spring can compress to under a specified force. For the acceleration switch example, the spring cannot compression beyond a certain point under the applied forces because additional compression would reopen the circuit. 
-			
-			\item[Open Force] Denoted $F_{\text{open}}$, this is the force applied to the spring while it is in the open position. For the acceleration switch, this is the applied force on the spring when the switch is not in use.
 					
 			\item[Pitch] Denoted $p$, this is the distance between coils. The pitch depends on $d_{\text{w}}$, $L_{\text{free}}$, $N_{\text{a}}$, and the spring's end conditions. See Figure~\ref{fig:Description1}.			
 			
@@ -164,52 +162,13 @@ d_{\text{w}} + 3 d_{\text{w}}^{2})}{d_{\text{i}}(d_{\text{i}}+d_{\text{w}})^{3}}
 			
 			\item[Diametral Expansion]\begin{equation} d_{\text{expand}} = d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}}
 			\end{equation}
-				The diametral expansion is the measurement of how much the diameter of the spring increases as the spring is compressed. Note that the discriminant of the square root is necessarily positive, so diametral expansion can put additional constraints on the relationship between some parameters.	
+				The diametral expansion is the measurement of how much the diameter of the spring increases as the spring is compressed. Note that the discriminant of the square root is necessarily positive, so diametral expansion can put additional constraints on the relationship between some parameters. 	
+			% Talk about open vs closed
 			
 			\end{description}
 
-This list of parameters and attributes is not exhaustive, but it does demonstrate the inherent complexities found in spring design. 
-
-
-A list of possible constraints/objectives given in minimization form is below, please note that \\$d_{i}^{max}, d_{o}^{max}, k_{max}, C_{max}$, and $g_{min}$ are user defined bounds. 
- % remove repetitions
-%\begin{enumerate}
-%	\item $d_{i} < d_{i}^{max}$, this sets a design constraint on what we will allow the inner diamter to be. For the acceleration switch, we must have a spring that will fit the housing of the switch.
-%	\item $d_{i} < d_{o}$, physically we must have a bigger outer diameter than inner diameter.
-%	\item $d_{i} + 2d_{w} < d_{o}^{max}$, The outer diameter cannot exceed some design limitation.
-%	\item$d_{expand} - d_{0}^{max} < 0 $, we will not allow the spring to expand more than a certain amount during compression.
-%	\item$ \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}} - k_{max} \le 0 $, there is a maximum spring rate or stiffness that we will allow. 
-%
-%	\item $\frac{d_{i}}{d_{w}} + 1 - C_{max}< 0$, similarly we will only allow a maximum ratio between the inner diameter and wire diameter. 
-%
-%	\item $(L_{free} - L_{open})\frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}} - F_{open} = 0 $, $F_{open}$ should be physically possible given its formulation.
-%
-%	\item $\frac{L_{hard} - L_{solid}}{N_{t} - 1} + g_{min} \le  0$. There is a minimum gap we wish to have to ensure our coils cannot bind. 
-%
-%	\item$\frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}}$, if a spring is slender, it may buckle or fold on itself. This is a constraint to address this physical attribute. 
-%
-%	\item$-UTS + \frac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
-%d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] < 0$
-%
-%We do not wish to allow the torsional stress to exceed a certain amount, the ultimate torsional stress, $UTS$.
-%
-%\end{enumerate}	
-
-This set of attributes and parameters define a spring's design and can all play a role in designing an optimal spring for a particular situation. The length of this list is what makes constructing a tool to handle a variety of 
-
-
-
-This list is not exhaustive as we want a user to be able to define new constraints and objectives. The incorporation of stress relaxation and creep are two examples of this. If the reader wishes to read about these in detail please check out section \ref{sec:stress}. 
-
+This list of parameters and attributes is not exhaustive, but it does demonstrate the inherent complexities found in spring design. Requiring spring design that must satisfy both upper and lower bounds on each of the attributes is not uncommon. As a result formulating the exact problem statement as given by the required spring design must be precise and can benefit from a standard convention. This lends itself to a mathematical formulation.
 In addition to these we should be able to minimize any parameter of the spring. It may be possible they wish to minimize the wire diameter, or the length of the spring at a certain state.  
-
-In order to simplify the problem we have some assumptions. First, we have assumed that constraints and objectives are all in terms of the number of total coils. This is to reduce the complexity of knowing if a constraint is dependent on the active number or total number of coils. These two numbers are dependent on the end conditions of the spring, whether it is open or closed at the end. 
-
-For this reason we also will consider all springs to be have a closed end condition. With these assumptions we simplify our constraints for pitch, $p$, solid length, $L_{solid}$, and the diametral expansion, $d_{expand}$.
-
-
-These assumptions have reduced the set of design parameters and have allowed us to simplify the problem. Without these assumptions we would need to deduce at run time what formulas we can use and this is a challenging problem from an implementation stand point. Also, we have a very complicated formula for diametral expansion if the end conditions are not closed. This presents issues of solving a cubic without the ability of discerning if the roots will be physically meaningful. 
-
 
 \subsection{Constrained Optimization}
 \label{sec:Constrained_Optimization}
@@ -220,9 +179,11 @@ Given an input of objectives and constraints on those objectives which are both 
  						& \underset{\textbf{x}}{\text{min}}
  						& & F(\textbf{x}), \\
  						& \text{subject to}
- 						& & G(\textbf{x}) \le 0.
+ 						& & \mathbf{G}(\textbf{x}) \le \mathbf{0}.
  					\end{aligned}
 				\end{equation*}
+				
+Here, $\mathbf{x}$ is the set of independent variables for the problem. In the context of spring design the independent variables are the spring parameters, which we also call design variables in the context of optimization. The function $F(\mathbf{x})$ is the objective function that we try to optimize. For spring design this function can consist of a single spring attribute or any weighted linear combination of attributes. Lastly, the function $\mathbf{G}(\mathbf{x})$ is the set of constraint functions restricting the optimization problem. For spring design, this set can consist of any combination of bounds on the design variables and bounds on the spring attributes.
 
 \begin{itemize}
 	\item \textbf{x} is a set of variables for optimization, they are user specified.
@@ -595,7 +556,7 @@ In this work, the DIRECT algorithm for global optimization is used for the desig
 
 
 
-\subsection{Basics about creep and stress relaxation}
+\section{Appendix}
 \label{sec:stress}
 A rocket mounted spring is expected to deliver normal mechanical output under extreme temperatures. The analysis of creep behavior helps us design a spring to meet the requirements under rough conditions.
 
