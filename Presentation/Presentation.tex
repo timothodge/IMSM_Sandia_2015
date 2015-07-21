@@ -101,7 +101,7 @@
 %----------------------------------------------------------------
 
 \title[Optimal Helical Compression Springs]{Given a Helical Compression Spring in a Spring-Mass Damper System: What are Optimal Springs?}
-\author[Sandia National Laboratories Group]{A. Bentley, T. Hodges, J. Jiang, J. Krueger, S. Nnannapaneni, T. Qiu}
+\author[Sandia National Laboratories Group]{A. Bentley, T. Hodges, J. Jiang, J. Krueger, S. Nannapaneni, T. Qiu}
 \institute[]{2015 Industrial Math/Stat Modeling Workshop for Graduate Students} 
 \date{July 22, 2015}
 
@@ -110,28 +110,253 @@
 \frame{
 \titlepage
 }
-
+\section{Problem}
 \frame{
 \frametitle{Problem}
-\begin{itemize}[<+->]
-\item What is an algorithm that optimizes springs with interchangeable constraints and objectives? 
-\item Can you quantify and incorporate spring force relaxation?
+\begin{columns}[c]
+\column{.5\textwidth}
+\begin{itemize}
+	\item Design an algorithm that optimizes springs with interchangeable constraints and objectives.
+	\item Can you quantify and incorporate stress relaxation?
+	\item Incorporate design optimization uncertainty.
+	
 \end{itemize}
+\column{.5\textwidth}
+\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.2]{Acceleration_Switch_Detailed.png}\end{center}
+		 \caption{Acceleration switch}
+		 \label{fig:Acceleration_Switch}
+		 
+		 \end{figure}	 
+\end{columns}
 }
 
-\section{Introduction}
-
+\section{Approach}
 \frame{
-\frametitle{}
-\begin{center}
-\LARGE Thank you.\\
-\bigskip
-\LARGE Questions?
-\end{center}
+\frametitle{Algorithm}
+\begin{columns}[c]
+\column{.5\textwidth}
+\begin{itemize}
+	\item What do we need in include in the algorithm? 
+	\item Feasibility, Sensitivity Analysis, Optimization. 
+
+	
+\end{itemize}
+\column{.5\textwidth}
+\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow.png}\end{center}
+		 \caption{Algorithm of approach}
+
+		 
+		 \end{figure}	 
+\end{columns}
 }
 
 \frame{
+\frametitle{User Input}
+\begin{columns}[c]
+	\column{.5\textwidth}
+\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.1]{Spring_Description.png}\end{center}
+		 \caption{Outer diameter, pitch, and \\free length.}
+		 \label{fig:Description1}
+\end{figure}	
+
+\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.1]{Spring_Description2.png}\end{center}
+		 \caption{Inner diameter}
+		 \label{fig:Description2}
+\end{figure}
+	
+	\column{.5\textwidth}
+	\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow1.png}\end{center}
+		 \caption{User Input}
+
+		 
+		 \end{figure}
+	
+
+	 
+\end{columns}
+
+
+}
+
+\frame{
+\frametitle{Problem Definition}
+\begin{columns}[c]
+	\column{.5\textwidth}
+				\begin{equation*}
+ 					\begin{aligned}
+ 						& \underset{\textbf{x}}{\text{min}}
+ 						& & F(\textbf{x}), \\
+ 						& \text{subject to}
+ 						& & G(\textbf{x}) \le 0
+ 					\end{aligned}
+				\end{equation*}
+
+
+
+	
+	\column{.5\textwidth}
+	\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow2.png}\end{center}
+		 \caption{Problem Definition}
+	
+		 
+		 \end{figure}
+	
+
+	 
+\end{columns}
+
+
+}
+
+
+\frame{
+\frametitle{Feasibility}
+\begin{columns}[c]
+\column{.5\textwidth}
+\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.28]{Case_56_38910new.eps}\end{center}
+		 \caption{Feasibility Region}
+		 \label{fig:Region2}
+\end{figure}	
+\column{.5\textwidth}
+	\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow3.png}\end{center}
+		 \caption{Feasibility}
+	
+		 
+		 \end{figure}
+
+
+\end{columns}
+
+
+}
+
+
+\frame{
+\frametitle{Sensitivity Analysis}
+\begin{columns}[c]
+	\column{.6\textwidth}
+	\begin{itemize}
+		\item If dim(design space) increases then computation expense increases.
+		\item Sensitivity Analysis $\rightarrow$ Measure of influence
+		\item Locally $\rightarrow$ around a point (Gradient).
+		\item Globally $\rightarrow$ Overall sensitivity (Sobol Indices).
+		\item $Y = G(X_{1},...,X_{n})$
+		\item Sobol Index: $S_{i}^{I} = \frac{V_{i}(E_{~i}(Y | X_{i}))}{V(Y)}$
+	\end{itemize}
+	
+	\column{.4\textwidth}
+		\begin{figure}[h]
+			 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow4.png}\end{center}
+			 \caption{Sensitivity}
+	
+		 
+		 \end{figure}
+	 
+\end{columns}
+
+
+}
+
+\frame{
+\frametitle{Optimization}
+\begin{columns}[c]
+	\column{.6\textwidth}
+	\begin{itemize}
+		\item Constrainted Optimization
+	\end{itemize}
+			\begin{equation*}
+ 					\begin{aligned}
+ 						& \underset{\textbf{x}}{\text{min}}
+ 						& & F(\textbf{x}), \\
+ 						& \text{subject to}
+ 						& & G(\textbf{x}) \le 0\\
+						 & lb_{\textbf{x}} \le \textbf{x} \le ub_{\textbf{x}}\\
+ 					\end{aligned}
+				\end{equation*}
+	\begin{itemize}
+		\item Local vs. Global
+			\begin{itemize}
+				\item Local, requires initial point, faster.
+				\item Global, no initial point, slower.
+				
+			\end{itemize}	
+		\item DIRECT algorithm for optimization
+		\item Easily integrated with the framework.
+	\end{itemize}
+	
+	\column{.4\textwidth}
+	
+		\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow5.png}\end{center}
+		 \caption{Optimization}
+	
+		 
+		 \end{figure}
+	 
+\end{columns}
+}
+
+\section{Stress Relaxation}
+\frame{
+\frametitle{Stress Relaxation}
+\begin{columns}[c]
+	\column{.4\textwidth}
+	\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.4]{hands_revised.png}\end{center}
+		
+		 \end{figure}
+	\column{.6\textwidth}
+	\[\frac{4}{ G\theta d_w^4}\int_0^{d_w} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-\frac{1}{n}} \,\mathrm{d} r
+\]
+\centering where
+\[
+\theta = {2s\over \pi N_a ((d_i+d_o)/2)^2}
+\]
+	 
+\end{columns}
+}
+
+\frame{
+\frametitle{Design Optimization Uncertainty}
+
+	\begin{itemize}
+		\item Variability in manufacturing process $\rightarrow$ tolerance/uncertainty.
+		\item Considerations in design process:
+	\end{itemize}
+				\begin{equation*}
+ 					\begin{aligned}
+						& \underset{x}{\text{min}}
+						  \hspace{.1in} \mu_{F}(\textbf{x},d), \\
+						& \text{such that}\\
+ 						&  Pr(G(\textbf{x},d) <0)  > \rho_{t}\\
+						&  Pr(\textbf{x} > lb_{\textbf{x}})  > \rho_{t}^{lb}\\
+						&  Pr(\textbf{x} < \mu b_{\textbf{x}})  > \rho_{t}^{ub}\\
+ 					\end{aligned}
+				\end{equation*}
+		\begin{itemize}
+			\item Uniform Distribution [$\mathbf{x}_{i} -  T_{\mathbf{x}_{i}}$, $\mathbf{x}_{i} +  T_{\mathbf{x}_{i}}$]
+			\item Each iteration $\rightarrow$ Reliability analysis using Monte Carlo.
+			\item UQ propagation with Monte Carlo to obtain $F(\mathbf{x})$
+		\end{itemize}
+
+	 
+
+}
+
+
+
+
+\frame[allowframebreaks]{
 \frametitle{References}
+\nocite{*}
 %\cite{}
 %\cite{OEIS}}\end{TINY}
 %\nocite{Eisenbud}
@@ -146,8 +371,17 @@
 %\nocite{Floating}
 %\nocite{Bates}
 %\nocite{MATLAB:2014a}
-%\bibliographystyle{amsalpha}
-%\bibliography{MyBib}
+\bibliographystyle{ieetr}
+\bibliography{MyBib}
+}
+
+\frame{
+\frametitle{}
+\begin{center}
+\LARGE Thank you.\\
+\bigskip
+\LARGE Questions?
+\end{center}
 }
 
 \end{document}
