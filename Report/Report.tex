@@ -205,7 +205,26 @@ After formulating the problem, a library of predefined constraints and objective
 
 Our team's integration of stress relaxation provides a useful example of this process.  In some design problems, relaxation is an important objective or constraint.  To our knowledge, however, there are no spring design processes which accounting for the effects of relaxation.  Thus, our team undertook a study of stress relaxation to find a mathematical formulation (see Appendix-xx for technical details) which was added to the function library and can now be used in any problem formulation.
 
-To allow the user maximum flexibility in their problem formulation, our software uses an object oriented design.  Object-oriented programming is an approach to software design that centers around classes which are data containers capable of performing a predefined set of tasks.  For example, our program has a \textbf{Constraint} class that includes the constraint's function, and a way to check whether the constraint is violated at a given point.
+To allow the user maximum flexibility in their problem formulation, our software uses an object oriented design.  Object-oriented programming is an approach to software design that centers around classes which are data containers capable of performing a predefined set of tasks.  For example, our program has a \textbf{Constraint} class that includes the constraint's function, and a way to check whether the constraint is violated at a given point. For an few examples of classes see figure \ref{fig:Classes}. 
+
+\begin{figure}[h]
+			\begin{subfigure}{.5\textwidth}
+				\centering
+				\includegraphics[scale=.5]{Spring_Class.png}
+				\caption{Class for the spring}
+				\label{fig:Spring_Class}
+			\end{subfigure}%
+			\begin{subfigure}{.5\textwidth}
+				  \centering
+		 		\includegraphics[scale=.5]{Objective_Constraint.png}
+				\caption{Objective and Constraint Classes}
+				  \label{fig:Objective_Constraint}
+		  		
+			\end{subfigure}
+			 \label{fig:Classes}
+		  \caption{A few of the classes we use.}
+		\end{figure}
+
 
 Using classes allow flexibility because the program's algorithm are designed to operate on the classes.  For example, the \textbf{OptimizationProblem} class generates the input for the optimizer and sensitivity analysis.  When the user inputs a new problem, the program generates an \textbf{OptimizationProblem} with a specific optimization function and set of constraints.  Thus, once the user has a problem formulation, our software can convert their problem into the objects needed for the optimizer to run.
 
