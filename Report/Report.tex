@@ -473,21 +473,23 @@ Future work is bountiful for this approach. More analysis of the stress relaxati
 
 
 
-\subsection{Basics about uni-axial creep and stress relaxation}
+\subsection{Basics about creep and stress relaxation}
 \label{sec:stress}
-There are many models for stress relaxation and un-axial creep. We choose a model outlined in \textbf{CITE!}. For this model the spring is heated to $0.3-0.5T_m$ ($T_m$ is the melting temperature of the material) and loaded by a tensile force. The induced normal stress $\sigma$ is much less than the yield limit of the material $\sigma_y$. The load and temperature are constant throughout the test. The strain $\epsilon^{cr}$ will slowly increase.
+A rocket mounted spring is expected to deliver normal mechanical output under extreme temperatures. The analysis of creep behavior helps us design a spring to meet the requirements under rough conditions.
 
-Conventionally, creep can be divded into $3$ stages. In the first stage(primary/reduced/trasient) ,the creep strain rate decreases to a certain value(minimum creep rate). The second stage(secondary/steady/stationary creep) is characterized by a nearly constant creep rate(minimum creep rate). In the third stage(tertiary creep), the creep strain rates increases rapidly and leads to rupture. The first stage is usually reversible with time after unloading, while the second/third ones are not. Since the primary creep occurs in a short duration and the tertiary one leads quickly to rupture, the secondary creep is under most serious consideration in many design in many engineering applications.
+Creep is the strain increase under constant stress, usually activated by high temperatures. Three mechanisms have been proposed to account for the phenomenon: dislocation slip and climb, grain boundary sliding and diffusional flow. We focus on the creep caused by the dislocation mechanism. The material's creep tendency is determined by a creep test. During a test, the spring is kept at $0.3-0.5T_m$ ($T_m$ is the melting temperature of the material) and loaded by a constant tensile force.
 
-Stress relaxation is the phenomenon that the stress decreases when the strain is held constant in time. During the test the load is continuously decreased in such a way that the initial strain remains constant.
+Conventionally, creep can be divded into $3$ stages. In the first stage (primary/ reduced/trasient) ,the creep strain rate decreases to a certain value(minimum creep rate). The second stage(secondary/steady/stationary creep) is characterized by a nearly constant creep rate(minimum creep rate). In the third stage(tertiary creep), the creep strain rates increases rapidly and leads to rupture. The first stage is usually reversible with time after unloading, while the second/third ones are not. Since the primary creep occurs in a short duration and the tertiary one leads quickly to rupture, the secondary creep is under most serious consideration in many engineering designs.
+
+Another common test to determine the material's susceptibility to high temperature is called stress relaxation. During the test the load is continuously decreased in such a way that the initial strain remains constant. The mechanism is more or less the same as that of creep.
 
 \subsection{Creep rate law of material}
 \label{sec:Creep}
-The starting point is the assumption that the creep rate may be described as a product of two separate functions of stress, temperature and time
+The starting point is the assumption that the creep rate may be described as a product of three separate functions of stress, temperature and time
 \[
-\epsilon^{cr}=f_\sigma (\sigma) f_T(T) f_t(t)
+\epsilon_{cr}(\sigma,T,t)=f_\sigma (\sigma) f_T(T) f_t(t)
 \]
-The widely used functions of stress $f_\sigma(\sigma)$ are:
+The widely used functions of stress $f_\sigma(\sigma)$ are (\cite{NaKo2006}):
 
 \begin{tabular}{ll}
 $a\sigma^n$ & Norton, 1929, Bailey, 1929 \\
@@ -497,13 +499,13 @@ $a_1\sigma^{n_1} + a_2 \sigma^{n_2}$ & Johnson et al., 1963 \\
 $a\mathop{sinh} \left( {\sigma\over \sigma_0}\right)^n$ & Garofalo, 1965
 \end{tabular}
 
-where $a,b,a_1,a_2,\sigma_0,n_1,n_2$ are material constants that could depend on time $t$. The dependence on the temperature $f_T(T)$ is usually expressed by the Arrhenius law
+where $a,b,a_1,a_2,\sigma_0,n_1,n_2$ are material constant. The dependence on the temperature $f_T(T)$ is usually expressed by the Arrhenius law
 \[
 f_T(T) = \exp \left( {-Q\over RT}\right)
 \]
 where $Q$ and $R$ denote the activation energy and the Boltzmann's constant.
 
-The time dependence part $f_t(t)$ is
+The time dependence part $f_t(t)$ is assumed to be (\cite{Ch2000}):
 
 \begin{tabular}{ll}
 $t$ & secondary creep \\
@@ -512,9 +514,60 @@ $(1+bt^{1/3})\exp{kt}$ & Andrade\\
 $\sum_j a_j t^{m_j}$ & Graham and Walles
 \end{tabular}
 
-For simplicity, we are going to only use the Norton-Bailey law.
+For simplicity, we are going to only use the Norton-Bailey law and ignore any dependence on the temperature since the temperature is constant.
+\section{Stress relaxation of helical spring}
+The following section is based on the paper(\cite{SiAt1970}). Due to conservation of the total shear strain, the sum of the creep strain $\epsilon_{cr}$'s rate of change and that of elastic shear strain $\epsilon_{el}$ is zero:
+\[
+\dot{\epsilon}_{cr} + \dot{\epsilon}_{el} = 0
+\]
+Dot is meant as differentiation in time. The elastic shear strain is related to the shear stress by shear modulus $G$: $\epsilon_{el} = \sigma/G$ and taking the derivative with time on both sides, we arrive at
+\[
+\dot{\epsilon}_{el} = \dot{\sigma}/G
+\]
+According to Norton-Bailey law(also known as time hardening law),
+\begin{equation} \label{eq:N-B}
+\dot{\epsilon}_{cr}(t)=c\sigma^{n+1} t^{k-1}
+\end{equation}
+where $c$ is the shear strain rate, $n,k$ are temperature dependent material constants.
+
+Substituting the above two equations to the conservation law,
+\begin{equation} \label{eq:diff}
+\dot{\sigma}(t)/G+c\sigma(t)^{n+1} t^{k-1}=0
+\end{equation}
+The initial condition is
+\[
+\sigma (0) = G\theta r
+\]
+where $\theta$ is the initial twist angle per unit length, $r$ the radius of wire.
+
+\[
+\sigma = \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}}
+\]
+
+The torque can be written as
+\begin{align*}
+&M(t) = 2\pi \int_0^{d_w} r^2 \sigma(r,t)\,\mathrm{d} r\\
+&M(0)={1\over 2} G\pi\theta d_w^4
+\end{align*}
+where $d_w$ is the wire diameter.
+
+Since the spring load is linearly related the torque $P_z(t)\propto M(t)$, given the constant deflection $s$,
+\[
+{P_z(t)\over P_z(0)} = {M(t)\over M(0)} = {4\over G\theta d_w^4}\int_0^{d_w} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r
+\]
+where
+\[
+\theta = {2s\over \pi N_a ((d_i+d_o)/2)^2}
+\]
+The integral has no endpoint singularity and can be integrated to high order precision using the Gauss quadrature formula. The closer this quantity is to $1$, the better the spring quality is. We notice that a seemingly simpler form has been presented in the paper.
+\[
+{}_{2}F_1 \left( {4\over n},{1\over n};{4+n\over n};{c\theta^n G^{n+1} n t^k\over k} {d_w^n\over 2^n}\right)
+\]
+which we find to yield unrealistic values due to divergence issues.
+
 \subsection{Stress relaxation of helical spring}
 \label{sec:Relaxation}
+
 Due to conservation of the total shear strain, the sum of the creep strain $\epsilon^{cr}$'s rate of change and that of elastic shear strain $\epsilon_{el}$ is zero:
 \[
 \dot{\epsilon}_{cr} + \dot{\epsilon}_{el} = 0
@@ -564,9 +617,9 @@ where
 The closer this quantity is to $1$, the better the spring quality is.
 
 \subsection{Creep of helical spring}
-The starting point is still the Norton-Bailey law (\label{eq:N-B}). There is naturally another way to write the shear strain rate:
+This section is based on the paper(\cite{Ko2014}). The starting point is still the Norton-Bailey law (\ref{eq:N-B}). There is naturally another way to write the shear strain rate:
 \[
-\dot{\epsilon}^{cr} = \dot{\theta} r = {8\dot{s} r\over \pi N_a (d_i+d_o)^2}
+\dot{\epsilon}_{cr} = \dot{\theta} r = {8\dot{s} r\over \pi N_a (d_i+d_o)^2}
 \]
 We obtain $\sigma$ from substiting the above equation into Norton-Bailey law. Given the constant spring force $P_z^0$,
 \[
