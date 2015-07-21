@@ -5,7 +5,8 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{url}
-
+\usepackage{enumitem}
+\usepackage{calc}
 
 \topmargin-.5in
 \textwidth6.6in
@@ -33,6 +34,7 @@
    
 \end{center}
 
+
 %\vspace{.1truein}
 
 \begin{center}
@@ -45,7 +47,6 @@ Sean Webb\footnote{Sandia National Laboratory};
 
 \vspace{.3truein}
 \centerline{\bf Abstract}
-
 
 
 
@@ -151,65 +152,67 @@ The above spring has many design parameters. These range from physical parameter
 		\end{figure}
 		
 		% Group parameters and change from enumerate
-		\begin{enumerate}
-			\item Spring's inner diameter $d_{i}$, illustrated in figure \ref{Description2}.
+		\noindent \textbf{Parameters:}
+		\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Outer diameter:}]
+			\item [Inner diameter:] denoted $\mathbf{d_{i}}$, illustrated in figure \ref{Description2}.
 			
-			\item Spring's outer diameter $d_{o}$ illustrated in figure \ref{Description1}.
+			\item [Outer diameter:] denoted $\mathbf{d_{o}}$, illustrated in figure \ref{Description1}.
 			
-			\item Spring's wire diameter $d_{w}$.
+			\item [Wire diameter:] denoted $\mathbf{d_{w}}$.
 			
-			\item Total number of spring coils $N_{t}$, this is the number to rotations of wire in the spring, we allow for partial rotations.
+			\item[Total coils:] denoted $\mathbf{N_{t}}$, this is the number to rotations of wire in the spring, we allow for partial rotations.
 			
-			\item Active number of spring coils $N_{a}$, active coils are not touching any other coils, and is subject to the spring being closed or open. Closed means that the end coils are welded, where as open means they are not. For this reason a spring must have at least 2 coils.
+			\item[Active coils:] denoted $\mathbf{N_{a}}$, active coils are not touching any other coils. The number of active coils is subject to the spring being closed or open. Closed means that the end coils are welded, where as open means they are not. For this reason a spring must have at least 2 coils.
 
-			\item Spring's free length $L_{free}$, the spring's length without any force applied. i.e., this is the spring length before being installed in the acceleration switch.
+			\item[Free length:] denoted $\mathbf{L_{free}}$, the spring's length without any force applied. i.e., this is the spring length before being installed in the acceleration switch.
 			
-			\item Spring's solid length $L_{solid}$, the spring's length when all coils are compressed together.
-			\item Spring's open length $L_{open}$, the spring's length at open position. i.e., for the acceleration switch this would be before the rocket sled test is started. 
+			\item[Solid length:] denoted $\mathbf{L_{solid}}$, the spring's length when all coils are compressed together.
+			\item[Open length:] denoted $\mathbf{L_{open}}$, the spring's length at open position. i.e., for the acceleration switch this would be before the rocket sled test is started. 
 			
-			\item Spring's open length $L_{close}$, spring length at close position. i.e., this would be when enough force is applied for the acceleration switch to close and start collecting data.
+			\item[Close length:] denoted $\mathbf{L_{close}}$, spring length at close position. i.e., this would be when enough force is applied for the acceleration switch to close and start collecting data.
 			
-			\item Spring's open length $L_{hard}$, the maximum a spring can compress for the application. i.e., for the acceleration switch this is the maximum compression the acceleration switch's spring should be allowed. 
+			\item[Hard length:] denoted $\mathbf{L_{hard}}$, the maximum a spring can compress for the application. i.e., for the acceleration switch this is the maximum compression the acceleration switch's spring should be allowed. 
 			
-			\item Spring's open force $F_{open}$, this is the force on the spring in open position, i.e., the resting force for the acceleration switch.			
+			\item[Open force:] denoted $\mathbf{F_{open}}$, this is the force on the spring in open position, i.e., the resting force for the acceleration switch.			
 			
-			\item Pitch $p$ illustrated in figure \ref{Description1}, depends on the wire diameter, the free length and the number of active coils.
+			\item[Pitch:] denoted $\mathbf{p}$ illustrated in figure \ref{Description1}, depends on the $\mathbf{d_{w}}$,$\mathbf{L_{free}}$, and $\mathbf{N_{a}}$.t			
 			
+			\item[Shear modulus:] (or modulus of rigidity), denoted $\mathbf{G}$, is one of several quantities for measuring the stiffness of materials.
 			
-			\item Spring's shear modulus or modulus of rigidity, $G$, is one of several quantities for measuring the stiffness of materials.
+			\item[Young's modulus:] (or elastic modulus), denoted $\mathbf{E}$, is a measurement of force that is needed  to stretch (or compress) a sample of material.
 			
-			\item Spring's youngs modulus or tensile modulus or elastic modulus, $E$, is a measurement of force that is needed  to stretch (or compress) a sample of material.
+			\item[Poisson ratio:] denoted $\mathbf{\nu}$, is a measurement of the poisson effect of a material. 
 			
-			\item Spring's poisson ratio $\nu$, is a measurement of the poisson effect of a material. 
-			
-			\item Ultimate torsional stress, UTS. 
+			\item[Ultimate torsional stress:], denoted $\mathbf{UTS}$. 
 		
-		\end{enumerate}
+		\end{description}
 
 % Give context to statement		
 One can see that the above parameters are physical design parameters. Each of these are subject to design tolerances. Below is a set of empirical attributes that within a range of values exhibit typical behavior for a spring. We will assume that these attributes are within that range. 
 			
-			%\begin{enumerate}
-			%	\item 
-			Spring Rate:\begin{equation} k = \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}}\end{equation}
+			\begin{description}
+				\item [Spring Rate (k):] \begin{equation} k = \frac{G}{8N_{a}}\frac{d_{w}^{4}}{(d_{i} + d_{w})^{3}}\end{equation}
+				\end{description}
 			The spring rate is a quantity used to measure the rigidity or stiffness of the object. 
-				
-			Spring Index:\begin{equation}C = \frac{d_{i}}{d_{w}} + 1.\end{equation}
+			\begin{description}	
+			\item[Spring Index (C):]\begin{equation}C = \frac{d_{i}}{d_{w}} + 1.\end{equation}
+			\end{description}
 				 The spring index gives a measurement of the inner diameter to the wire diameter. This is useful because outside of certain values the design will require more tolerance and cost also increases. \cite{SpringIndex}
-				
-			Coil Binding Gap\begin{equation} g = \frac{L_{hard} - L_{solid}(d_{w},N_{a}; ec)}{N_{t} - 1}\end{equation}
+			\begin{description}	
+			\item[Coil Binding Gap:]\begin{equation} g = \frac{L_{hard} - L_{solid}(d_{w},N_{a}; ec)}{N_{t} - 1}\end{equation}
+			\end{description}
 				If the spring is allowed to go to solid compression, it is possible the spring could continue compression and cause coils to bind. Think about your favorite slinky. $L_{solid}$, is in terms of $d_{w}$, $N_{a}$, and end conditions (ec). Refer back to $N_{a}$ for what end conditions mean physically.
 		
 
-		
-			 Max Shear Stress\begin{equation} \frac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
+		\begin{description}
+			 \item[Max Shear Stress:]\begin{equation} \frac{G(L_{free} - L_{hard})}{4 \pi N_{a} (ec)} \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
 d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right]< UTS\end{equation}
-
+		\end{description}
 				Shear stress is a measurement of stress coplanar to the spring, this puts a maximum we allow. 
-		
-			Diametral Expansion\begin{equation} d_{expand} = d_{w} + \sqrt{(d_{i} + d_{w})^{2} + \frac{p^{2} - d_{w}}{\pi^{2}}}
+			\begin{description}
+			\item[Diametral Expansion($d_{expand}$):]\begin{equation} d_{expand} = d_{w} + \sqrt{(d_{i} + d_{w})^{2} + \frac{p^{2} - d_{w}}{\pi^{2}}}
 			\end{equation}
-			
+			\end{description}
 			This is the expansion of the diameter as compression of the spring is happening. One may notice that \begin{equation}p^{2} \ge d_{w} - \pi^{2} (d_{i} + d_{w})^{2},\end{equation} this is putting an implicit constraint on how much the spring can be extended/compressed.
 			
 
