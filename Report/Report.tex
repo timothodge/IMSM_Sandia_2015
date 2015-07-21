@@ -347,20 +347,183 @@ such that
 \subsection{Case 1:}
 \label{sec:Case1}
 %Case_56_28910
-	\textbf{Objectives:} Minimize spring rate and spring index.\\
-	\textbf{Constraints:} Inner diameter and outer diameter relation, elation on inner, wire, and outer diameter, coil binding gap, buckling slenderness, and maximum shear stress. \\
-	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+
+\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries State Variables:}, labelindent = 1cm]
+ 	\item [Objectives:] Minimize spring rate and spring index.\\
+
+	\item[Constraints:] Inner diameter and outer diameter relation, relation on the inner, wire, and outer diameters, coil binding gap, buckling slenderness, and maximum shear stress. \\
+	\item[State Variables:] $d_{i}$, $d_{w}$, and $N_{t}$ \\
+\end{description}
+
+	\subsubsection{User Input}
+	
+\begin{center}
+	 \begin{tabular}{| c  | c |  }
+	 	\hline Name & Value\\
+	 	\hline G & 77 GPa \\
+		\hline UTS & .7GPa \\
+		\hline $g_{min}$ & .5 mm\\ 
+	 	\hline $k_{max}$ & 20\\
+		\hline $C_{max}$ & 10\\
+		\hline $L_{free}$ & 85.5 mm\\
+		\hline $L_{hard}$ & 20 mm\\
+		\hline
+	 \end{tabular}
+\end{center}
+
+	
+
+	\subsubsection{Problem Definition}
+	
+	\centerline{$Min$ \hspace{2 mm}$0.5 \times(k/k_{max}) + 0.5 \times (C/C_{max})$}
+	\begin{center}such that \end{center}
+	\centerline{$d_{i} + 2 \times d_{w} \leq 60e-3$}
+	\centerline{$g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0$}
+	\centerline{$\dfrac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0$}
+	\centerline{$\frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
+d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
+    \centerline{$20e-3 \leq d_{i} \leq 30e-3$}
+    \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
+    \centerline{$9 \leq N_{t} \leq 17$}
+	
+	\subsubsection{Feasibility}
+	
+			\begin{figure}[h!]
+		 \begin{center}\includegraphics[scale=.25]{Case_56_38910_Feasibility.eps}\end{center}
+		 \caption{Feasibility region for case 1.}
+		 \label{Feasibility region for case 1.}
+		 \end{figure}
+
+	
+	\subsubsection{Sensitivity}
+	
+\begin{center}
+	 \begin{tabular}{| c  | c |  }
+	 	\hline Variable & Sobol Index\\
+	 	\hline $d_{i}$ & 0.16 \\
+		\hline $d_{w}$ & 0.61  \\
+		\hline $N_{t}$ & 0.02 \\ 
+		\hline
+	 \end{tabular}
+\end{center}
+
+From the sensitivity indices, it can be observed that all the design variables have significant influence on the objective function; therefore no dimension reduction is implemented for design optimization. 
+
+	\subsubsection{Optimization}
+	
+	As stated in Section \ref{sec:Optimization}, DIRECT algorithm is used for optimization and the optimum design point is obtained as 
+	\begin{center}
+	$\mathbf{x_{opt}} =
+	\left[
+	\begin{array}{c}
+	 	 .03 \\
+	 	 .001 \\
+		 17    \\ 
+		
+	 \end{array}
+	 \right]
+$	
+\end{center}
+    Therefore, the optimum inner diameter($d_{i}$), optimum wire diameter ($d_{w}$), and optimum number of coils ($N_{t}$) are $30 mm$, $1 mm$ and $17$ respectively.
+	
+	
+	
+	
 
 \newpage
 \subsection{Case 2:}
 \label{sec:Case2}
 %Case_56_34891011
 
-	\textbf{Objectives:} Minimize spring rate and spring index.\\
-	\textbf{Constraints:} Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress, stress relaxation. \\
-	\textbf{State Variables:} $d_{i}$, $d_{w}$, and $N_{t}$ \\
+\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries State Variables:}, labelindent = 1cm]
+	\item[Objectives:] Minimize spring rate and spring index.\\
+	\item[Constraints:] Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress, stress relaxation. \\
+	\item[State Variables:] $d_{i}$, $d_{w}$, and $N_{t}$ \\
+\end{description}
+
+	\subsubsection{User Input}
+	
+\begin{center}
+	 \begin{tabular}{| c  | c |  }
+	 	\hline Name & Value\\
+	 	\hline G & 77 GPa \\
+		\hline UTS & .7GPa \\
+		\hline $g_{min}$ & .5 mm\\ 
+	 	\hline $k_{max}$ & 20\\
+		\hline $C_{max}$ & 10\\
+		\hline $L_{free}$ & 85.5 mm\\
+		\hline $L_{hard}$ & 20 mm\\
+		\hline Norton Bailey $c$& $ 3.5 \times 10^{-6}$ \\
+		\hline Norton Bailey $n$ & 1.5\\
+		\hline Norton Bailey $k$ & 1 \\
+		\hline Minimum Stress Relaxation & 0.85\\
+		\hline Deflection $s$ & 30 mm\\
+		\hline Time Stress Relaxation $t$  & $3 \times 10^{6}$\\
+		\hline Stress Relaxation $G_{sr}$ & 60 GPa\\
+		\hline
+	 \end{tabular}
+\end{center}
+
+	\subsubsection{Problem Definition}
+	
+	\centerline{$Min$ \hspace{2 mm}$0.5 \times(k/k_{max}) + 0.5 \times (C/C_{max})$}
+	\begin{center}such that \end{center}
+	\centerline{$d_{i} + 2 \times d_{w} \leq 60e-3$}
+	\centerline{$g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0$}
+	\centerline{$\dfrac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0$}
+	\centerline{$\frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
+d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
+    \centerline{$20e-3 \leq d_{i} \leq 30e-3$}
+    \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
+    \centerline{$9 \leq N_{t} \leq 17$}
+    
+ \centerline{${4\over G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + {c\over k} G_{sr}nt^k \right)^{-{1\over n}} \,\mathrm{d} r \ge .85$}
+\begin{center} where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$ \end{center}
+\newpage
+\subsubsection{Feasibility}
+	
+			\begin{figure}[h!]
+		 \begin{center}\includegraphics[scale=.25]{Case_56_3891011_Feasibility.eps}\end{center}
+		 \caption{Feasibility region for case 1.}
+		 \label{Feasibility region for case 1.}
+		 \end{figure}
+		 
+\subsubsection{Sensitivity}		
+ 
+		 \begin{center}
+	 \begin{tabular}{| c  | c |  }
+	 	\hline Variable & Sobol Index\\
+	 	\hline $d_{i}$ & 0.19 \\
+		\hline $d_{w}$ & 0.64  \\
+		\hline $N_{t}$ & 0.02 \\ 
+		\hline
+	 \end{tabular}
+\end{center}
+
+From the sensitivity indices, it can be observed that all the design variables have significant influence on the objective function; therefore no dimension reduction is implemented for design optimization. 
+
+
+\subsubsection{Optimization}
+	
+	As stated in Section \ref{sec:Optimization}, DIRECT algorithm is used for optimization and the optimum design point is obtained as 
+	\begin{center}
+	$\mathbf{x_{opt}} =
+	\left[
+	\begin{array}{c}
+	 	 .03 \\
+	 	 .001 \\
+		 17    \\ 
+		
+	 \end{array}
+	 \right]
+$	
+\end{center}
+    Therefore, the optimum inner diameter($d_{i}$), optimum wire diameter ($d_{w}$), and optimum number of coils ($N_{t}$) are $30 mm$, $1 mm$ and $17$ respectively. Even though we added stress relaxation as a constraint, it did not influence the optimum solution.
+    
+    
 
 \newpage
+t
 \subsection{Case 3:}
 \label{sec:Case3}
 %Case_7_348910
