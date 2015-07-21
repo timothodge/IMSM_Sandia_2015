@@ -49,7 +49,9 @@ classdef constraintSystem
             %% constraint system
 
             numPlottingStateVars = length(plottingStateVars);
-            
+            for i=1:numPlottingStateVars
+                plottingStateVarsLabel(i) = strrep(plottingStateVars(i),'_',' ');
+            end
             %% plotting function only designed for 2 and 3 variables
             if numPlottingStateVars~=2 && numPlottingStateVars~=3
                 fprintf('method only implemented for 2 or 3 state vars.\n');
@@ -127,9 +129,10 @@ classdef constraintSystem
             title('Feasible Region')
             axis([stateVarBnds(1),stateVarBnds(2),stateVarBnds(3), ... 
                  stateVarBnds(4), stateVarBnds(5),stateVarBnds(6)])
-            xlabel(plottingStateVars(1))
-            ylabel(plottingStateVars(2))
-            zlabel(plottingStateVars(3))
+             
+            xlabel(plottingStateVarsLabel(1))
+            ylabel(plottingStateVarsLabel(2))
+            zlabel(plottingStateVarsLabel(3))
             
             
             %%% ******* end plot three variables ********* %%%
