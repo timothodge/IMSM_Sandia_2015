@@ -8,7 +8,7 @@ close all
 
     State Variables: 'inner_diameter', 'wire_diameter', 'total_number_of_coils'
 
-    Status: xMin=0.0302 0.0010 16.999, fMin =2.0812. Works!
+    Status: xMin=0.0302 0.0010 16.999, fMin =2.0882. Works!
 
 %}
 %% initialization
@@ -26,17 +26,18 @@ PredefinedConstraints;
 
 S.maximum_ultimate_torsional_stress = .7e9;
 S.minimum_coil_binding_gap = .5e-3;
-S.minimum_stress_relaxation = 0;
+S.minimum_stress_relaxation = 0.85;
 
-% S.shear_modulus = 77e9;
+ S.shear_modulus = 77e9;
+ S.Norton_Bailey_c=3.5e-6;
 % S.youngs_modulus = 193;
-% S.poisson_ratio = 0.3;
+ S.poisson_ratio = 0.3;
 % S.length_at_no_compression = 85.5e-3;
 % S.length_at_hard_stop_position = 20e-3;
-% S.ultimate_torsional_stress = 0.7e9;
-% S.minimum_coil_binding_gap = 5e-4;
-% S.maximum_outer_diameter = 0.06;
-% S.end_conditions = 0;
+ S.ultimate_torsional_stress = 0.7e9;
+ S.minimum_coil_binding_gap = 5e-4;
+ S.maximum_outer_diameter = 0.1;
+ S.end_conditions = 0;
 % S.maximum_spring_rate = 0;
 % S.maximum_spring_index = 0;
 
@@ -100,9 +101,9 @@ fprintf('... done.\n');
 
 %% *** This line runs the General_SA algorithm for optimization problem
 
-% fprintf('Performing sensitivity analysis ... ');
-% 
-% nsamples = 1000;
-% [SA_Indices] = General_SA(bounds,OP.objective,OP.constraints,S,nsamples);
-% 
-% fprintf('done.\n');
+ fprintf('Performing sensitivity analysis ... ');
+ 
+ nsamples = 1000;
+ [SA_Indices] = General_SA(bounds,OP.objective,OP.constraints,S,nsamples);
+ 
+ fprintf('done.\n');
