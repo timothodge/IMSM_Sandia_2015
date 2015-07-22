@@ -7,6 +7,7 @@
 \usepackage{url}
 \usepackage{enumitem}
 \usepackage{calc}
+\usepackage{epstopdf}
 
 \topmargin-.5in
 \textwidth6.6in
@@ -47,7 +48,7 @@ Sean Webb\footnote{Sandia National Laboratory};
 
 \vspace{.3truein}
 \centerline{\bf Abstract}
-
+ Helical compression springs are the one of the most commonly used mechanical components for applications spanning diverse fields. Therefore spring design is one of the most commonly performed tasks in the industry. To this regard, this work provides an intelligent supporting tool to aid the designers to obtain an optimal spring that satisfies their requirements. The tool, which is developed using an object-oriented design framework, provides the freedom to the user to interchange between constraints and objectives to be able to design the optimal spring. Given a problem definition, this tool also provides a feasibility plot which allows the user to refine the problem definition, if necessary. Creep and relaxation models are also incorporated into the tool. The tool uses DIRECT, a global search algorithm to perform the design optimization.
 
 \section{Introduction}
 \label{sec:Introduction}
@@ -205,7 +206,26 @@ After formulating the problem, a library of predefined constraints and objective
 
 Our team's integration of stress relaxation provides a useful example of this process.  In some design problems, relaxation is an important objective or constraint.  To our knowledge, however, there are no spring design processes which accounting for the effects of relaxation.  Thus, our team undertook a study of stress relaxation to find a mathematical formulation (see Appendix-xx for technical details) which was added to the function library and can now be used in any problem formulation.
 
-To allow the user maximum flexibility in their problem formulation, our software uses an object oriented design.  Object-oriented programming is an approach to software design that centers around classes which are data containers capable of performing a predefined set of tasks.  For example, our program has a \textbf{Constraint} class that includes the constraint's function, and a way to check whether the constraint is violated at a given point.
+To allow the user maximum flexibility in their problem formulation, our software uses an object oriented design.  Object-oriented programming is an approach to software design that centers around classes which are data containers capable of performing a predefined set of tasks.  For example, our program has a \textbf{Constraint} class that includes the constraint's function, and a way to check whether the constraint is violated at a given point. For an few examples of classes see figure \ref{fig:Classes}. 
+
+\begin{figure}[h]
+			\begin{subfigure}{.5\textwidth}
+				\centering
+				\includegraphics[scale=.5]{Spring_Class.png}
+				\caption{Class for the spring}
+				\label{fig:Spring_Class}
+			\end{subfigure}%
+			\begin{subfigure}{.5\textwidth}
+				  \centering
+		 		\includegraphics[scale=.5]{Objective_Constraint.png}
+				\caption{Objective and Constraint Classes}
+				  \label{fig:Objective_Constraint}
+		  		
+			\end{subfigure}
+			 \label{fig:Classes}
+		  \caption{A few of the classes we use.}
+		\end{figure}
+
 
 Using classes allow flexibility because the program's algorithm are designed to operate on the classes.  For example, the \textbf{OptimizationProblem} class generates the input for the optimizer and sensitivity analysis.  When the user inputs a new problem, the program generates an \textbf{OptimizationProblem} with a specific optimization function and set of constraints.  Thus, once the user has a problem formulation, our software can convert their problem into the objects needed for the optimizer to run.
 
@@ -241,7 +261,9 @@ such that
 \centerline{$G(\textbf{x}) \leq 0$}
 \centerline{$lb_{\textbf{x}} \leq \textbf{x} \leq ub_{\textbf{x}}$}
 
-\noindent Several optimization algorithms (both local and global) are available to solve the above optimization problem. Two algorithms - BFGS (local) \cite{BFGS} and DIRECT (global) see, \cite{DirectUserGuide} and   \cite{DirectPaper},have been tried for design optimization and their key differences are discussed below. BFGS algorithm requires the gradient and Hessian of the objective function, and also an initial point for optimization whereas DIRECT does not require the objective function to be differentiable. Since DIRECT is a global algorithm, it does not require an initial point. A drawback of DIRECT algorithm is that it requires more computations compared to BFGS. The 'fmincon' function in MATLAB \cite{MATLAB:2014a}, which implements the BFGS algorithm, requires the linear and non-linear constraints to be provided separately. Separation of linear and non-linear constraints is hard to implements in an automated software framework because they are problem-dependent whereas DIRECT does not require such segregation between constraints. Therefore, DIRECT global algorithm is used for optimization.
+\noindent  Several optimization algorithms (both local and global) are available to solve the above optimization problem. DIRECT is one of the most popular global search optimization algortihm \cite{DirectUserGuide} and   \cite{DirectPaper} have been tried for this spring optimization problem.\\
+
+The main idea of DIRECT algorithm is that  the domain is normalized to be unit hypercube and the function is evaluated at the center point $c$ of this hypercube and at points $\{c + \delta, c, c - \delta\} $ ($\delta$ is the size of the hypercube) ; then the hypercube with the smallest function value one is chosen and further divided into smaller hypercubes until the global optimum is obtained. DIRECT is a sampling optimization algorithm. It requires no knowledge of the objective function such as gradient and hessian. Since it is a global algorithm, it does not require an initial point.  Moreover, it is easy to implement in an automated software framework since it does not require segregation of linear and non-linear constraints.
 
 \hspace{5 mm} It is also essential to account for the variability in the manufacturing process(tolerance) in the design of springs. The tolerance can also be referred to as error, uncertainty in the design variabes. The tolerance for each of the spring parameters is nominally assumed to be equal to 1\% of the value of the variable. Thus, each variable follows a uniform distribution with unknown mean and variance, dependent on the mean value. The optimization formulation after accounting for tolerances can now be written as 
 
@@ -254,10 +276,14 @@ such that
 \centerline{$Pr(\textbf{x} \leq ub_{\textbf{x}})\geq p_{ub}$}
 \centerline{$lb_{d} \leq d \leq ub_{d}$}
 
-\noindent where $\mathbf{x},d$ represent the design variables with tolerances and non-design variables with tolerances respectively. The first constraint represents the probabilistic inequality constraint and the other constraints represent the bounds for the design variables. Optimization with tolerance is a nested double loop process where optimization is carried out in the outer loop (using DIRECT)and in each iteration of optimization, reliability analysis is carried out in the inner loop using Monte Carlo sampling to check the probabilistic constraints. After obtaining the optimum values of the means of the design variables, their corresponding probability distributions can be obtained, since it is assumed that the variables follow uniform distributions with known variances. After obtaining the probability distributions, the probability distribution of the objective function can be obtained using uncertainty propagation analysis using Monte Carlo simulations.
+\noindent where $\mathbf{x},d$ represent the design variables with tolerances and non-design variables with tolerances respectively. The first constraint represents the probabilistic inequality constraint and the other constraints represent the bounds for the design variables. Optimization with tolerance is a nested double loop process where optimization is carried out in the outer loop (using DIRECT)and in each iteration of optimization, reliability analysis is carried out in the inner loop using Monte Carlo sampling to check the probabilistic constraints. After obtaining the optimum values of the means of the design variables, their corresponding probability distributions can be obtained, since it is assumed that the variables follow uniform distributions with variances dependent on the mean values. 
 
-\cite{Derivative} \cite{DirectPaper} \cite{MATLAB:2014a} \cite{DirectUserGuide}
- 
+
+\begin{flushleft}
+\hspace{5 mm} Since the optimum design parameters are stochastic, the optimum value of the objective function, which is a function of the optimum design variables is also stochastic. The probability distribution of the optimum value objective function is obtained from the probability distributions of the design variables through uncertainty propagation analysis using Monte Carlo sampling. One random realization of each of the design parameters when passed through the objective function provides one realization of the optimum value of the objective function. Thus several realizations of design variables are obtained which result in several realizations of the optimum value of the objective function. Using the realizations, the Gaussian kernel density approach is used to construct the probability distribution.
+
+\end{flushleft}
+
 %\subsection{Post Processing}
 %\label{subsec:Post_Processing}
 
@@ -306,12 +332,17 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
     \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
     \centerline{$9 \leq N_{t} \leq 17$}
     
+\begin{flushleft}
+In this case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{i}$), wire diameter ($d_{w}$) and total number of coils $N_{t}$ respectively.
+
+\end{flushleft}
+    
 \newpage
 	
 	\subsubsection{Feasibility}
 	
 			\begin{figure}[h!]
-		 \begin{center}\includegraphics[scale=.35]{Case_56_38910_Feasibility.eps}\end{center}
+		 \begin{center}\includegraphics[scale=.5]{Case_56_38910new.eps}\end{center}
 		 \caption{Feasibility region for case 1.}
 		 \label{Feasibility region for case 1.}
 		 \end{figure}
@@ -393,6 +424,8 @@ $
 	\centerline{$d_{i} + 2 \times d_{w} \leq 60e-3$}
 	\centerline{$g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0$}
 	\centerline{$\dfrac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0$}
+	\centerline{$d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}} - d_{o}^{max} < 0$}
+			
 	\centerline{$\frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
 d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
     \centerline{$20e-3 \leq d_{i} \leq 30e-3$}
@@ -400,12 +433,19 @@ d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
     \centerline{$9 \leq N_{t} \leq 17$}
     
  \centerline{${4\over G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + {c\over k} G_{sr}nt^k \right)^{-{1\over n}} \,\mathrm{d} r \ge .85$}
-\begin{center} where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$ \end{center}
+%\begin{center} where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$ \end{center}
+\centerline{where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$}
+
+\begin{flushleft}
+Similar to the first case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{i}$), wire diameter ($d_{w}$) and total number of coils $N_{t}$ respectively.
+\end{flushleft}
+
+
 \newpage
 \subsubsection{Feasibility}
 	
 			\begin{figure}[h!]
-		 \begin{center}\includegraphics[scale=.35]{Case_56_3891011_Feasibility.eps}\end{center}
+		 \begin{center}\includegraphics[scale=.5]{Case_56_34891011new.eps}\end{center}
 		 \caption{Feasibility region for case 1.}
 		 \label{Feasibility region for case 1.}
 		 \end{figure}
@@ -440,7 +480,7 @@ From the sensitivity indices, it can be observed that all the design variables h
 	 \right]
 $	
 \end{center}
-    Therefore, the optimum inner diameter($d_{i}$), optimum wire diameter ($d_{w}$), and optimum number of coils ($N_{t}$) are $30 mm$, $1 mm$ and $17$ respectively. Even though we added stress relaxation as a constraint, it did not influence the optimum solution.
+    Therefore, the optimum inner diameter($d_{i}$), optimum wire diameter ($d_{w}$), and optimum number of coils ($N_{t}$) are $30 mm$, $1 mm$ and $17$ respectively. Even though an additional constraint about stress relaxation is added, the optimum solution remained the same. Therefore, the assumed stress relaxation constraint does not influence the optimum solution.
     
     
 
@@ -503,9 +543,7 @@ $
 
 \section{Summary and Future Work}
 \label{sec:Summary}
-This work developed an intelligent tool for the design of helical compression springs. The key highlights of this tool are: One, it allows for flexible optimization, which enables design of springs with interchanging objective functions and constraints. Two, it can incorporate stress relaxation in the design process, which to our knowledge has never been done. Three, it provides a feasibility design space given the constraints. Four, it can provide the global sensitivity indices of the design variables to the objective function. 
-
-
+We developed an intelligent tool for the design of helical compression springs. The key highlights of this tool are: One, it allows for flexible optimization, which enables design of springs with interchanging objective functions and constraints. Two, it can incorporate stress relaxation in the design process, which to our knowledge has never been done. Three, it provides a feasibility design space given the constraints. Four, it can provide the global sensitivity indices of the design variables to the objective function. 
 
 Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be incorporated. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
 

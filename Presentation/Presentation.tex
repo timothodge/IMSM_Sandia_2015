@@ -8,6 +8,7 @@
 \usepackage{epsfig}
 \usepackage{setspace}
 \usepackage{blkarray}
+\usepackage{multimedia}
 %\usepackage{showkeys} %shows labels for referencing in pdf. Comment out in final paper. 
 %-----------------------------------------------------------------
 \vfuzz2pt % Don't report over-full v-boxes if over-edge is small
@@ -101,7 +102,9 @@
 %----------------------------------------------------------------
 
 \title[Optimal Helical Compression Springs]{Given a Helical Compression Spring in a Spring-Mass Damper System: What are Optimal Springs?}
-\author[Sandia National Laboratories Group]{A. Bentley, T. Hodges, J. Jiang, J. Krueger, S. Nannapaneni, T. Qiu}
+\author[Sandia National Laboratories Group]{A. Bentley, T. Hodges, J. Jiang, J. Krueger, S. Nannapaneni, T. Qiu \\ 
+Problem Presenters: J. Massad and S. Webb\\
+Faculty Mentors: I. Ipsen and R. Smith}
 \institute[]{2015 Industrial Math/Stat Modeling Workshop for Graduate Students} 
 \date{July 22, 2015}
 
@@ -117,8 +120,8 @@
 \column{.5\textwidth}
 \begin{itemize}
 	\item Design an algorithm that optimizes springs with interchangeable constraints and objectives.
-	\item Can you quantify and incorporate stress relaxation?
-	\item Incorporate design optimization uncertainty.
+	\item Can you quantify and incorporate stress relaxation and creep?
+	\item Incorporation of uncertainty into design optimization.
 	
 \end{itemize}
 \column{.5\textwidth}
@@ -144,7 +147,7 @@
 \end{itemize}
 \column{.5\textwidth}
 \begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow.png}\end{center}
+		 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow.png}\end{center}
 		 \caption{Algorithm of approach}
 
 		 
@@ -163,14 +166,14 @@
 \end{figure}	
 
 \begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.1]{Spring_Description2.png}\end{center}
+		 \begin{center}\includegraphics[scale=.08]{Spring_Description2.png}\end{center}
 		 \caption{Inner diameter}
 		 \label{fig:Description2}
 \end{figure}
 	
 	\column{.5\textwidth}
 	\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow1.png}\end{center}
+		 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow1.png}\end{center}
 		 \caption{User Input}
 
 		 
@@ -182,6 +185,24 @@
 
 
 }
+\frame{
+\frametitle{Classes}
+\begin{columns}[c]
+\column{.5\textwidth}
+\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.4]{Spring_Class.png}\end{center}
+		 \caption{Spring Class}		 
+ \end{figure}	
+\column{.5\textwidth}
+\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.4]{Objective_Constraint.png}\end{center}
+		 \caption{Objective and Constraint Classes}
+ \end{figure}	 
+\end{columns}
+
+
+}
+
 
 \frame{
 \frametitle{Problem Definition}
@@ -201,7 +222,7 @@
 	
 	\column{.5\textwidth}
 	\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow2.png}\end{center}
+		 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow2.png}\end{center}
 		 \caption{Problem Definition}
 	
 		 
@@ -220,13 +241,13 @@
 \begin{columns}[c]
 \column{.5\textwidth}
 \begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.28]{Case_56_38910new.eps}\end{center}
+		 \begin{center}\includegraphics[scale=.25]{Case_56_38910new.eps}\end{center}
 		 \caption{Feasibility Region}
 		 \label{fig:Region2}
 \end{figure}	
 \column{.5\textwidth}
 	\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow3.png}\end{center}
+		 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow3.png}\end{center}
 		 \caption{Feasibility}
 	
 		 
@@ -254,7 +275,7 @@
 	
 	\column{.4\textwidth}
 		\begin{figure}[h]
-			 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow4.png}\end{center}
+			 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow4.png}\end{center}
 			 \caption{Sensitivity}
 	
 		 
@@ -295,7 +316,7 @@
 	\column{.4\textwidth}
 	
 		\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.28]{IMSM_Workflow5.png}\end{center}
+		 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow5.png}\end{center}
 		 \caption{Optimization}
 	
 		 
@@ -304,7 +325,7 @@
 \end{columns}
 }
 
-\section{Stress Relaxation}
+\section{Relaxation and Creep}
 \frame{
 \frametitle{Stress Relaxation}
 \begin{columns}[c]
@@ -324,8 +345,21 @@
 \end{columns}
 }
 
+
+
+
 \frame{
-\frametitle{Design Optimization Uncertainty}
+\frametitle{Creep}
+%\frame{movie}{
+%\frametitle{Creep}
+%\movie[label=show3,width=1.0\textwidth,poster
+%       ,autostart,showcontrols,loop] 
+%  {\includegraphics[width=1.0\textwidth]{Creepvideo.mp4}
+%
+}
+\section{Future Work}
+\frame{
+\frametitle{Design Optimization Under Uncertainty}
 
 	\begin{itemize}
 		\item Variability in manufacturing process $\rightarrow$ tolerance/uncertainty.
