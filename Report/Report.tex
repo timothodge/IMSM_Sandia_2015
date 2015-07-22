@@ -259,7 +259,7 @@ The second restriction, based on discussions with engineers experienced with spr
 	 \hline
      	The spring's natural length ($L_{\text{free}}$) 					& Spring Rate ($k$) \\
 	    The spring's resting length ($L_{\text{open}}$) 				& Spring Index ($c$)  \\
-		Spring's minimum compression length  ($L_{\text{hard}}$) 	& Preloaded Force ($F$) \\
+		Spring's minimum compression length  ($L_{\text{hard}}$) 	& Preloaded Force ($F_{open}$) \\
 		Total spring coil ($N_{\text{t}}$)    						& Coil Binding Gap ($g$) \\
 		Spring's inner diameter ($d_{\text{i}}$)    					& Buckling Slenderness Ratio ($\lambda$) \\
 		Spring's width diameter ($d_{\text{w}}$)    					& Shear Stress ($\tau$) \\
@@ -356,43 +356,66 @@ To demonstrate the workflow for optimal spring design and the robustness of our 
 \label{subsec:Case1}
 %Case_56_38910
 
-\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries State Variables:}, labelindent = 1cm]
+\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Design Variables:}, labelindent = 1cm]
  	\item [Objectives:] Minimize spring rate and spring index.\\
 
 	\item[Constraints:] Inner diameter and outer diameter relation, relation on the inner, wire, and outer diameters, coil binding gap, buckling slenderness, and maximum shear stress. \\
-	\item[State Variables:] $d_{i}$, $d_{w}$, and $N_{t}$ \\
+	\item[Design Variables:] $d_{i}$, $d_{w}$, and $N_{t}$ \\
 \end{description}
 
 	\subsubsection{User Input}
 	
-\begin{center}
-	 \begin{tabular}{| c  | c |  }
-	 	\hline Name & Value\\
-	 	\hline G & 77 GPa \\
-		\hline UTS & .7GPa \\
-		\hline $g_{min}$ & .5 mm\\ 
-	 	\hline $k_{max}$ & 20\\
-		\hline $C_{max}$ & 10\\
-		\hline $L_{free}$ & 85.5 mm\\
-		\hline $L_{hard}$ & 20 mm\\
-		\hline
-	 \end{tabular}
-\end{center}
+
+	 \begin{table}[H]
+	 \centering
+	 	\caption{Fixed parameters for Case 1.}
+	 	\begin{tabular}{c c}
+		        \hline \hline 
+		 	Name & Value\\
+			 \hline
+		 	 G & 77 GPa \\
+			 UTS & .7GPa \\
+			 $g_{min}$ & .5 mm\\ 
+		 	 $k_{max}$ & 20\\
+			 $C_{max}$ & 10\\
+			 $L_{free}$ & 85.5 mm\\
+			 $L_{hard}$ & 20 mm\\
+			\hline \hline
+		\end{tabular}
+	 \end{table}
+
 
 	
 
 	\subsubsection{Problem Definition}
 	
-	\centerline{$Min$ \hspace{2 mm}$0.5 \times(k/k_{max}) + 0.5 \times (C/C_{max})$}
-	\begin{center}such that \end{center}
-	\centerline{$d_{i} + 2 \times d_{w} \leq 60e-3$}
-	\centerline{$g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0$}
-	\centerline{$\dfrac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0$}
-	\centerline{$\frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
-d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
-    \centerline{$20e-3 \leq d_{i} \leq 30e-3$}
-    \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
-    \centerline{$9 \leq N_{t} \leq 17$}
+				\begin{equation}
+					\begin{gathered}
+	 					\min_{} 0.5 \times\left(\frac{k}{k_{max}}\right) + 0.5 \times (\frac{C}{C_{max}}) \\
+	 					\mbox{subject to} \\%\mathbf{G}(\mathbf{x}) \le \mathbf{0}, 
+						\begin{split}
+							 d_{i} + 2 \times d_{w} \leq 60e-3\\
+							 g_{min} - \frac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0\\
+							 \frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0\\
+							 \frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0\\
+							 20e-3 \leq d_{i} \leq 30e-3\\	 
+							 1e-3 \leq d_{w} \leq 5e-3\\	 
+							 9 \leq N_{t} \leq 17\\	 
+						\end{split}
+					\end{gathered}
+					\label{eq:Case_1_Problem_Definition}	
+				\end{equation}
+	
+%	\centerline{$Min$ \hspace{2 mm}$0.5 \times(k/k_{max}) + 0.5 \times (C/C_{max})$}
+%	\begin{center}such that \end{center}
+%	\centerline{$d_{i} + 2 \times d_{w} \leq 60e-3$}
+%	\centerline{$g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0$}
+%	\centerline{$\dfrac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0$}
+%	\centerline{$\frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
+%d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
+%    \centerline{$20e-3 \leq d_{i} \leq 30e-3$}
+%    \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
+%    \centerline{$9 \leq N_{t} \leq 17$}
     
 \begin{flushleft}
 In this case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{i}$), wire diameter ($d_{w}$) and total number of coils $N_{t}$ respectively.
@@ -412,15 +435,20 @@ In this case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}
 	
 	\subsubsection{Sensitivity}
 	
-\begin{center}
-	 \begin{tabular}{| c  | c |  }
-	 	\hline Variable & Sobol Index\\
-	 	\hline $d_{i}$ & 0.16 \\
-		\hline $d_{w}$ & 0.61  \\
-		\hline $N_{t}$ & 0.02 \\ 
-		\hline
-	 \end{tabular}
-\end{center}
+	 \begin{table}[H]
+	\caption{Sobol Indices for Case 1.}
+	 \centering
+	 	\begin{tabular}{c  c}
+			\hline \hline
+	 		Variable & Sobol Index\\
+			\hline
+	 		 $d_{i}$ & 0.16 \\
+			 $d_{w}$ & 0.61  \\
+			 $N_{t}$ & 0.02 \\ 
+			\hline \hline
+		\end{tabular}
+	 \end{table}
+
 
 From the sensitivity indices, it can be observed that all the design variables have significant influence on the objective function; therefore no dimension reduction is implemented for design optimization. 
 
@@ -443,57 +471,85 @@ $
 		
 \newpage
 %-----------------------------------Computational Experiments.2-----------------------------------%
+\vspace{-.4in}
 \subsection{Case 2:}
 \label{subsec:Case2}
 %Case_56_3891011
 
-\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries State Variables:}, labelindent = 1cm]
+\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Design Variables:}, labelindent = 1cm]
 	\item[Objectives:] Minimize spring rate and spring index.\\
 	\item[Constraints:] Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress, stress relaxation. \\
-	\item[State Variables:] $d_{i}$, $d_{w}$, and $N_{t}$ \\
+	\item[Design Variables:] $d_{i}$, $d_{w}$, and $N_{t}$ \\
 \end{description}
 
 	\subsubsection{User Input}
 	
-\begin{center}
-	 \begin{tabular}{| c  | c |  }
-	 	\hline Name & Value\\
-	 	\hline G & 77 GPa \\
-		\hline UTS & .7GPa \\
-		\hline $g_{min}$ & .5 mm\\ 
-	 	\hline $k_{max}$ & 20\\
-		\hline $C_{max}$ & 10\\
-		\hline $L_{free}$ & 85.5 mm\\
-		\hline $L_{hard}$ & 20 mm\\
-		\hline Norton Bailey $c$& $ 3.5 \times 10^{-6}$ \\
-		\hline Norton Bailey $n$ & 1.5\\
-		\hline Norton Bailey $k$ & 1 \\
-		\hline Minimum Stress Relaxation & 0.85\\
-		\hline Deflection $s$ & 30 mm\\
-		\hline Time Stress Relaxation $t$  & $3 \times 10^{6}$\\
-		\hline Stress Relaxation $G_{sr}$ & 60 GPa\\
+\vspace{-.4in}
+	 \begin{table}[H]
+	 \caption{Fixed parameters for Case 2.}
+	 \centering 
+	 	\begin{tabular}{c  c}
+		\hline \hline 
+	 	 Name & Value\\
 		\hline
+	 	 G & 77 GPa \\
+		 UTS & .7GPa \\
+		 $g_{min}$ & .5 mm\\ 
+	 	 $k_{max}$ & 20\\
+		 $C_{max}$ & 10\\
+		 $L_{free}$ & 85.5 mm\\
+		 $L_{hard}$ & 20 mm\\
+		 Norton Bailey $c$& $ 3.5 \times 10^{-6}$ \\
+		 Norton Bailey $n$ & 1.5\\
+		 Norton Bailey $k$ & 1 \\
+		 Minimum Stress Relaxation & 0.85\\
+		 Deflection $s$ & 30 mm\\
+		 Time Stress Relaxation $t$  & $3 \times 10^{6}$\\
+		 Stress Relaxation $G_{sr}$ & 60 GPa\\
+		\hline \hline
 	 \end{tabular}
-\end{center}
+	 \end{table}
+
 
 	\subsubsection{Problem Definition}
+	\vspace{-.2in}
+	\begin{equation}
+					\begin{gathered}
+	 					\min_{} 0.5 \times\left(\frac{k}{k_{max}}\right) + 0.5 \times (\frac{C}{C_{max}}) \\
+	 					\mbox{subject to} \\%\mathbf{G}(\mathbf{x}) \le \mathbf{0}, 
+						\begin{split}
+							 d_{i} + 2 \times d_{w} \leq 60e-3\\
+							 g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0\\
+							 \frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0\\
+							 d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}} - d_{o}^{max} < 0\\
+							 \frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0\\
+							 \frac{4}{G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + \frac{c}{k} G_{sr}nt^k \right)^{-\frac{1}{n}} \,\mathrm{d} r \ge .85\\
+							 \mbox{where, } \quad
+							  \theta = {2s\over \pi N_a (d_i+d_w)^2}\\
+							 20e-3 \leq d_{i} \leq 30e-3\\	 
+							 1e-3 \leq d_{w} \leq 5e-3\\	 
+							 9 \leq N_{t} \leq 17\\	 
+						\end{split}
+					\end{gathered}
+					\label{eq:Case_2_Problem_Definition}	
+				\end{equation}
 	
-	\centerline{$Min$ \hspace{2 mm}$0.5 \times(k/k_{max}) + 0.5 \times (C/C_{max})$}
-	\begin{center}such that \end{center}
-	\centerline{$d_{i} + 2 \times d_{w} \leq 60e-3$}
-	\centerline{$g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0$}
-	\centerline{$\dfrac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0$}
-	\centerline{$d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}} - d_{o}^{max} < 0$}
-			
-	\centerline{$\frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
-d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
-    \centerline{$20e-3 \leq d_{i} \leq 30e-3$}
-    \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
-    \centerline{$9 \leq N_{t} \leq 17$}
-    
- \centerline{${4\over G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + {c\over k} G_{sr}nt^k \right)^{-{1\over n}} \,\mathrm{d} r \ge .85$}
-%\begin{center} where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$ \end{center}
-\centerline{where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$}
+%	\centerline{$Min$ \hspace{2 mm}$0.5 \times(k/k_{max}) + 0.5 \times (C/C_{max})$}
+%	\begin{center}such that \end{center}
+%	\centerline{$d_{i} + 2 \times d_{w} \leq 60e-3$}
+%	\centerline{$g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0$}
+%	\centerline{$\dfrac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0$}
+%	\centerline{$d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}} - d_{o}^{max} < 0$}
+%			
+%	\centerline{$\frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
+%d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
+%    \centerline{$20e-3 \leq d_{i} \leq 30e-3$}
+%    \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
+%    \centerline{$9 \leq N_{t} \leq 17$}
+%    
+% \centerline{${4\over G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + {c\over k} G_{sr}nt^k \right)^{-{1\over n}} \,\mathrm{d} r \ge .85$}
+%%\begin{center} where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$ \end{center}
+%\centerline{where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$}
 
 \begin{flushleft}
 Similar to the first case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{i}$), wire diameter ($d_{w}$) and total number of coils $N_{t}$ respectively.
@@ -511,15 +567,20 @@ Similar to the first case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x
 		 
 \subsubsection{Sensitivity}		
  
-		 \begin{center}
-	 \begin{tabular}{| c  | c |  }
-	 	\hline Variable & Sobol Index\\
-	 	\hline $d_{i}$ & 0.19 \\
-		\hline $d_{w}$ & 0.64  \\
-		\hline $N_{t}$ & 0.02 \\ 
-		\hline
-	 \end{tabular}
-\end{center}
+	\begin{table}[H]
+	\caption{Sobol indices for Case 2.}
+	\centering
+		 \begin{tabular}{ c c}
+			 \hline \hline
+	 		Variable & Sobol Index\\
+			\hline
+	 		 $d_{i}$ & 0.19 \\
+			 $d_{w}$ & 0.64  \\
+			 $N_{t}$ & 0.02 \\ 
+			\hline \hline
+		 \end{tabular}
+	\end{table}
+
 
 From the sensitivity indices, it can be observed that all the design variables have significant influence on the objective function; therefore no dimension reduction is implemented for design optimization. 
 
