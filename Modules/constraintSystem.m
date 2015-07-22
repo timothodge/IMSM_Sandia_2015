@@ -44,13 +44,21 @@ classdef constraintSystem
         end
         
         function retVal = plotConstraints(obj,Spring,plottingStateVars, ...
-                                          stateVarBnds)
+                                          stateVarBnds,OP)
             %% this function plots the feasible points of the
             %% constraint system
 
             numPlottingStateVars = length(plottingStateVars);
             for i=1:numPlottingStateVars
-                plottingStateVarsLabel(i) = strrep(plottingStateVars(i),'_',' ');
+                switch plottingStateVars{i}
+                    case 'wire_diameter'
+                        plottingStateVarsLabel{i} = 'd_w(mm)';
+                    case 'inner_diameter'
+                        plottingStateVarsLabel{i} = 'd_i(mm)';
+                    case 'total_number_of_coils'
+                        plottingStateVarsLabel{i} = 'N';
+                end
+                %plottingStateVarsLabel(i) = strrep(plottingStateVars(i),'_',' ');
             end
             %% plotting function only designed for 2 and 3 variables
             if numPlottingStateVars~=2 && numPlottingStateVars~=3
@@ -58,11 +66,11 @@ classdef constraintSystem
             end
             
             numConstraints = obj.numConstraints;
-            figure
-            %% TO DO -- need to determine dimensions for optimal subplot graph
-            subplot(3,2,1)
+            hFig = figure(1);
+set(hFig, 'Position', [100 -20 450 600])
+
             %% number of mesh points
-            mesh_size = 10;
+            mesh_size = 15;
 
             % creates a list with cooridnates spanning each statevariable
             % range
@@ -103,7 +111,7 @@ classdef constraintSystem
             %%% ******* plot three variables ********* %%%
             elseif numPlottingStateVars == 3
                 
-                points = zeros(0,3);
+                points = zeros(0,4);
                 numFeasiblePoints = 0;
  
                 [X,Y,Z] = meshgrid(stateVarpts(1,:),stateVarpts(2,:), ...
@@ -119,19 +127,32 @@ classdef constraintSystem
                                 points(numFeasiblePoints,1) = X(k,j,i);
                                 points(numFeasiblePoints,2) = Y(k,j,i);
                                 points(numFeasiblePoints,3) = Z(k,j,i);
+                                points(numFeasiblePoints,4) = OP.objective.objFcnEvaluator([X(k,j,i) Y(k,j,i) Z(k,j,i)],Spring);
                             end
                         end
                    end            
                 end
                 
-            plot3(points(:,1),points(:,2),points(:,3),'.','MarkerSize', 5)
+            
+            %plot3(points(:,1),points(:,2),points(:,3),'.','MarkerSize', 5)
+            numyplot = ceil((numConstraints+2)/2);
+            subplot(numyplot,2,[1 2]);
+            scatter3(points(:,1),points(:,2),points(:,3),12,points(:,4),'filled');
             title('Feasible Region')
             axis([stateVarBnds(1),stateVarBnds(2),stateVarBnds(3), ... 
                  stateVarBnds(4), stateVarBnds(5),stateVarBnds(6)])
-             
+            
+            curtick = get(gca, 'XTick');
+            set(gca, 'XTickLabel', cellstr(num2str(curtick(:)*1E3)));
+            curtick = get(gca, 'YTick');
+            set(gca, 'YTickLabel', cellstr(num2str(curtick(:)*1E3)));
+            
             xlabel(plottingStateVarsLabel(1))
             ylabel(plottingStateVarsLabel(2))
             zlabel(plottingStateVarsLabel(3))
+            colormap(jet)
+            colorbar
+            view(245,30)
             
             
             %%% ******* end plot three variables ********* %%%
@@ -140,7 +161,7 @@ classdef constraintSystem
             end          
             
             for j = 1:numConstraints
-                subplot(3,2,j+1)
+                subplot(numyplot,2,j+2)
                 obj.constraintList{j}.plotConstraint(Spring, ...
                 plottingStateVars, stateVarBnds)
                 title(obj.constraintList{j}.name)

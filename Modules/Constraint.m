@@ -43,9 +43,6 @@ classdef Constraint < Objective % Constraint inherits from Objective
         function ret = plotConstraint(obj,Spring,plottingStateVars,...
                 stateVarBnds)
         numPlottingStateVars = length(plottingStateVars); 
-        for i=1:numPlottingStateVars
-                plottingStateVarsLabel(i) = strrep(plottingStateVars(i),'_',' ');
-            end
         %% number of mesh points
         mesh_size = 10;   
         
@@ -108,13 +105,14 @@ classdef Constraint < Objective % Constraint inherits from Objective
                    end            
                 end
                 
-            plot3(points(:,1),points(:,2),points(:,3),'.','MarkerSize', 5)
+            %plot3(points(:,1),points(:,2),points(:,3),'.','MarkerSize', 5)
+            scatter3(points(:,1),points(:,2),points(:,3),2.2);
             axis([stateVarBnds(1),stateVarBnds(2),stateVarBnds(3), ... 
                  stateVarBnds(4), stateVarBnds(5),stateVarBnds(6)])
-            xlabel(plottingStateVarsLabel(1))
-            ylabel(plottingStateVarsLabel(2))
-            zlabel(plottingStateVarsLabel(3))
-            
+            curtick = get(gca, 'XTick');
+            set(gca, 'XTickLabel', cellstr(num2str(curtick(:)*1E3)));
+            curtick = get(gca, 'YTick');
+            set(gca, 'YTickLabel', cellstr(num2str(curtick(:)*1E3)));
             
             %%% ******* end plot three variables ********* %%%
                 
