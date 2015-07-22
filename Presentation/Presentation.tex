@@ -147,7 +147,7 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \end{itemize}
 \column{.5\textwidth}
 \begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow.png}\end{center}
+		 \begin{center}\includegraphics[scale=.30]{IMSM_Workflow.png}\end{center}
 		 \caption{Algorithm of approach}
 
 		 
@@ -161,20 +161,20 @@ Faculty Mentors: I. Ipsen and R. Smith}
 	\column{.5\textwidth}
 \begin{figure}[h]
 		 \begin{center}\includegraphics[scale=.1]{Spring_Description.png}\end{center}
-		 \caption{Outer diameter, pitch, and \\free length.}
+	%	 \caption{Outer diameter, pitch, and \\free length.}
 		 \label{fig:Description1}
 \end{figure}	
 
 \begin{figure}[h]
 		 \begin{center}\includegraphics[scale=.08]{Spring_Description2.png}\end{center}
-		 \caption{Inner diameter}
+	%	 \caption{Inner diameter}
 		 \label{fig:Description2}
 \end{figure}
 	
 	\column{.5\textwidth}
 	\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow1.png}\end{center}
-		 \caption{User Input}
+		 \begin{center}\includegraphics[scale=.30]{IMSM_Workflow1.png}\end{center}
+		
 
 		 
 		 \end{figure}
@@ -222,8 +222,8 @@ Faculty Mentors: I. Ipsen and R. Smith}
 	
 	\column{.5\textwidth}
 	\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow2.png}\end{center}
-		 \caption{Problem Definition}
+		 \begin{center}\includegraphics[scale=.30]{IMSM_Workflow2.png}\end{center}
+		
 	
 		 
 		 \end{figure}
@@ -247,8 +247,8 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \end{figure}	
 \column{.5\textwidth}
 	\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow3.png}\end{center}
-		 \caption{Feasibility}
+		 \begin{center}\includegraphics[scale=.30]{IMSM_Workflow3.png}\end{center}
+	
 	
 		 
 		 \end{figure}
@@ -275,8 +275,8 @@ Faculty Mentors: I. Ipsen and R. Smith}
 	
 	\column{.4\textwidth}
 		\begin{figure}[h]
-			 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow4.png}\end{center}
-			 \caption{Sensitivity}
+			 \begin{center}\includegraphics[scale=.3]{IMSM_Workflow4.png}\end{center}
+			
 	
 		 
 		 \end{figure}
@@ -316,8 +316,37 @@ Faculty Mentors: I. Ipsen and R. Smith}
 	\column{.4\textwidth}
 	
 		\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.25]{IMSM_Workflow5.png}\end{center}
-		 \caption{Optimization}
+		 \begin{center}\includegraphics[scale=.3]{IMSM_Workflow5.png}\end{center}
+		
+	
+		 
+		 \end{figure}
+	 
+\end{columns}
+}
+
+\frame{
+\frametitle{Post-Processing}
+\begin{columns}[c]
+	\column{.6\textwidth}
+		\begin{itemize}
+			\item Prompt user with results of optimization. 
+			
+			\item If satisfied, the user can stop. 
+			
+			\item If not satisfied, the user can go back to the definition of the problem, and run again. 
+			
+			\item The user will have the chance to redefine the problem.
+			
+		
+		
+		\end{itemize}
+			
+	\column{.4\textwidth}
+	
+		\begin{figure}[h]
+		 \begin{center}\includegraphics[scale=.3]{IMSM_Workflow7.png}\end{center}
+		 
 	
 		 
 		 \end{figure}
@@ -327,37 +356,37 @@ Faculty Mentors: I. Ipsen and R. Smith}
 
 \section{Relaxation and Creep}
 \frame{
-\frametitle{Stress Relaxation}
+\frametitle{Stress Relaxation and Creep}
 \begin{columns}[c]
-	\column{.4\textwidth}
-	\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.4]{hands_revised.png}\end{center}
+	\column{.5\textwidth}
+		\begin{figure}[h]
+			 \begin{center}\includegraphics[scale=.15]{Creep.png}\end{center}
+		 	\caption{Creep interpreted graphically}
+		 	\label{fig:Creep}
+		\end{figure}	
+		\vspace{-.2in}
+		\begin{figure}[h]
+			 \begin{center}\includegraphics[scale=.15]{StressRelaxation.png}\end{center}
+			 \caption{Stress Relaxation }
+			 \label{fig:Description2}
+		\end{figure}
+	
 		
-		 \end{figure}
-	\column{.6\textwidth}
-	\[\frac{4}{ G\theta d_w^4}\int_0^{d_w} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-\frac{1}{n}} \,\mathrm{d} r
-\]
+	\column{.5\textwidth}
+			
+			\vspace{1.5in}
+				\tiny$ \Phi = \frac{4}{ G\theta d_w^4}\int_0^{d_w} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-\frac{1}{n}} \,\mathrm{d} r
+$
 \centering where
-\[
+$
 \theta = {2s\over \pi N_a ((d_i+d_o)/2)^2}
-\]
-	 
+$
+		
+		
+	
 \end{columns}
-}
+}	
 
-
-
-
-\frame{
-\frametitle{Creep}
-%\frame{movie}{
-%\frametitle{Creep}
-%\movie[label=show3,width=1.0\textwidth,poster
-%       ,autostart,showcontrols,loop] 
-%  {\includegraphics[width=1.0\textwidth]{Creepvideo.mp4}
-%
-}
-\section{Future Work}
 \frame{
 \frametitle{Design Optimization Under Uncertainty}
 
@@ -377,15 +406,41 @@ Faculty Mentors: I. Ipsen and R. Smith}
 				\end{equation*}
 		\begin{itemize}
 			\item Uniform Distribution [$\mathbf{x}_{i} -  T_{\mathbf{x}_{i}}$, $\mathbf{x}_{i} +  T_{\mathbf{x}_{i}}$]
-			\item Each iteration $\rightarrow$ Reliability analysis using Monte Carlo.
+			\item Each iteration $\rightarrow$ Probabilistic constraints checked using Monte Carlo.
 			\item UQ propagation with Monte Carlo to obtain $F(\mathbf{x})$
 		\end{itemize}
 
-	 
+}
+
+\section{Summary and Future Work}
+
+\frame{
+	\begin{itemize}
+		\item Summary:
+		\begin{itemize}
+			\item Designed a flexible algorithm for spring optimization, with a variety of objective 
+				functions and constraints. 
+			\item Chose models for stress relaxation and creep, and incorporated them into our 						optimization.
+			
+		\end{itemize}
+		\item Future Work
+		\begin{itemize}
+		 	\item The implementation of design optimization under uncertainty into the current model.
+			\item Analysis of different stress relaxation and creep models.
+		\end{itemize}
+\end{itemize}
 
 }
 
 
+\frame{
+\frametitle{}
+\begin{center}
+\LARGE Thank you.\\
+\bigskip
+\LARGE Questions?
+\end{center}
+}
 
 
 \frame[allowframebreaks]{
@@ -405,18 +460,12 @@ Faculty Mentors: I. Ipsen and R. Smith}
 %\nocite{Floating}
 %\nocite{Bates}
 %\nocite{MATLAB:2014a}
+\tiny
 \bibliographystyle{ieetr}
 \bibliography{MyBib}
 }
 
-\frame{
-\frametitle{}
-\begin{center}
-\LARGE Thank you.\\
-\bigskip
-\LARGE Questions?
-\end{center}
-}
+
 
 \end{document}
 
