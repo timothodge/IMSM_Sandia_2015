@@ -197,7 +197,7 @@ Given an input of objectives and constraints on those objectives which are both 
 			\end{equation}
 Here, $\mathbf{x}$ is the set of independent variables for the problem. In the context of spring design the independent variables are the spring parameters, which we also call design variables in the context of optimization. The function $F(\mathbf{x})$ is the objective function that we try to optimize. For spring design this function can consist of a single spring attribute or any weighted linear combination of attributes. Lastly, the function $\mathbf{G}(\mathbf{x})$ is the set of constraint functions restricting the optimization problem. For spring design, this set can consist of any combination of bounds on the design variables and bounds on the spring attributes. 
 
-To solidify this formulation, consider the acceleration switch example provided in the introduction. Suppose we wish to minimize the weighted sum of the spring rate ($k$) and the spring index ($c$) with respect to the inner diameter ($d_{\text{i}}$) and wire diameter ($d_{\text{w}}$) of the spring. Suppose we must satisfy a lower bound on the wire diameter ($d_{\text{w,min}}$), an upper bound on the inner diameter ($d_{\text{i,max}}$), and an additional constraint that the coil binding gap ($g$) is greater than the value $g_{\text{min}}$. Composing this problem mathematically gives
+To solidify this formulation, consider the acceleration switch example provided in the introduction. Suppose we wish to minimize the weighted sum of the spring rate ($k$) and the spring index ($C$) with respect to the inner diameter ($d_{\text{i}}$) and wire diameter ($d_{\text{w}}$) of the spring. Suppose we must satisfy a lower bound on the wire diameter ($d_{\text{w,min}}$), an upper bound on the inner diameter ($d_{\text{i,max}}$), and an additional constraint that the coil binding gap ($g$) is greater than the value $g_{\text{min}}$. Composing this problem mathematically gives
 				\begin{equation}
  					\begin{gathered}
  						\min_{d_{\text{i}}, d_{\text{w}}} \ w_{1}k + w_{2}c \\
@@ -245,7 +245,7 @@ During the first step of our work flow, a spring designer (herein known as the u
 \subsection{Problem Definition}
 \label{sec:Problem_Definition}
 
-Generally, the user would like to optimize some of the spring attributes introduced in Section~\ref{sec:Springs}, while satisfying the problem's physical design constraints. In the case of an acceleration switch example in Section~\ref{sec:Constrained_Optimization}, the user would like to achieve the smallest possible weighted sum of spring rate ($k$) and spring index ($c$), while satisfying the physical dimensions of the spring and the constraint on the coil binding gap $g$. Thus, the next step in our workflow is to take the user input and formulate an optimization problem that includes an objective, a set of design variables and constraints. For the acceleration switch, this results in the problem defined in~(\ref{eq:Problem}). 
+Generally, the user would like to optimize some of the spring attributes introduced in Section~\ref{sec:Springs}, while satisfying the problem's physical design constraints. In the case of an acceleration switch example in Section~\ref{sec:Constrained_Optimization}, the user would like to achieve the smallest possible weighted sum of spring rate ($k$) and spring index ($C$), while satisfying the physical dimensions of the spring and the constraint on the coil binding gap $g$. Thus, the next step in our workflow is to take the user input and formulate an optimization problem that includes an objective, a set of design variables and constraints. For the acceleration switch, this results in the problem defined in~(\ref{eq:Problem}). 
 
 In order to run the design analysis, we place some restrictions on the form of this optimization problem. First, the optimization's objective function must be specified as a weighted sum of minimums and maximums. While other methods for multi-criteria optimization exist, including these in our scheme has been left to future work.
 
@@ -258,7 +258,7 @@ The second restriction, based on discussions with engineers experienced with spr
 	 Permissible Design Variables & Permissible Attributes for Optimization \\
 	 \hline
      	The spring's natural length ($L_{\text{free}}$) 					& Spring Rate ($k$) \\
-	    The spring's resting length ($L_{\text{open}}$) 				& Spring Index ($c$)  \\
+	    The spring's resting length ($L_{\text{open}}$) 				& Spring Index ($C$)  \\
 		Spring's minimum compression length  ($L_{\text{hard}}$) 	& Preloaded Force ($F_{open}$) \\
 		Total spring coil ($N_{\text{t}}$)    						& Coil Binding Gap ($g$) \\
 		Spring's inner diameter ($d_{\text{i}}$)    					& Buckling Slenderness Ratio ($\lambda$) \\
@@ -394,12 +394,12 @@ To demonstrate the workflow for optimal spring design and the robustness of our 
 	 					\min_{} 0.5 \times\left(\frac{k}{k_{max}}\right) + 0.5 \times (\frac{C}{C_{max}}) \\
 	 					\mbox{subject to} \\%\mathbf{G}(\mathbf{x}) \le \mathbf{0}, 
 						\begin{split}
-							 d_{i} + 2 \times d_{w} \leq 60e-3\\
+							 d_{i} + 2 \times d_{w} \leq 60 \times 10^{-3} mm\\
 							 g_{min} - \frac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0\\
 							 \frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0\\
 							 \frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0\\
-							 20e-3 \leq d_{i} \leq 30e-3\\	 
-							 1e-3 \leq d_{w} \leq 5e-3\\	 
+							 20 \times 10^{-3} mm \leq d_{i} \leq 30 \times 10^{-3} mm\\	 
+							 1 \times 10^{-3} mm \leq d_{w} \leq 5 \times 10^{-3} mm\\	 
 							 9 \leq N_{t} \leq 17\\	 
 						\end{split}
 					\end{gathered}
@@ -454,7 +454,7 @@ From the sensitivity indices, it can be observed that all the design variables h
 
 	\subsubsection{Optimization}
 	
-	As stated in Section \ref{sec:Optimization}, DIRECT algorithm is used for optimization and the optimum design point is obtained as 
+	As stated in Section \ref{subsec:Optimization}, DIRECT algorithm is used for optimization and the optimum design point is obtained as 
 	\begin{center}
 	$\mathbf{x_{opt}} =
 	\left[
@@ -471,11 +471,11 @@ $
 		
 \newpage
 %-----------------------------------Computational Experiments.2-----------------------------------%
-\vspace{-.4in}
+
 \subsection{Case 2:}
 \label{subsec:Case2}
 %Case_56_3891011
-
+\vspace{-.1in}
 \begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Design Variables:}, labelindent = 1cm]
 	\item[Objectives:] Minimize spring rate and spring index.\\
 	\item[Constraints:] Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress, stress relaxation. \\
@@ -518,7 +518,7 @@ $
 	 					\min_{} 0.5 \times\left(\frac{k}{k_{max}}\right) + 0.5 \times (\frac{C}{C_{max}}) \\
 	 					\mbox{subject to} \\%\mathbf{G}(\mathbf{x}) \le \mathbf{0}, 
 						\begin{split}
-							 d_{i} + 2 \times d_{w} \leq 60e-3\\
+							 d_{i} + 2 \times d_{w} \leq 60 \times 10^{-3} mm\\
 							 g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0\\
 							 \frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0\\
 							 d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}} - d_{o}^{max} < 0\\
@@ -526,8 +526,8 @@ $
 							 \frac{4}{G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + \frac{c}{k} G_{sr}nt^k \right)^{-\frac{1}{n}} \,\mathrm{d} r \ge .85\\
 							 \mbox{where, } \quad
 							  \theta = {2s\over \pi N_a (d_i+d_w)^2}\\
-							 20e-3 \leq d_{i} \leq 30e-3\\	 
-							 1e-3 \leq d_{w} \leq 5e-3\\	 
+							 20 \times 10 ^{-3} mm \leq d_{i} \leq 30 \times 10^{-3} mm\\	 
+							 1 \times 10^{-3} mm \leq d_{w} \leq 5 \times 10^{-3} mm\\	 
 							 9 \leq N_{t} \leq 17\\	 
 						\end{split}
 					\end{gathered}
@@ -587,7 +587,7 @@ From the sensitivity indices, it can be observed that all the design variables h
 
 \subsubsection{Optimization}
 	
-	As stated in Section \ref{sec:Optimization}, DIRECT algorithm is used for optimization and the optimum design point is obtained as 
+	As stated in Section \ref{subsec:Optimization}, DIRECT algorithm is used for optimization and the optimum design point is obtained as 
 	\begin{center}
 	$\mathbf{x_{opt}} =
 	\left[
