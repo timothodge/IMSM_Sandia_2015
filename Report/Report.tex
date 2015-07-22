@@ -49,6 +49,8 @@ Sean Webb\footnote{Sandia National Laboratory};
 \vspace{.3truein}
 \centerline{\bf Abstract}
 
+Helical compression springs are the one of the most commonly used mechanical components for applications spanning diverse fields. Therefore spring design is one of the most commonly performed tasks in the industry. To this regard, this work provides an intelligent supporting tool to aid the designers to obtain an optimal spring that satisfies their requirements. The tool, which is developed using an object-oriented design framework, provides the freedom to the user to interchange between constraints and objectives to be able to design the optimal spring. Given a problem definition, this tool also provides a feasibility plot which allows the user to refine the problem definition, if necessary. Creep and relaxation models are also incorporated into the tool. The tool uses DIRECT, a global search algorithm to perform the design optimization.
+
 %-----------------------------------------------------------------------Introduction-----------------------------------------------------------------------%
 \section{Introduction}
 \label{sec:Introduction}
@@ -137,6 +139,8 @@ We can uniquely define a helical compression spring by a set of design parameter
 			\item[Hard Length ($\boldsymbol{L}_{\text{hard}}$)] This is the minimum length a spring can compress to under a specified force. For the acceleration switch example, the spring cannot compression beyond a certain point under the applied forces because additional compression would reopen the circuit.
 			
 			\item[Solid Length ($\boldsymbol{L}_{\text{solid}}$)] This is the spring's length when its coils are completely compressed. The solid length is $L_{\text{solid}} = N_{\text{t}}d_{\text{w}}$. Also, the lengths defined must satisfy ${L_{\text{solid}} \le L_{\text{hard}} < L_{\text{open}} \le L_{\text{free}}}$.
+			
+			\item[Deflection ($\boldsymbol{s}$)] This is the amount the spring is compressed.
 					
 			\item[Pitch ($\boldsymbol{p}$)] This is the distance between coils. For coils with \textit{closed} end conditions, ${p = \frac{L_{\text{free}}-2d_{\text{free}}}{N_{\text{a}}}}$, and for coils with \textit{open} end conditions, $p = \frac{L_{\text{free}}}{N_{\text{a}}-1}$. See Figure~\ref{fig:Description1}.			
 			
@@ -175,7 +179,8 @@ d_{\text{w}} + 3 d_{\text{w}}^{2})}{d_{\text{i}}(d_{\text{i}}+d_{\text{w}})^{3}}
 			\end{equation}
 				The diametral expansion is the measurement of how much the outer diameter of the spring increases as the spring is compressed. The discriminant of the square root is necessarily nonnegative, so diametral expansion can put additional constraints on the relationship between some parameters. Note also that the formula for diametral expansion depends on the spring's end conditions. The equation above is the diametral expansion of a spring with \textit{closed} end conditions, and the diametral expansion for a spring with \textit{open} end conditions is the solution of a cubic polynomial to complicated to show here.
 						
-			\item[Stress Relaxation]
+			\item[Stress Relaxation]\begin{equation} \phi = \frac{2\pi N_{\text{a}} (d_{\text{i}}+d_{\text{w}})^2}{Gsd_{\text{w}}^4}\int_0^{d_\text{w}} r^2 \left(\left(\frac{2Gsr}{\pi N_{\text{a}} (d_{\text{i}}+d_{\text{w}})^2}\right)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r \end{equation}
+				Stress relaxation measures how much the spring force decays in high temperature conditions under constant compression for time $t$. This model formula is derived using the Norton-Bailey law where $c$, $n$, and $k$ are temperature dependent material specific constants. The inclusion of stress relaxation as a spring attribute in optimal spring design is unique to our tool construction. We include a detailed derivation of this formula in the appendix.
 						
 			\end{description}
 			
@@ -293,7 +298,7 @@ Additionally, a graphical tool has been added to help the user analyze the probl
 %-----------------------------------The Approach.4-----------------------------------%
 \subsection{Sensitivity Analysis}
 \label{subsec:Sensitivity}
-\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches have been divided into two categories - (1)filter approach \cite{Bioinformatics}, and (2)wrapper approach \cite{Wrappers}. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. Two types of sensitivity analysis have been developed in the literature - local sensitivity analysis and global sensitivity analysis. The local sensitivity index of a variable measures the sensitivity of the model output when the variable is fixed at a single value whereas the global sensitivity (GSA)\cite{Global} index measures the variation of model output when the variable is varied over its range. Therefore, GSA is used as it considers the entire range instead of conditioning at a point in computing the sensitivity to the output. Note that the input variables represent the design variables and model represents the objective function.
+\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches have been divided into two categories - (1)filter approach~\cite{Bioinformatics}, and (2)wrapper approach \cite{Wrappers}. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. Two types of sensitivity analysis have been developed in the literature - local sensitivity analysis and global sensitivity analysis. The local sensitivity index of a variable measures the sensitivity of the model output when the variable is fixed at a single value whereas the global sensitivity (GSA)~\cite{Global} index measures the variation of model output when the variable is varied over its range. Therefore, GSA is used as it considers the entire range instead of conditioning at a point in computing the sensitivity to the output. Note that the input variables represent the design variables and model represents the objective function.
 Consider a objective function, $G$, with $n$ design variables given by $x_{1}$, $x_{2}$, ...  $x_{n}$, given by
 
 \centerline{$Y = G(x_{1}, x_{2}, ... x_{n})$}
@@ -316,7 +321,7 @@ such that
 \centerline{$G(\textbf{x}) \leq 0$}
 \centerline{$lb_{\textbf{x}} \leq \textbf{x} \leq ub_{\textbf{x}}$}
 
-\noindent  Several optimization algorithms (both local and global) are available to solve the above optimization problem. DIRECT is one of the most popular global search optimization algortihm \cite{DirectUserGuide} and   \cite{DirectPaper} have been tried for this spring optimization problem.\\
+\noindent  Several optimization algorithms (both local and global) are available to solve the above optimization problem. DIRECT is one of the most popular global search optimization algorithm~\cite{DirectUserGuide} and\cite{DirectPaper} have been tried for this spring optimization problem.\\
 
 The main idea of DIRECT algorithm is that  the domain is normalized to be unit hypercube and the function is evaluated at the center point $c$ of this hypercube and at points $\{c + \delta, c, c - \delta\} $ ($\delta$ is the size of the hypercube) ; then the hypercube with the smallest function value one is chosen and further divided into smaller hypercubes until the global optimum is obtained. DIRECT is a sampling optimization algorithm. It requires no knowledge of the objective function such as gradient and hessian. Since it is a global algorithm, it does not require an initial point.  Moreover, it is easy to implement in an automated software framework since it does not require segregation of linear and non-linear constraints.
 
