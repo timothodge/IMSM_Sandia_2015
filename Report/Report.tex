@@ -52,6 +52,9 @@ Sean Webb\footnote{Sandia National Laboratory};
 \section{Introduction}
 \label{sec:Introduction}
 
+\subsection{Rocket Sled Example}
+\label{subsec:Example}
+
 Springs have many everyday uses, such as in cars, homes, gyms, and industry. For example, springs are used in acceleration switches like the one seen in Figure~\ref{fig:Acceleration_Switch}. Their purpose in this instance is to close an electrical circuit once the object carrying the switch reaches a certain acceleration. This mechanism provides power to sensory equipment and data recorders for very precise amounts of time, and an application of its use is to collect data from rocket sled experiments~\cite{Massad2015}. 
 
 		\begin{figure}[h]
@@ -61,17 +64,24 @@ Springs have many everyday uses, such as in cars, homes, gyms, and industry. For
 		 
 		 \end{figure}	 
 		
-These rocket sled tests include very high velocities and accelerations, and the experiments end with their destruction upon impact. Since the test is not easily replicated, we must have the ability to consistently and correctly collect data. This means we require that the spring in the acceleration switch must function as expected to the forces exerted on it, and having a switch that is closed earlier or later than expected is undesirable~\cite{IMSM2010}. Designing a spring to behave as desired is a complicated problem that requires satisfying numerous constraints on the spring's physical properties. That the desired spring can vary depending on the application further complicates the problem. 
+These rocket sled tests include very high velocities and accelerations, and the experiments end with their destruction upon impact. Since the test is not easily replicated, we must have the ability to consistently and correctly collect data. This means we require that the spring in the acceleration switch must function as expected to the forces exerted on it, and having a switch that is closed earlier or later than expected is undesirable~\cite{IMSM2010}. Designing a spring to behave as desired is a complicated problem that requires satisfying numerous constraints on the spring's physical properties. That the desired spring can vary depending on the application further complicates the problem.
 
 Spring design under these conditions amounts to a constrained optimization problem where certain properties of the spring may need to be maximized or minimized subject to bounds on some or all of the spring's other properties. Extending the scope beyond spring design for use in acceleration switches, which already cover a vast spread of specific spring designs, results in even more possibilities for design specifications. Rather than developing methods to solve these problems on an ad hoc basis, we develop to solve a wide variety of spring design problems. 
 
+\subsection{Optimal Spring Design}
+\label{subsec:Spring Design} 
+
 Designing an optimal spring is not a new problem. Brake et al. considered the design of an acceleration switch with enabled uncertainty~\cite{IMSM2010}. Alternatively, Sastry et al. implemented probabilistic response surface methodology to investigate the complications of uncertainty in designing a spring~\cite{Reliability}. Others have considered the reduction of the optimization problem to focus on a single parameter~\cite{Robust}. Similar tools to the ones mentioned above also exist~\cite{Paredes}.
 
-Motivated by a workflow premise, we produce a novel tool with new capabilities. The novelties we include are the inherent flexibility in our tool's framework, tools to visualize the existence of solutions for constrained optimization problems, sensitivity analysis capabilities, and design optimization under uncertainty. We also discuss the inclusion of stress relaxation constraints in the spring design, which to our knowledge has not been considered before. We provide details regarding these items as follows. Section~\ref{sec:The_Problem} formally defines the spring design problem for helical compression springs. Section~\ref{sec:The_Approach} outlines the workflow for optimal spring design. Section~\ref{sec:Computational_Experiments} shares cases studies using our approach, and Section~\ref{sec:Summary} summarizes our work and provides suggestions for future work.
+Motivated by a workflow for the design process, we present an intelligent tool for building an optimal spring. This tool is robust to a variety of spring design specifications and allows for optimization under uncertainty. We promote user interactivity by interfacing our tool with a graphical user interface and providing a tool to visualize the feasibility of a spring design. We also provide the ability to perform a global sensitivity analysis with respect to a spring's design variables. Finally, we add stress relaxation as a optional specification for optimal spring design, which to our knowledge has never been included before. 
+
+In this manuscript we provide details for our novel and robust tool as follows. Section~\ref{sec:The_Problem} formally defines the spring design problem for helical compression springs. Section~\ref{sec:The_Approach} outlines the workflow for optimal spring design. Section~\ref{sec:Computational_Experiments} shares cases studies using our approach, and Section~\ref{sec:Summary} summarizes our work and provides suggestions for future work.
 
 			
 \section{The Problem} 
 \label{sec:The_Problem}
+
+To develop the optimal spring design tool, we first need to identify and define the problem. This section explains the specific parameters and attributes relevant to optimal spring design, and then frames the optimization problem in a mathematical context.
 
 \subsection{Helical Compression Springs}
 \label{sec:Springs}
@@ -85,7 +95,7 @@ Helical compression springs, such as the one in Figure~\ref{fig:Spring}, are pos
 		 
 		 \end{figure}
 
-We can uniquely define a helical compression spring by a set of design parameters, which then determine physical attributes of the spring~\cite{Massad2015}. Figures~\ref{fig:Description1}~and~\ref{fig:Description2} provide visual representations for a few of the basic parameters, and a complete list of parameters and attributes follows. 		 
+We can uniquely define a helical compression spring by a set of design parameters, which then determine physical attributes of the spring~\cite{Massad2015}. Figures~\ref{fig:Description1}~and~\ref{fig:Description2} provide visual representations for a few of the basic parameters, and a complete list of parameters. 		 
 		\begin{figure}[h]
 			\begin{subfigure}{.5\textwidth}
 				\centering
@@ -95,7 +105,7 @@ We can uniquely define a helical compression spring by a set of design parameter
 			\end{subfigure}%
 			\begin{subfigure}{.5\textwidth}
 				  \centering
-		 		\includegraphics[scale=.15]{Spring_Description2.png}
+		 		\includegraphics[scale=.155]{Spring_Description2.png}
 				\caption{The inner diameter of a spring.}
 				  \label{fig:Description2}
 		  		
@@ -104,7 +114,7 @@ We can uniquely define a helical compression spring by a set of design parameter
 		  \caption{A subset of basic parameters for a helical compression spring.}
 		\end{figure}
 		
-		\center\noindent\textbf{Spring Design Parameters}
+		\begin{center}\textbf{Spring Design Parameters}\end{center}
 		\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Young's Modulus (E)}]
 			\item [Wire Diameter ($\boldsymbol{d}_{\text{w}}$)] This is the diameter of the circular wire used to form the spring.
 		
@@ -134,12 +144,14 @@ We can uniquely define a helical compression spring by a set of design parameter
 		
 		\end{description}
 
-		\noindent\textbf{Spring Attributes:}
+This list of parameters is not exhaustive, but the parameter set given here defines many common spring attributes relevant to optimal spring design. We have a particular interest in the attributes listed below.
+
+		\begin{center}\textbf{Spring Attributes}\end{center}
 			\begin{description}
 				\item [Spring Rate] \begin{equation} k = \frac{G}{8N_{\text{a}}}\frac{d_{\text{w}}^{4}}{(d_{\text{i}} + d_{\text{w}})^{3}}\end{equation}
 				The spring rate measures the rigidity or stiffness of the spring. 
 			
-			\item[Spring Index]\begin{equation}C = \frac{d_{\text{i}}}{d_{\text{w}}} + 1.\end{equation}
+			\item[Spring Index]\begin{equation}C = \frac{d_{\text{i}}}{d_{\text{w}}} + 1\end{equation}
 				The spring index measures the ratio between the spring's inner diameter and wire diameter and often is proportional to the manufacturing cost for the spring~\cite{SpringIndex}.
 			
 			\item[Preload Force]\begin{equation*} F_{\text{open}} = (L_{\text{free}}-L_{\text{open}})k = (L_{\text{free}}-L_{\text{open}})\frac{G}{8N_{\text{a}}}\frac{d_{\text{w}}^{4}}{(d_{\text{i}} + d_{\text{w}})^{3}} \end{equation*}
@@ -157,27 +169,60 @@ d_{\text{w}} + 3 d_{\text{w}}^{2})}{d_{\text{i}}(d_{\text{i}}+d_{\text{w}})^{3}}
 			
 			\item[Diametral Expansion]\begin{equation} d_{\text{expand}} = d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}}
 			\end{equation}
-				The diametral expansion is the measurement of how much the outer diameter of the spring increases as the spring is compressed. Note that the discriminant of the square root is necessarily nonnegative, so diametral expansion can put additional constraints on the relationship between some parameters. 	
-			% Talk about open vs closed
-			
+				The diametral expansion is the measurement of how much the outer diameter of the spring increases as the spring is compressed. The discriminant of the square root is necessarily nonnegative, so diametral expansion can put additional constraints on the relationship between some parameters. Note also that the formula for diametral expansion depends on the spring's end conditions. The equation above is the diametral expansion of a spring with \textit{closed} end conditions, and the diametral expansion for a spring with \textit{open} end conditions is the solution of a cubic polynomial to complicated to show here.
+						
+			\item[Stress Relaxation]
+						
 			\end{description}
-
-This list of parameters and attributes is not exhaustive, but it does demonstrate the inherent complexities in spring design. Spring design that requires both upper and lower bounds on each of the attributes is not uncommon. As a result formulating the exact problem statement as given by the required spring design must be precise and can benefit from a standard convention. This lends itself to a mathematical formulation.
+			
+Considering this list of spring parameters and attributes, optimal spring design amounts to optimizing a collection of parameters and attributes subject to the restrictions of design specifications. We formulate this objective as a constrained optimization problem.
 
 \subsection{Constrained Optimization}
 \label{sec:Constrained_Optimization}
 
-Given an input of objectives and constraints on those objectives which are both defined by a set of design variables, we can formulate the challenge of designing an optimal spring as a constrained optimization problem. The general formulation of such a problem is 
+Given an input of objectives and constraints on those objectives which are both defined by a set of design variables, we can formulate the challenge of designing an optimal spring as a constrained optimization problem. Without loss of generality, the formulation of such a problem is
 				\begin{equation*}
  					\begin{aligned}
- 						& \underset{\textbf{x}}{\text{min}}
- 						& & F(\textbf{x}), \\
+ 						& \underset{\mathbf{x}}{\text{min}}
+ 						& & F(\mathbf{x}), \\
  						& \text{subject to}
- 						& & \mathbf{G}(\textbf{x}) \le \mathbf{0}.
+ 						& & \mathbf{G}(\mathbf{x}) \le \mathbf{0}.
  					\end{aligned}
 				\end{equation*}
 				
-Here, $\mathbf{x}$ is the set of independent variables for the problem. In the context of spring design the independent variables are the spring parameters, which we also call design variables in the context of optimization. The function $F(\mathbf{x})$ is the objective function that we try to optimize. For spring design this function can consist of a single spring attribute or any weighted linear combination of attributes. Lastly, the function $\mathbf{G}(\mathbf{x})$ is the set of constraint functions restricting the optimization problem. For spring design, this set can consist of any combination of bounds on the design variables and bounds on the spring attributes.
+Here, $\mathbf{x}$ is the set of independent variables for the problem. In the context of spring design the independent variables are the spring parameters, which we also call design variables in the context of optimization. The function $F(\mathbf{x})$ is the objective function that we try to optimize. For spring design this function can consist of a single spring attribute or any weighted linear combination of attributes. Lastly, the function $\mathbf{G}(\mathbf{x})$ is the set of constraint functions restricting the optimization problem. For spring design, this set can consist of any combination of bounds on the design variables and bounds on the spring attributes. 
+
+To solidify this formulation, consider the rocket sled example provided in the introduction. Suppose we wish to minimize the weighted sum of the outer diameter of the spring ($d_{\text{o}}$) and the preload force applied to the spring ($F_{\text{open}}$) with respect to the inner diameter ($d_{\text{i}}$) and wire diameter ($d_{\text{w}}$) of the spring. Suppose we must satisfy a lower bound on the wire diameter ($d_{\text{w,min}}$), an upper bound on the inner diameter ($d_{\text{i,max}}$) and an additional constraint that the spring index ($c$) is less the value $c_{\text{max}}$. Composing this problem mathematically gives
+
+				\begin{equation*}
+ 					\begin{aligned}
+ 						& \underset{d_{\text{i}}, d_{\text{w}}}{\text{min}}
+ 						& & w_{1}d_{\text{o}} + w_{2}F_{\text{open}}, \\
+ 						& \text{subject to}
+						& & c - c_{\text{max}}\le 0, \\
+						&
+ 						& & -d_{\text{w}} + d_{\text{w,min}}\le 0, \\
+					 	&
+						& & d_{\text{i}} - d_{\text{i,max}} \le 0,
+					\end{aligned}
+				\end{equation*}
+
+or equivalently,
+
+\begin{equation*}
+ 					\begin{aligned}
+ 						& \underset{d_{\text{i}}, d_{\text{w}}}{\text{min}}
+ 						& & w_{1}(d_{\text{i}} + 2d_{\text{w}}) + w_{2}(L_{\text{free}}-L_{\text{open}})\frac{G}{8N_{\text{a}}}\frac{d_{\text{w}}^{4}}{(d_{\text{i}} + d_{\text{w}})^{3}}, \\
+ 						& \text{subject to}
+						& & \frac{d_{\text{i}}}{d_{\text{w}}} + 1 - c_{\text{max}}\le 0, \\
+						&
+ 						& & -d_{\text{w}} + d_{\text{w,min}} \le 0, \\
+					 	&
+						& & d_{\text{i}} - d_{\text{i,max}} \le 0, \\
+ 					\end{aligned}
+				\end{equation*}		
+
+where $w_{1}$, $w_{2}$, $c_{\text{max}}$, $d_{\text{w,min}}$, $d_{\text{i,max}}$ are known values.
 
 \section{The Approach}
 \label{sec:The_Approach}
