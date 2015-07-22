@@ -21,7 +21,6 @@ classdef Objective
             %Output: Evaluated expression, will print if unable to 
             %evaluate.
             %
-           
             retval = obj.expression(Spring);
             
             if (isempty(retval)) 
