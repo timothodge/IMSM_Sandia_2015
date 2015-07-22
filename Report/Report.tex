@@ -49,10 +49,11 @@ Sean Webb\footnote{Sandia National Laboratory};
 \vspace{.3truein}
 \centerline{\bf Abstract}
 
-
+%-----------------------------------------------------------------------Introduction-----------------------------------------------------------------------%
 \section{Introduction}
 \label{sec:Introduction}
 
+%-----------------------------------Introduction.1-----------------------------------%
 \subsection{Rocket Sled Example}
 \label{subsec:Example}
 
@@ -69,6 +70,7 @@ These rocket sled tests include very high velocities and accelerations, and the 
 
 Spring design under these conditions amounts to a constrained optimization problem where certain properties of the spring may need to be maximized or minimized subject to bounds on some or all of the spring's other properties. Extending the scope beyond spring design for use in acceleration switches, which already cover a vast spread of specific spring designs, results in even more possibilities for design specifications. Rather than developing methods to solve these problems on an ad hoc basis, we develop to solve a wide variety of spring design problems. 
 
+%-----------------------------------Introduction.2-----------------------------------%
 \subsection{Optimal Spring Design}
 \label{subsec:Spring Design} 
 
@@ -78,12 +80,13 @@ Motivated by a workflow for the design process, we present an intelligent tool f
 
 In this manuscript we provide details for our novel and robust tool as follows. Section~\ref{sec:The_Problem} formally defines the spring design problem for helical compression springs. Section~\ref{sec:The_Approach} outlines the workflow for optimal spring design. Section~\ref{sec:Computational_Experiments} shares cases studies using our approach, and Section~\ref{sec:Summary} summarizes our work and provides suggestions for future work.
 
-			
+%-----------------------------------------------------------------------The Problem-----------------------------------------------------------------------%		
 \section{The Problem} 
 \label{sec:The_Problem}
 
 To develop the optimal spring design tool, we first need to identify and define the problem. This section explains the specific parameters and attributes relevant to optimal spring design, and then frames the optimization problem in a mathematical context.
 
+%-----------------------------------The Problem.1-----------------------------------%
 \subsection{Helical Compression Springs}
 \label{sec:Springs}
 
@@ -178,6 +181,7 @@ d_{\text{w}} + 3 d_{\text{w}}^{2})}{d_{\text{i}}(d_{\text{i}}+d_{\text{w}})^{3}}
 			
 Considering this list of spring parameters and attributes, optimal spring design amounts to optimizing a collection of parameters and attributes subject to the restrictions of design specifications. We formulate this objective as a constrained optimization problem.
 
+%-----------------------------------The Problem.2-----------------------------------%
 \subsection{Constrained Optimization}
 \label{sec:Constrained_Optimization}
 
@@ -225,6 +229,7 @@ or equivalently,
 
 where $w_{1}$, $w_{2}$, $c_{\text{max}}$, $d_{\text{w,min}}$, $d_{\text{i,max}}$ are known values.
 
+%-----------------------------------------------------------------------The Approach-----------------------------------------------------------------------%
 \section{The Approach}
 \label{sec:The_Approach}
 
@@ -237,11 +242,13 @@ Our approach follow the optimal spring design workflow illustrated in Figure~\re
 		 
 		 \end{figure}
 
+%-----------------------------------The Approach.1-----------------------------------%
 \subsection{User Input}
 \label{subsec:User_Input}
 
 The first step in our work flow is receiving spring design specifications from a user interested in building a spring for use in some industrial application.  The application will typically involve a set of attributes (eg. spring rate) to optimize and some design constraints (eg. the spring's height or diameter).  For example, consider the acceleration switch discussed during the introduction.  In this case, the user would like to achieve the smallest possible spring rate and spring index, while satisfying the physical dimensions of the acceleration switch.
 
+%-----------------------------------The Approach.2-----------------------------------%
 \subsection{Problem Definition}
 \label{sec:Problem_Definition}
 
@@ -275,6 +282,7 @@ To allow the user maximum flexibility in their problem formulation, our software
 Using classes allow flexibility because the program's algorithm are designed to operate on the classes.  For example, the \textbf{OptimizationProblem} class generates the input for the optimizer and sensitivity analysis.  When the user inputs a new problem, the program generates an \textbf{OptimizationProblem} with a specific optimization function and set of constraints.  Thus, once the user has a problem formulation, our software can convert their problem into the objects needed for the optimizer to run.
 
 % Check capitalization
+%-----------------------------------The Approach.3-----------------------------------%
 \subsection{Feasibility}
 \label{subsec:Feasibility}
 
@@ -282,6 +290,7 @@ Once the user has set a problem, the next step is determining the nature of the 
 
 Additionally, a graphical tool has been added to help the user analyze the problem's feasible region and the value of the objective function over the region.  As illustrated in the case studies, a plot with two or three state variables can be displayed highlighting the problem's overall feasible region and the contributions from each individual constraint.  This will allow the user to identify the nature of the constraints in their problem.
 
+%-----------------------------------The Approach.4-----------------------------------%
 \subsection{Sensitivity Analysis}
 \label{subsec:Sensitivity}
 \hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches have been divided into two categories - (1)filter approach \cite{Bioinformatics}, and (2)wrapper approach \cite{Wrappers}. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. Two types of sensitivity analysis have been developed in the literature - local sensitivity analysis and global sensitivity analysis. The local sensitivity index of a variable measures the sensitivity of the model output when the variable is fixed at a single value whereas the global sensitivity (GSA)\cite{Global} index measures the variation of model output when the variable is varied over its range. Therefore, GSA is used as it considers the entire range instead of conditioning at a point in computing the sensitivity to the output. Note that the input variables represent the design variables and model represents the objective function.
@@ -296,6 +305,7 @@ In GSA, two types of indices can be calculated for each variable - first order i
 
 Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the first-order index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. A nested double loop Monte Carlo sampling approach is adopted for computation of sensitivity indices. Note that sensitivity analysis requires a considerable computational expense and therefore may be carried out in high dimensional design optimization problems. In problems with lower number of design variables, the sensitivity analysis can be avoided and directly perform design optimization. 
 
+%-----------------------------------The Approach.5-----------------------------------%
 \subsection{Design Optimization}
 \label{subsec:Optimization}
 \hspace{5 mm} A general constrained design optimization problem can be formulated as follows
@@ -323,18 +333,18 @@ such that
 
 \noindent where $\mathbf{x},d$ represent the design variables with tolerances and non-design variables with tolerances respectively. The first constraint represents the probabilistic inequality constraint and the other constraints represent the bounds for the design variables. Optimization with tolerance is a nested double loop process where optimization is carried out in the outer loop (using DIRECT)and in each iteration of optimization, reliability analysis is carried out in the inner loop using Monte Carlo sampling to check the probabilistic constraints. After obtaining the optimum values of the means of the design variables, their corresponding probability distributions can be obtained, since it is assumed that the variables follow uniform distributions with variances dependent on the mean values. 
 
+Since the optimum design parameters are stochastic, the optimum value of the objective function, which is a function of the optimum design variables is also stochastic. The probability distribution of the optimum value objective function is obtained from the probability distributions of the design variables through uncertainty propagation analysis using Monte Carlo sampling. One random realization of each of the design parameters when passed through the objective function provides one realization of the optimum value of the objective function. Thus several realizations of design variables are obtained which result in several realizations of the optimum value of the objective function. Using the realizations, the Gaussian kernel density approach is used to construct the probability distribution.
 
-\begin{flushleft}
-\hspace{5 mm} Since the optimum design parameters are stochastic, the optimum value of the objective function, which is a function of the optimum design variables is also stochastic. The probability distribution of the optimum value objective function is obtained from the probability distributions of the design variables through uncertainty propagation analysis using Monte Carlo sampling. One random realization of each of the design parameters when passed through the objective function provides one realization of the optimum value of the objective function. Thus several realizations of design variables are obtained which result in several realizations of the optimum value of the objective function. Using the realizations, the Gaussian kernel density approach is used to construct the probability distribution.
+%-----------------------------------The Approach.6-----------------------------------%
+\subsection{Post Processing}
+\label{subsec:Post_Processing}
 
-\end{flushleft}
 
-%\subsection{Post Processing}
-%\label{subsec:Post_Processing}
-
+%-----------------------------------------------------------------------Computational Experiments-----------------------------------------------------------------------%
 \section{Computational Experiments}
 \label{sec:Computational_Experiments}
 
+%-----------------------------------Computational Experiments.1-----------------------------------%
 \subsection{Case 1:}
 \label{subsec:Case1}
 %Case_56_38910
@@ -423,12 +433,9 @@ From the sensitivity indices, it can be observed that all the design variables h
 $	
 \end{center}
     Therefore, the optimum inner diameter($d_{i}$), optimum wire diameter ($d_{w}$), and optimum number of coils ($N_{t}$) are $30 mm$, $1 mm$ and $17$ respectively.
-	
-	
-	
-	
-
+		
 \newpage
+%-----------------------------------Computational Experiments.2-----------------------------------%
 \subsection{Case 2:}
 \label{subsec:Case2}
 %Case_56_3891011
@@ -586,8 +593,10 @@ $
 %
 %\newpage
 
+%-----------------------------------------------------------------------Summary and Future Work-----------------------------------------------------------------------%
 \section{Summary and Future Work}
 \label{sec:Summary}
+
 We developed an intelligent tool for the design of helical compression springs. The key highlights of this tool are: One, it allows for flexible optimization, which enables design of springs with interchanging objective functions and constraints. Two, it can incorporate stress relaxation in the design process, which to our knowledge has never been done. Three, it provides a feasibility design space given the constraints. Four, it can provide the global sensitivity indices of the design variables to the objective function. 
 
 Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be incorporated. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
