@@ -48,10 +48,16 @@ Sean Webb\footnote{Sandia National Laboratory};
 
 \vspace{.3truein}
 \centerline{\bf Abstract}
- Helical compression springs are the one of the most commonly used mechanical components for applications spanning diverse fields. Therefore spring design is one of the most commonly performed tasks in the industry. To this regard, this work provides an intelligent supporting tool to aid the designers to obtain an optimal spring that satisfies their requirements. The tool, which is developed using an object-oriented design framework, provides the freedom to the user to interchange between constraints and objectives to be able to design the optimal spring. Given a problem definition, this tool also provides a feasibility plot which allows the user to refine the problem definition, if necessary. Creep and relaxation models are also incorporated into the tool. The tool uses DIRECT, a global search algorithm to perform the design optimization.
 
+Helical compression springs are the one of the most commonly used mechanical components for applications spanning diverse fields. Therefore spring design is one of the most commonly performed tasks in the industry. To this regard, this work provides an intelligent supporting tool to aid the designers to obtain an optimal spring that satisfies their requirements. The tool, which is developed using an object-oriented design framework, provides the freedom to the user to interchange between constraints and objectives to be able to design the optimal spring. Given a problem definition, this tool also provides a feasibility plot which allows the user to refine the problem definition, if necessary. Creep and relaxation models are also incorporated into the tool. The tool uses DIRECT, a global search algorithm to perform the design optimization.
+
+%-----------------------------------------------------------------------Introduction-----------------------------------------------------------------------%
 \section{Introduction}
 \label{sec:Introduction}
+
+%-----------------------------------Introduction.1-----------------------------------%
+\subsection{Rocket Sled Example}
+\label{subsec:Example}
 
 Springs have many everyday uses, such as in cars, homes, gyms, and industry. For example, springs are used in acceleration switches like the one seen in Figure~\ref{fig:Acceleration_Switch}. Their purpose in this instance is to close an electrical circuit once the object carrying the switch reaches a certain acceleration. This mechanism provides power to sensory equipment and data recorders for very precise amounts of time, and an application of its use is to collect data from rocket sled experiments~\cite{Massad2015}. 
 
@@ -62,18 +68,27 @@ Springs have many everyday uses, such as in cars, homes, gyms, and industry. For
 		 
 		 \end{figure}	 
 		
-These rocket sled tests include very high velocities and accelerations, and the experiments end with their destruction upon impact. Since the test is not easily replicated, we must have the ability to consistently and correctly collect data. This means we require that the spring in the acceleration switch must function as expected to the forces exerted on it, and having a switch that is closed earlier or later than expected is undesirable~\cite{IMSM2010}. Designing a spring to behave as desired is a complicated problem that requires satisfying numerous constraints on the spring's physical properties. That the desired spring can vary depending on the application further complicates the problem. 
+These rocket sled tests include very high velocities and accelerations, and the experiments end with their destruction upon impact. Since the test is not easily replicated, we must have the ability to consistently and correctly collect data. This means we require that the spring in the acceleration switch must function as expected to the forces exerted on it, and having a switch that is closed earlier or later than expected is undesirable~\cite{IMSM2010}. Designing a spring to behave as desired is a complicated problem that requires satisfying numerous constraints on the spring's physical properties. That the desired spring can vary depending on the application further complicates the problem.
 
 Spring design under these conditions amounts to a constrained optimization problem where certain properties of the spring may need to be maximized or minimized subject to bounds on some or all of the spring's other properties. Extending the scope beyond spring design for use in acceleration switches, which already cover a vast spread of specific spring designs, results in even more possibilities for design specifications. Rather than developing methods to solve these problems on an ad hoc basis, we develop to solve a wide variety of spring design problems. 
 
+%-----------------------------------Introduction.2-----------------------------------%
+\subsection{Optimal Spring Design}
+\label{subsec:Spring Design} 
+
 Designing an optimal spring is not a new problem. Brake et al. considered the design of an acceleration switch with enabled uncertainty~\cite{IMSM2010}. Alternatively, Sastry et al. implemented probabilistic response surface methodology to investigate the complications of uncertainty in designing a spring~\cite{Reliability}. Others have considered the reduction of the optimization problem to focus on a single parameter~\cite{Robust}. Similar tools to the ones mentioned above also exist~\cite{Paredes}.
 
-Motivated by a workflow premise, we produce a novel tool with new capabilities. The novelties we include are the inherent flexibility in our tool's framework, tools to visualize the existence of solutions for constrained optimization problems, sensitivity analysis capabilities, and design optimization under uncertainty. We also discuss the inclusion of stress relaxation constraints in the spring design, which to our knowledge has not been considered before. We provide details regarding these items as follows. Section~\ref{sec:The_Problem} formally defines the spring design problem for helical compression springs. Section~\ref{sec:The_Approach} outlines the workflow for optimal spring design. Section~\ref{sec:Computational_Experiments} shares cases studies using our approach, and Section~\ref{sec:Summary} summarizes our work and provides suggestions for future work.
+Motivated by a workflow for the design process, we present an intelligent tool for building an optimal spring. This tool is robust to a variety of spring design specifications and allows for optimization under uncertainty. We promote user interactivity by interfacing our tool with a graphical user interface and providing a tool to visualize the feasibility of a spring design. We also provide the ability to perform a global sensitivity analysis with respect to a spring's design variables. Finally, we add stress relaxation as a optional specification for optimal spring design, which to our knowledge has never been included before. 
 
-			
+In this manuscript we provide details for our novel and robust tool as follows. Section~\ref{sec:The_Problem} formally defines the spring design problem for helical compression springs. Section~\ref{sec:The_Approach} outlines the workflow for optimal spring design. Section~\ref{sec:Computational_Experiments} shares cases studies using our approach, and Section~\ref{sec:Summary} summarizes our work and provides suggestions for future work.
+
+%-----------------------------------------------------------------------The Problem-----------------------------------------------------------------------%		
 \section{The Problem} 
 \label{sec:The_Problem}
 
+To develop the optimal spring design tool, we first need to identify and define the problem. This section explains the specific parameters and attributes relevant to optimal spring design, and then frames the optimization problem in a mathematical context.
+
+%-----------------------------------The Problem.1-----------------------------------%
 \subsection{Helical Compression Springs}
 \label{sec:Springs}
 
@@ -86,7 +101,7 @@ Helical compression springs, such as the one in Figure~\ref{fig:Spring}, are pos
 		 
 		 \end{figure}
 
-We can uniquely define a helical compression spring by a set of design parameters, which then determine physical attributes of the spring~\cite{Massad2015}. Figures~\ref{fig:Description1}~and~\ref{fig:Description2} provide visual representations for a few of the basic parameters, and a complete list of parameters and attributes follows. 		 
+We can uniquely define a helical compression spring by a set of design parameters, which then determine physical attributes of the spring~\cite{Massad2015}. Figures~\ref{fig:Description1}~and~\ref{fig:Description2} provide visual representations for a few of the basic parameters, and a complete list of parameters. 		 
 		\begin{figure}[h]
 			\begin{subfigure}{.5\textwidth}
 				\centering
@@ -96,7 +111,7 @@ We can uniquely define a helical compression spring by a set of design parameter
 			\end{subfigure}%
 			\begin{subfigure}{.5\textwidth}
 				  \centering
-		 		\includegraphics[scale=.15]{Spring_Description2.png}
+		 		\includegraphics[scale=.155]{Spring_Description2.png}
 				\caption{The inner diameter of a spring.}
 				  \label{fig:Description2}
 		  		
@@ -105,7 +120,7 @@ We can uniquely define a helical compression spring by a set of design parameter
 		  \caption{A subset of basic parameters for a helical compression spring.}
 		\end{figure}
 		
-		\center\noindent\textbf{Spring Design Parameters}
+		\begin{center}\textbf{Spring Design Parameters}\end{center}
 		\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Young's Modulus (E)}]
 			\item [Wire Diameter ($\boldsymbol{d}_{\text{w}}$)] This is the diameter of the circular wire used to form the spring.
 		
@@ -124,6 +139,8 @@ We can uniquely define a helical compression spring by a set of design parameter
 			\item[Hard Length ($\boldsymbol{L}_{\text{hard}}$)] This is the minimum length a spring can compress to under a specified force. For the acceleration switch example, the spring cannot compression beyond a certain point under the applied forces because additional compression would reopen the circuit.
 			
 			\item[Solid Length ($\boldsymbol{L}_{\text{solid}}$)] This is the spring's length when its coils are completely compressed. The solid length is $L_{\text{solid}} = N_{\text{t}}d_{\text{w}}$. Also, the lengths defined must satisfy ${L_{\text{solid}} \le L_{\text{hard}} < L_{\text{open}} \le L_{\text{free}}}$.
+			
+			\item[Deflection ($\boldsymbol{s}$)] This is the amount the spring is compressed.
 					
 			\item[Pitch ($\boldsymbol{p}$)] This is the distance between coils. For coils with \textit{closed} end conditions, ${p = \frac{L_{\text{free}}-2d_{\text{free}}}{N_{\text{a}}}}$, and for coils with \textit{open} end conditions, $p = \frac{L_{\text{free}}}{N_{\text{a}}-1}$. See Figure~\ref{fig:Description1}.			
 			
@@ -135,12 +152,14 @@ We can uniquely define a helical compression spring by a set of design parameter
 		
 		\end{description}
 
-		\noindent\textbf{Spring Attributes:}
+This list of parameters is not exhaustive, but the parameter set given here defines many common spring attributes relevant to optimal spring design. We have a particular interest in the attributes listed below.
+
+		\begin{center}\textbf{Spring Attributes}\end{center}
 			\begin{description}
 				\item [Spring Rate] \begin{equation} k = \frac{G}{8N_{\text{a}}}\frac{d_{\text{w}}^{4}}{(d_{\text{i}} + d_{\text{w}})^{3}}\end{equation}
 				The spring rate measures the rigidity or stiffness of the spring. 
 			
-			\item[Spring Index]\begin{equation}C = \frac{d_{\text{i}}}{d_{\text{w}}} + 1.\end{equation}
+			\item[Spring Index]\begin{equation}C = \frac{d_{\text{i}}}{d_{\text{w}}} + 1\end{equation}
 				The spring index measures the ratio between the spring's inner diameter and wire diameter and often is proportional to the manufacturing cost for the spring~\cite{SpringIndex}.
 			
 			\item[Preload Force]\begin{equation*} F_{\text{open}} = (L_{\text{free}}-L_{\text{open}})k = (L_{\text{free}}-L_{\text{open}})\frac{G}{8N_{\text{a}}}\frac{d_{\text{w}}^{4}}{(d_{\text{i}} + d_{\text{w}})^{3}} \end{equation*}
@@ -158,28 +177,64 @@ d_{\text{w}} + 3 d_{\text{w}}^{2})}{d_{\text{i}}(d_{\text{i}}+d_{\text{w}})^{3}}
 			
 			\item[Diametral Expansion]\begin{equation} d_{\text{expand}} = d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}}
 			\end{equation}
-				The diametral expansion is the measurement of how much the outer diameter of the spring increases as the spring is compressed. Note that the discriminant of the square root is necessarily nonnegative, so diametral expansion can put additional constraints on the relationship between some parameters. 	
-			% Talk about open vs closed
-			
+				The diametral expansion is the measurement of how much the outer diameter of the spring increases as the spring is compressed. The discriminant of the square root is necessarily nonnegative, so diametral expansion can put additional constraints on the relationship between some parameters. Note also that the formula for diametral expansion depends on the spring's end conditions. The equation above is the diametral expansion of a spring with \textit{closed} end conditions, and the diametral expansion for a spring with \textit{open} end conditions is the solution of a cubic polynomial to complicated to show here.
+						
+			\item[Stress Relaxation]\begin{equation} \phi = \frac{2\pi N_{\text{a}} (d_{\text{i}}+d_{\text{w}})^2}{Gsd_{\text{w}}^4}\int_0^{d_\text{w}} r^2 \left(\left(\frac{2Gsr}{\pi N_{\text{a}} (d_{\text{i}}+d_{\text{w}})^2}\right)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r \end{equation}
+				Stress relaxation measures how much the spring force decays in high temperature conditions under constant compression for time $t$. This model formula is derived using the Norton-Bailey law where $c$, $n$, and $k$ are temperature dependent material specific constants. The inclusion of stress relaxation as a spring attribute in optimal spring design is unique to our tool construction. We include a detailed derivation of this formula in the appendix.
+						
 			\end{description}
+			
+Considering this list of spring parameters and attributes, optimal spring design amounts to optimizing a collection of parameters and attributes subject to the restrictions of design specifications. We formulate this objective as a constrained optimization problem.
 
-This list of parameters and attributes is not exhaustive, but it does demonstrate the inherent complexities in spring design. Spring design that requires both upper and lower bounds on each of the attributes is not uncommon. As a result formulating the exact problem statement as given by the required spring design must be precise and can benefit from a standard convention. This lends itself to a mathematical formulation.
-
+%-----------------------------------The Problem.2-----------------------------------%
 \subsection{Constrained Optimization}
 \label{sec:Constrained_Optimization}
 
-Given an input of objectives and constraints on those objectives which are both defined by a set of design variables, we can formulate the challenge of designing an optimal spring as a constrained optimization problem. The general formulation of such a problem is 
+Given an input of objectives and constraints on those objectives which are both defined by a set of design variables, we can formulate the challenge of designing an optimal spring as a constrained optimization problem. Without loss of generality, the formulation of such a problem is
 				\begin{equation*}
  					\begin{aligned}
- 						& \underset{\textbf{x}}{\text{min}}
- 						& & F(\textbf{x}), \\
+ 						& \underset{\mathbf{x}}{\text{min}}
+ 						& & F(\mathbf{x}), \\
  						& \text{subject to}
- 						& & \mathbf{G}(\textbf{x}) \le \mathbf{0}.
+ 						& & \mathbf{G}(\mathbf{x}) \le \mathbf{0}.
  					\end{aligned}
 				\end{equation*}
 				
-Here, $\mathbf{x}$ is the set of independent variables for the problem. In the context of spring design the independent variables are the spring parameters, which we also call design variables in the context of optimization. The function $F(\mathbf{x})$ is the objective function that we try to optimize. For spring design this function can consist of a single spring attribute or any weighted linear combination of attributes. Lastly, the function $\mathbf{G}(\mathbf{x})$ is the set of constraint functions restricting the optimization problem. For spring design, this set can consist of any combination of bounds on the design variables and bounds on the spring attributes.
+Here, $\mathbf{x}$ is the set of independent variables for the problem. In the context of spring design the independent variables are the spring parameters, which we also call design variables in the context of optimization. The function $F(\mathbf{x})$ is the objective function that we try to optimize. For spring design this function can consist of a single spring attribute or any weighted linear combination of attributes. Lastly, the function $\mathbf{G}(\mathbf{x})$ is the set of constraint functions restricting the optimization problem. For spring design, this set can consist of any combination of bounds on the design variables and bounds on the spring attributes. 
 
+To solidify this formulation, consider the rocket sled example provided in the introduction. Suppose we wish to minimize the weighted sum of the outer diameter of the spring ($d_{\text{o}}$) and the preload force applied to the spring ($F_{\text{open}}$) with respect to the inner diameter ($d_{\text{i}}$) and wire diameter ($d_{\text{w}}$) of the spring. Suppose we must satisfy a lower bound on the wire diameter ($d_{\text{w,min}}$), an upper bound on the inner diameter ($d_{\text{i,max}}$) and an additional constraint that the spring index ($c$) is less the value $c_{\text{max}}$. Composing this problem mathematically gives
+
+				\begin{equation*}
+ 					\begin{aligned}
+ 						& \underset{d_{\text{i}}, d_{\text{w}}}{\text{min}}
+ 						& & w_{1}d_{\text{o}} + w_{2}F_{\text{open}}, \\
+ 						& \text{subject to}
+						& & c - c_{\text{max}}\le 0, \\
+						&
+ 						& & -d_{\text{w}} + d_{\text{w,min}}\le 0, \\
+					 	&
+						& & d_{\text{i}} - d_{\text{i,max}} \le 0,
+					\end{aligned}
+				\end{equation*}
+
+or equivalently,
+
+\begin{equation*}
+ 					\begin{aligned}
+ 						& \underset{d_{\text{i}}, d_{\text{w}}}{\text{min}}
+ 						& & w_{1}(d_{\text{i}} + 2d_{\text{w}}) + w_{2}(L_{\text{free}}-L_{\text{open}})\frac{G}{8N_{\text{a}}}\frac{d_{\text{w}}^{4}}{(d_{\text{i}} + d_{\text{w}})^{3}}, \\
+ 						& \text{subject to}
+						& & \frac{d_{\text{i}}}{d_{\text{w}}} + 1 - c_{\text{max}}\le 0, \\
+						&
+ 						& & -d_{\text{w}} + d_{\text{w,min}} \le 0, \\
+					 	&
+						& & d_{\text{i}} - d_{\text{i,max}} \le 0, \\
+ 					\end{aligned}
+				\end{equation*}		
+
+where $w_{1}$, $w_{2}$, $c_{\text{max}}$, $d_{\text{w,min}}$, $d_{\text{i,max}}$ are known values.
+
+%-----------------------------------------------------------------------The Approach-----------------------------------------------------------------------%
 \section{The Approach}
 \label{sec:The_Approach}
 
@@ -192,11 +247,13 @@ Our approach follow the optimal spring design workflow illustrated in Figure~\re
 		 
 		 \end{figure}
 
+%-----------------------------------The Approach.1-----------------------------------%
 \subsection{User Input}
 \label{subsec:User_Input}
 
 The first step in our work flow is receiving spring design specifications from a user interested in building a spring for use in some industrial application.  The application will typically involve a set of attributes (eg. spring rate) to optimize and some design constraints (eg. the spring's height or diameter).  For example, consider the acceleration switch discussed during the introduction.  In this case, the user would like to achieve the smallest possible spring rate and spring index, while satisfying the physical dimensions of the acceleration switch.
 
+%-----------------------------------The Approach.2-----------------------------------%
 \subsection{Problem Definition}
 \label{sec:Problem_Definition}
 
@@ -230,6 +287,7 @@ To allow the user maximum flexibility in their problem formulation, our software
 Using classes allow flexibility because the program's algorithm are designed to operate on the classes.  For example, the \textbf{OptimizationProblem} class generates the input for the optimizer and sensitivity analysis.  When the user inputs a new problem, the program generates an \textbf{OptimizationProblem} with a specific optimization function and set of constraints.  Thus, once the user has a problem formulation, our software can convert their problem into the objects needed for the optimizer to run.
 
 % Check capitalization
+%-----------------------------------The Approach.3-----------------------------------%
 \subsection{Feasibility}
 \label{subsec:Feasibility}
 
@@ -237,9 +295,10 @@ Once the user has set a problem, the next step is determining the nature of the 
 
 Additionally, a graphical tool has been added to help the user analyze the problem's feasible region and the value of the objective function over the region.  As illustrated in the case studies, a plot with two or three state variables can be displayed highlighting the problem's overall feasible region and the contributions from each individual constraint.  This will allow the user to identify the nature of the constraints in their problem.
 
+%-----------------------------------The Approach.4-----------------------------------%
 \subsection{Sensitivity Analysis}
 \label{subsec:Sensitivity}
-\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches have been divided into two categories - (1)filter approach \cite{Bioinformatics}, and (2)wrapper approach \cite{Wrappers}. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. Two types of sensitivity analysis have been developed in the literature - local sensitivity analysis and global sensitivity analysis. The local sensitivity index of a variable measures the sensitivity of the model output when the variable is fixed at a single value whereas the global sensitivity (GSA)\cite{Global} index measures the variation of model output when the variable is varied over its range. Therefore, GSA is used as it considers the entire range instead of conditioning at a point in computing the sensitivity to the output. Note that the input variables represent the design variables and model represents the objective function.
+\hspace{5 mm} As the dimension of design variable space increases, the computational expense of the optimization procedure increases. To reduce the computational expense, it is often desirable to reduce the design variable space by removing the variables that have very little influence on the objective function. Thus, a dimension reduction strategy is required to reduce the design variable space. Dimension reduction approaches have been divided into two categories - (1)filter approach~\cite{Bioinformatics}, and (2)wrapper approach \cite{Wrappers}. In the filter approach, the input variables are ranked according to a ranking criterion and the most dominant variables can be selected by assuming a threshold influence value. In the wrapper approach, a subset of variables is selected from the list of all possible subsets of the input variables that best estimate the output variable. Sensitivity analysis, a filter approach, is used in this work for dimension reduction. Two types of sensitivity analysis have been developed in the literature - local sensitivity analysis and global sensitivity analysis. The local sensitivity index of a variable measures the sensitivity of the model output when the variable is fixed at a single value whereas the global sensitivity (GSA)~\cite{Global} index measures the variation of model output when the variable is varied over its range. Therefore, GSA is used as it considers the entire range instead of conditioning at a point in computing the sensitivity to the output. Note that the input variables represent the design variables and model represents the objective function.
 Consider a objective function, $G$, with $n$ design variables given by $x_{1}$, $x_{2}$, ...  $x_{n}$, given by
 
 \centerline{$Y = G(x_{1}, x_{2}, ... x_{n})$}
@@ -251,6 +310,7 @@ In GSA, two types of indices can be calculated for each variable - first order i
 
 Given a design range (lower and upper bounds), a variable can be assumed to be uniformly distributed in the design range. For each variable, the first-order index is calculated and if it is less than an assumed threshold value, then that variable is assumed insensitive and removed from the optimization procedure. A nested double loop Monte Carlo sampling approach is adopted for computation of sensitivity indices. Note that sensitivity analysis requires a considerable computational expense and therefore may be carried out in high dimensional design optimization problems. In problems with lower number of design variables, the sensitivity analysis can be avoided and directly perform design optimization. 
 
+%-----------------------------------The Approach.5-----------------------------------%
 \subsection{Design Optimization}
 \label{subsec:Optimization}
 \hspace{5 mm} A general constrained design optimization problem can be formulated as follows
@@ -261,7 +321,7 @@ such that
 \centerline{$G(\textbf{x}) \leq 0$}
 \centerline{$lb_{\textbf{x}} \leq \textbf{x} \leq ub_{\textbf{x}}$}
 
-\noindent  Several optimization algorithms (both local and global) are available to solve the above optimization problem. DIRECT is one of the most popular global search optimization algortihm \cite{DirectUserGuide} and   \cite{DirectPaper} have been tried for this spring optimization problem.\\
+\noindent  Several optimization algorithms (both local and global) are available to solve the above optimization problem. DIRECT is one of the most popular global search optimization algorithm~\cite{DirectUserGuide} and\cite{DirectPaper} have been tried for this spring optimization problem.\\
 
 The main idea of DIRECT algorithm is that  the domain is normalized to be unit hypercube and the function is evaluated at the center point $c$ of this hypercube and at points $\{c + \delta, c, c - \delta\} $ ($\delta$ is the size of the hypercube) ; then the hypercube with the smallest function value one is chosen and further divided into smaller hypercubes until the global optimum is obtained. DIRECT is a sampling optimization algorithm. It requires no knowledge of the objective function such as gradient and hessian. Since it is a global algorithm, it does not require an initial point.  Moreover, it is easy to implement in an automated software framework since it does not require segregation of linear and non-linear constraints.
 
@@ -278,18 +338,18 @@ such that
 
 \noindent where $\mathbf{x},d$ represent the design variables with tolerances and non-design variables with tolerances respectively. The first constraint represents the probabilistic inequality constraint and the other constraints represent the bounds for the design variables. Optimization with tolerance is a nested double loop process where optimization is carried out in the outer loop (using DIRECT)and in each iteration of optimization, reliability analysis is carried out in the inner loop using Monte Carlo sampling to check the probabilistic constraints. After obtaining the optimum values of the means of the design variables, their corresponding probability distributions can be obtained, since it is assumed that the variables follow uniform distributions with variances dependent on the mean values. 
 
+Since the optimum design parameters are stochastic, the optimum value of the objective function, which is a function of the optimum design variables is also stochastic. The probability distribution of the optimum value objective function is obtained from the probability distributions of the design variables through uncertainty propagation analysis using Monte Carlo sampling. One random realization of each of the design parameters when passed through the objective function provides one realization of the optimum value of the objective function. Thus several realizations of design variables are obtained which result in several realizations of the optimum value of the objective function. Using the realizations, the Gaussian kernel density approach is used to construct the probability distribution.
 
-\begin{flushleft}
-\hspace{5 mm} Since the optimum design parameters are stochastic, the optimum value of the objective function, which is a function of the optimum design variables is also stochastic. The probability distribution of the optimum value objective function is obtained from the probability distributions of the design variables through uncertainty propagation analysis using Monte Carlo sampling. One random realization of each of the design parameters when passed through the objective function provides one realization of the optimum value of the objective function. Thus several realizations of design variables are obtained which result in several realizations of the optimum value of the objective function. Using the realizations, the Gaussian kernel density approach is used to construct the probability distribution.
+%-----------------------------------The Approach.6-----------------------------------%
+\subsection{Post Processing}
+\label{subsec:Post_Processing}
 
-\end{flushleft}
 
-%\subsection{Post Processing}
-%\label{subsec:Post_Processing}
-
+%-----------------------------------------------------------------------Computational Experiments-----------------------------------------------------------------------%
 \section{Computational Experiments}
 \label{sec:Computational_Experiments}
 
+%-----------------------------------Computational Experiments.1-----------------------------------%
 \subsection{Case 1:}
 \label{subsec:Case1}
 %Case_56_38910
@@ -378,12 +438,9 @@ From the sensitivity indices, it can be observed that all the design variables h
 $	
 \end{center}
     Therefore, the optimum inner diameter($d_{i}$), optimum wire diameter ($d_{w}$), and optimum number of coils ($N_{t}$) are $30 mm$, $1 mm$ and $17$ respectively.
-	
-	
-	
-	
-
+		
 \newpage
+%-----------------------------------Computational Experiments.2-----------------------------------%
 \subsection{Case 2:}
 \label{subsec:Case2}
 %Case_56_3891011
@@ -541,8 +598,10 @@ $
 %
 %\newpage
 
+%-----------------------------------------------------------------------Summary and Future Work-----------------------------------------------------------------------%
 \section{Summary and Future Work}
 \label{sec:Summary}
+
 We developed an intelligent tool for the design of helical compression springs. The key highlights of this tool are: One, it allows for flexible optimization, which enables design of springs with interchanging objective functions and constraints. Two, it can incorporate stress relaxation in the design process, which to our knowledge has never been done. Three, it provides a feasibility design space given the constraints. Four, it can provide the global sensitivity indices of the design variables to the objective function. 
 
 Some limitations of the approach outlined are as follows. The choice of optimization and sensitivity analysis are fixed, however, they are modularized to allow a different optimization routine and sensitivity analysis to be incorporated. Given the amount of flexibility that is enabled, a user will have to be able to decide if a infeasible solution is due to user error. 
