@@ -20,7 +20,7 @@
 
 \begin{document}
 
-\centerline{\large \bf Given a Helical Compression Spring in a Spring-Mass-Damper System, What are Optimal Springs?}
+\centerline{\large \bf  A Flexible Methodology for Optimal Helical Compression Spring Design.  }
 
 \vspace{.1truein}
 
@@ -120,13 +120,13 @@ We can uniquely define a helical compression spring by a set of design parameter
 		
 			\item [Wire Diameter ($\boldsymbol{d}_{\text{w}}$)] This is the diameter of the circular wire used to form the spring.
 		
-			\item [Inner Diameter ($\boldsymbol{d}_{i}$)] This is the diameter of the circle formed by the spring's interior excluding the wire. See Figure~\ref{fig:Description2}.
+			\item [Inner Diameter ($\boldsymbol{d}_{\text{i}}$)] This is the diameter of the circle formed by the spring's interior excluding the wire. See Figure~\ref{fig:Description2}.
 			
 			\item [Outer Diameter ($\boldsymbol{d}_{\text{o}}$)] This is the diameter of the circle formed by the spring including the wire, so ${d_{\text{o}} = d_{\text{i}} + 2d_{\text{w}}}$. See Figure~\ref{fig:Description1}.
 			
 			\item[Total Coils ($\boldsymbol{N}_{\text{t}}$)] This is the total number of 360 degree rotations formed by the spring coil. The value does not have to be an integer. 
 			
-			\item[Active Coils ($\boldsymbol{N}_{\text{a}}$)] This is the number of coils that contribute to the force opposing any compression force on the spring. The number of active coils depends on $N_{t}$ and the spring's end conditions. If the end condition is \textit{closed} the terminal coils of the spring are welded to their adjacent coils and $N_{a} = N_{t}-2$. If the end condition is \textit{open}, the terminal coils of the spring are free and $N_{a} = N_{t}-1$. Note this relationship creates a lower bound on the total number of coils.
+			\item[Active Coils ($\boldsymbol{N}_{\text{a}}$)] This is the number of coils that contribute to the force opposing any compression force on the spring. The number of active coils depends on $N_{t}$ and the spring's end conditions. If the end condition is \textit{closed} the terminal coils of the spring are welded to their adjacent coils and $N_{\text{a}} = N_{\text{t}}-2$. If the end condition is \textit{open}, the terminal coils of the spring are free and $N_{\text{a}} = N_{\text{t}}-1$. Note this relationship creates a lower bound on the total number of coils.
 
 			\item[Free Length ($\boldsymbol{L}_{\text{free}}$)] This is the spring's length without any force acting on it, i.e., the spring's natural length.
 						
@@ -203,7 +203,7 @@ To solidify this formulation, consider the acceleration switch example provided 
  						\min_{d_{\text{i}}, d_{\text{w}}} \ w_{1}k + w_{2}c \\
  						\mbox{subject to} \quad
 						 \begin{split} 
-						 	c - c_{\text{max}}\le 0, \\
+						 	g + g_{\text{min}}\le 0, \\
 						 	-d_{\text{w}} + d_{\text{w,min}}\le 0, \\
 							d_{\text{i}} - d_{\text{i,max}} \le 0,
 						\end{split}
@@ -304,14 +304,14 @@ Additionally, a graphical tool has been added to help the user analyze the probl
 \subsection{Optimization}
 \label{subsec:Optimization}
 
-\paragraph{Global Optimization} Without loss of generality, we can formulated a constrained design optimization problem as it is written in~(\ref{eq:General_Problem}). Several optimization algorithms (both local and global) are available to solve the above optimization problem. DIRECT is one of the most popular global search optimization algorithm~\cite{DirectUserGuide,DirectPaper} and is what we use this spring optimization problem.
+\subsubsection{Global Optimization} Without loss of generality, we can formulated a constrained design optimization problem as it is written in~(\ref{eq:General_Problem}). Several optimization algorithms (both local and global) are available to solve the above optimization problem. DIRECT is one of the most popular global search optimization algorithm~\cite{DirectUserGuide,DirectPaper} and is what we use this spring optimization problem.
 
 The main idea of the DIRECT algorithm is that we normalize the domain to be a unit hypercube and evaluate the function at the center point $c$ of this hypercube and at points $\{c + \delta, c, c - \delta\}$ where $\delta$ is the size of the hypercube. Then we choose the hypercube that contains the smallest function value and further divide it into smaller hypercubes until we reach the global optimum. Because DIRECT is a sampling optimization algorithm, it requires no additional information from the objective function, such as its gradient or Hessian, and since it is a global algorithm, DIRECT does not require an initial point to begin optimization. Finally, DIRECT is easy to implement in an automated software framework since it does not require the segregation of linear and non-linear constraints.
 
-\paragraph{Optimization Under Uncertainty} It is also essential to account for the variability in the manufacturing process, i.e., tolerances, in the design of springs. We also refer to tolerance as error or uncertainty in the design variables. The tolerance for each of the spring parameters is nominally assumed to be equal to one percent of the value of the variable. Thus, each variable has a uniform distribution with unknown mean and variance, which dependent on the mean value. The optimization formulation after accounting for tolerances can now be written as 
+\subsubsection{Optimization Under Uncertainty} It is also essential to account for the variability in the manufacturing process, i.e., tolerances, in the design of springs. We also refer to tolerance as error or uncertainty in the design variables. The tolerance for each of the spring parameters is nominally assumed to be equal to one percent of the value of the variable. Thus, each variable has a uniform distribution with unknown mean and variance, which dependent on the mean value. The optimization formulation after accounting for tolerances can now be written as 
 \begin{equation}
 				\begin{gathered}
-	 				\min_{\mathbf{x}} \ \mu_{F} (\mathbf{x},d) \\
+	 				\min_{\mathbf{x}} \ E(F (\mathbf{x},d)) \\
 	 				\mbox{subject to} \quad 
 					\begin{split}
 					-Pr(g_{i}(\mathbf{x},d) \leq 0) + p_{t}^{i} \le 0, \\
@@ -360,7 +360,7 @@ To demonstrate the workflow for optimal spring design and the robustness of our 
  	\item [Objectives:] Minimize spring rate and spring index.\\
 
 	\item[Constraints:] Inner diameter and outer diameter relation, relation on the inner, wire, and outer diameters, coil binding gap, buckling slenderness, and maximum shear stress. \\
-	\item[Design Variables:] $d_{i}$, $d_{w}$, and $N_{t}$ \\
+	\item[Design Variables:] $d_{\text{i}}$, $d_{\text{w}}$, and $N_{\text{t}}$ \\
 \end{description}
 
 	\subsubsection{User Input}
@@ -375,11 +375,11 @@ To demonstrate the workflow for optimal spring design and the robustness of our 
 			 \hline
 		 	 G & 77 GPa \\
 			 UTS & .7GPa \\
-			 $g_{min}$ & .5 mm\\ 
-		 	 $k_{max}$ & 20\\
-			 $C_{max}$ & 10\\
-			 $L_{free}$ & 85.5 mm\\
-			 $L_{hard}$ & 20 mm\\
+			 $g_{\text{min}}$ & .5 mm\\ 
+		 	 $k_{\text{max}}$ & 20\\
+			 $C_{\text{max}}$ & 10\\
+			 $L_{\text{free}}$ & 85.5 mm\\
+			 $L_{\text{hard}}$ & 20 mm\\
 			\hline \hline
 		\end{tabular}
 	 \end{table}
@@ -391,36 +391,23 @@ To demonstrate the workflow for optimal spring design and the robustness of our 
 	
 				\begin{equation}
 					\begin{gathered}
-	 					\min_{} 0.5 \times\left(\frac{k}{k_{max}}\right) + 0.5 \times (\frac{C}{C_{max}}) \\
+	 					\min_{d_{\text{i}}, d_{\text{w}}, N_{\text{t}}} 0.5 \times\left(\frac{k}{k_{\text{max}}}\right) + 0.5 \times (\frac{C}{C_{\text{max}}}) \\
 	 					\mbox{subject to} \\%\mathbf{G}(\mathbf{x}) \le \mathbf{0}, 
 						\begin{split}
-							 d_{i} + 2 \times d_{w} \leq 60 \times 10^{-3} mm\\
-							 g_{min} - \frac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0\\
-							 \frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0\\
-							 \frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0\\
-							 20 \times 10^{-3} mm \leq d_{i} \leq 30 \times 10^{-3} mm\\	 
-							 1 \times 10^{-3} mm \leq d_{w} \leq 5 \times 10^{-3} mm\\	 
-							 9 \leq N_{t} \leq 17\\	 
+							 d_{\text{i}} + 2 \times d_{\text{w}} \leq 60 \times 10^{-3} mm\\
+							 g_{\text{min}} - \frac{L_{\text{hard}} - N_{\text{t}}d_{\text{w}}}{N_{\text{t}}-1} \leq 0\\
+							 \frac{L_{\text{free}}}{d_{\text{i}} + d_{\text{w}}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0\\
+							 \frac{G(L_{\text{free}} - L_{\text{hard}})}{4 \pi (N_{\text{t}} - 2) } \left[\frac{d_{\text{w}} (4d_{\text{i}}^{2} + 9.46d_{\text{i}} d_{\text{w}} + 3 d_{\text{w}}^{2})}{d_{\text{i}}(d_{\text{i}}+d_{\text{w}})^{3}}\right] - UTS \leq 0\\
+							 20 \times 10^{-3} mm \leq d_{\text{i}} \leq 30 \times 10^{-3} mm\\
+							 1 \times 10^{-3} mm \leq d_{\text{w}} \leq 5 \times 10^{-3} mm\\
+							 9 \leq N_{\text{t}} \leq 17\\	 
 						\end{split}
 					\end{gathered}
 					\label{eq:Case_1_Problem_Definition}	
 				\end{equation}
-	
-%	\centerline{$Min$ \hspace{2 mm}$0.5 \times(k/k_{max}) + 0.5 \times (C/C_{max})$}
-%	\begin{center}such that \end{center}
-%	\centerline{$d_{i} + 2 \times d_{w} \leq 60e-3$}
-%	\centerline{$g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0$}
-%	\centerline{$\dfrac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0$}
-%	\centerline{$\frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
-%d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
-%    \centerline{$20e-3 \leq d_{i} \leq 30e-3$}
-%    \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
-%    \centerline{$9 \leq N_{t} \leq 17$}
-    
-\begin{flushleft}
-In this case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{i}$), wire diameter ($d_{w}$) and total number of coils $N_{t}$ respectively.
+In this case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{\text{i}}$), wire diameter ($d_{\text{w}}$) and total number of coils $N_{\text{t}}$ respectively.
 
-\end{flushleft}
+
     
 \newpage
 	
@@ -442,9 +429,9 @@ In this case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}
 			\hline \hline
 	 		Variable & Sobol Index\\
 			\hline
-	 		 $d_{i}$ & 0.16 \\
-			 $d_{w}$ & 0.61  \\
-			 $N_{t}$ & 0.02 \\ 
+	 		 $d_{\text{i}}$ & 0.16 \\
+			 $d_{\text{w}}$ & 0.61  \\
+			 $N_{\text{t}}$ & 0.02 \\ 
 			\hline \hline
 		\end{tabular}
 	 \end{table}
@@ -467,7 +454,7 @@ From the sensitivity indices, it can be observed that all the design variables h
 	 \right]
 $	
 \end{center}
-    Therefore, the optimum inner diameter($d_{i}$), optimum wire diameter ($d_{w}$), and optimum number of coils ($N_{t}$) are $30 mm$, $1 mm$ and $17$ respectively.
+    Therefore, the optimum inner diameter($d_{\text{i}}$), optimum wire diameter ($d_{\text{w}}$), and optimum number of coils ($N_{\text{t}}$) are $30 mm$, $1 mm$ and $17$, respectively.
 		
 \newpage
 %-----------------------------------Computational Experiments.2-----------------------------------%
@@ -479,7 +466,7 @@ $
 \begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries Design Variables:}, labelindent = 1cm]
 	\item[Objectives:] Minimize spring rate and spring index.\\
 	\item[Constraints:] Relation on inner, wire, and outer diameter, diametral expansion, coil binding gap, buckling slenderness, and maximum shear stress, stress relaxation. \\
-	\item[Design Variables:] $d_{i}$, $d_{w}$, and $N_{t}$ \\
+	\item[Design Variables:] $d_{\text{i}}$, $d_{\text{w}}$, and $N_{\text{t}}$ \\
 \end{description}
 
 	\subsubsection{User Input}
@@ -494,18 +481,18 @@ $
 		\hline
 	 	 G & 77 GPa \\
 		 UTS & .7GPa \\
-		 $g_{min}$ & .5 mm\\ 
-	 	 $k_{max}$ & 20\\
-		 $C_{max}$ & 10\\
-		 $L_{free}$ & 85.5 mm\\
-		 $L_{hard}$ & 20 mm\\
+		 $g_{\text{min}}$ & .5 mm\\ 
+	 	 $k_{\text{max}}$ & 20\\
+		 $C_{\text{max}}$ & 10\\
+		 $L_{\text{free}}$ & 85.5 mm\\
+		 $L_{\text{hard}}$ & 20 mm\\
 		 Norton Bailey $c$& $ 3.5 \times 10^{-6}$ \\
 		 Norton Bailey $n$ & 1.5\\
 		 Norton Bailey $k$ & 1 \\
 		 Minimum Stress Relaxation & 0.85\\
 		 Deflection $s$ & 30 mm\\
 		 Time Stress Relaxation $t$  & $3 \times 10^{6}$\\
-		 Stress Relaxation $G_{sr}$ & 60 GPa\\
+		 Stress Relaxation $G_{\text{sr}}$ & 60 GPa\\
 		\hline \hline
 	 \end{tabular}
 	 \end{table}
@@ -515,45 +502,25 @@ $
 	\vspace{-.2in}
 	\begin{equation}
 					\begin{gathered}
-	 					\min_{} 0.5 \times\left(\frac{k}{k_{max}}\right) + 0.5 \times (\frac{C}{C_{max}}) \\
+	 					\min_{d_{\text{i}}, d_{\text{w}}, N_{\text{t}}} 0.5 \times\left(\frac{k}{k_{\text{max}}}\right) + 0.5 \times (\frac{C}{C_{\text{max}}}) \\
 	 					\mbox{subject to} \\%\mathbf{G}(\mathbf{x}) \le \mathbf{0}, 
 						\begin{split}
-							 d_{i} + 2 \times d_{w} \leq 60 \times 10^{-3} mm\\
-							 g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0\\
-							 \frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0\\
+							 d_{\text{i}} + 2 \times d_{\text{w}} \leq 60 \times 10^{-3} mm\\
+							 g_{\text{min}} - \dfrac{L_{\text{hard}} - N_{\text{t}}d_{\text{w}}}{N_{\text{t}}-1} \leq 0\\
+							 \frac{L_{\text{free}}}{d_{\text{i}} + d_{\text{w}}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0\\
 							 d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}} - d_{o}^{max} < 0\\
-							 \frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0\\
-							 \frac{4}{G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + \frac{c}{k} G_{sr}nt^k \right)^{-\frac{1}{n}} \,\mathrm{d} r \ge .85\\
+							 \frac{G(L_{\text{free}} - L_{\text{hard}})}{4 \pi (N_{\text{t}} - 2) } \left[\frac{d_{\text{w}} (4d_{\text{i}}^{2} + 9.46d_{\text{i}} d_{\text{w}} + 3 d_{\text{w}}^{2})}{d_{\text{i}}(d_{\text{i}}+d_{\text{w}})^{3}}\right] - UTS \leq 0\\
+							 \frac{4}{G_{\text{sr}}\theta d_{\text{w}}^{4}}\int_0^{d_{\text{w}}} r^2 \left( (G_{\text{sr}}\theta r)^{-n} + \frac{c}{k} G_{\text{sr}}nt^k \right)^{-\frac{1}{n}} \,\mathrm{d} r \ge .85\\
 							 \mbox{where, } \quad
-							  \theta = {2s\over \pi N_a (d_i+d_w)^2}\\
+							  \theta = {2s\over \pi N_a (d_{\text{i}}+d_{\text{w}})^2}\\
 							 20 \times 10 ^{-3} mm \leq d_{i} \leq 30 \times 10^{-3} mm\\	 
 							 1 \times 10^{-3} mm \leq d_{w} \leq 5 \times 10^{-3} mm\\	 
-							 9 \leq N_{t} \leq 17\\	 
+							 9 \leq N_{\text{t}} \leq 17\\	 
 						\end{split}
 					\end{gathered}
 					\label{eq:Case_2_Problem_Definition}	
 				\end{equation}
-	
-%	\centerline{$Min$ \hspace{2 mm}$0.5 \times(k/k_{max}) + 0.5 \times (C/C_{max})$}
-%	\begin{center}such that \end{center}
-%	\centerline{$d_{i} + 2 \times d_{w} \leq 60e-3$}
-%	\centerline{$g_{min} - \dfrac{L_{hard} - N_{t}d_{w}}{N_{t}-1} \leq 0$}
-%	\centerline{$\dfrac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0$}
-%	\centerline{$d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}} - d_{o}^{max} < 0$}
-%			
-%	\centerline{$\frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} 
-%d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0$}
-%    \centerline{$20e-3 \leq d_{i} \leq 30e-3$}
-%    \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
-%    \centerline{$9 \leq N_{t} \leq 17$}
-%    
-% \centerline{${4\over G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + {c\over k} G_{sr}nt^k \right)^{-{1\over n}} \,\mathrm{d} r \ge .85$}
-%%\begin{center} where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$ \end{center}
-%\centerline{where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$}
-
-\begin{flushleft}
-Similar to the first case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{i}$), wire diameter ($d_{w}$) and total number of coils $N_{t}$ respectively.
-\end{flushleft}
+Similar to the first case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{\text{i}}$), wire diameter ($d_{\text{w}}$) and total number of coils $N_{\text{t}}$, respectively.
 
 
 \newpage
@@ -566,7 +533,7 @@ Similar to the first case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x
 		 \end{figure}
 		 
 \subsubsection{Sensitivity}		
- 
+\vspace{-.4in}
 	\begin{table}[H]
 	\caption{Sobol indices for Case 2.}
 	\centering
@@ -574,9 +541,9 @@ Similar to the first case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x
 			 \hline \hline
 	 		Variable & Sobol Index\\
 			\hline
-	 		 $d_{i}$ & 0.19 \\
-			 $d_{w}$ & 0.64  \\
-			 $N_{t}$ & 0.02 \\ 
+	 		 $d_{\text{i}}$ & 0.19 \\
+			 $d_{\text{w}}$ & 0.64  \\
+			 $N_{\text{t}}$ & 0.02 \\ 
 			\hline \hline
 		 \end{tabular}
 	\end{table}
@@ -600,7 +567,7 @@ From the sensitivity indices, it can be observed that all the design variables h
 	 \right]
 $	
 \end{center}
-    Therefore, the optimum inner diameter($d_{i}$), optimum wire diameter ($d_{w}$), and optimum number of coils ($N_{t}$) are $30 mm$, $1 mm$ and $17$ respectively. Even though an additional constraint about stress relaxation is added, the optimum solution remained the same. Therefore, the assumed stress relaxation constraint does not influence the optimum solution.
+    Therefore, the optimum inner diameter($d_{\text{i}}$), optimum wire diameter ($d_{\text{w}}$), and optimum number of coils ($N_{\text{t}}$) are $30$ mm, $1 $ mm and $17$, respectively. Even though an additional constraint about stress relaxation is added, the optimum solution remained the same. Therefore, the assumed stress relaxation constraint does not influence the optimum solution.
     
 %-----------------------------------------------------------------Summary and Future Work-----------------------------------------------------------------%
 \section{Summary and Future Work}
@@ -629,6 +596,7 @@ In this work, the DIRECT algorithm for global optimization is used for the desig
 
 \section{Appendix}
 \label{sec:Appendix}
+\subsection{Basics Regarding Stress Relaxation and Creep}
 A rocket mounted spring is expected to deliver normal mechanical output under extreme temperatures. The analysis of creep behavior helps us design a spring to meet the requirements under rough conditions.
 
 Creep is the strain increase under constant stress, usually activated by high temperatures. Three mechanisms have been proposed to account for the phenomenon: dislocation slip and climb, grain boundary sliding and diffusional flow. We focus on the creep caused by the dislocation mechanism. The material's creep tendency is determined by a creep test. During a test, the spring is kept at $0.3-0.5T_m$ ($T_m$ is the melting temperature of the material) and loaded by a constant tensile force.
@@ -669,7 +637,7 @@ $\sum_j a_j t^{m_j}$ & Graham and Walles
 \end{tabular}
 
 For simplicity, we are going to only use the Norton-Bailey law and ignore any dependence on the temperature since the temperature is constant.
-\section{Stress relaxation of helical spring}
+\subsection{Stress Relaxation of Helical Springs}
 The following section is based on the paper(\cite{Relaxation1}). Due to conservation of the total shear strain, the sum of the creep strain $\epsilon_{cr}$'s rate of change and that of elastic shear strain $\epsilon_{el}$ is zero:
 \[
 \dot{\epsilon}_{cr} + \dot{\epsilon}_{el} = 0
@@ -700,95 +668,47 @@ where $\theta$ is the initial twist angle per unit length, $r$ the radius of wir
 
 The torque can be written as
 \begin{align*}
-&M(t) = 2\pi \int_0^{d_w} r^2 \sigma(r,t)\,\mathrm{d} r\\
-&M(0)={1\over 2} G\pi\theta d_w^4
+&M(t) = 2\pi \int_0^{d_{\text{w}}} r^2 \sigma(r,t)\,\mathrm{d} r\\
+&M(0)={1\over 2} G\pi\theta d_{\text{w}}^4
 \end{align*}
-where $d_w$ is the wire diameter.
+where $d_{\text{w}}$ is the wire diameter.
 
 Since the spring load is linearly related the torque $P_z(t)\propto M(t)$, given the constant deflection $s$,
 \[
-{P_z(t)\over P_z(0)} = {M(t)\over M(0)} = {4\over G\theta d_w^4}\int_0^{d_w} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r
+{P_z(t)\over P_z(0)} = {M(t)\over M(0)} = \frac{4}{ G\theta d_{\text{w}}^{4}}\int_0^{d_{\text{w}}} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r
 \]
 where
 \[
-\theta = {2s\over \pi N_a ((d_i+d_o)/2)^2}
+\theta = {2s\over \pi N_{\text{a}} ((d_{\text{i}}+d_{\text{o}})/2)^2}
 \]
 The integral has no endpoint singularity and can be integrated to high order precision using the Gauss quadrature formula. The closer this quantity is to $1$, the better the spring quality is. We notice that a seemingly simpler form has been presented in the paper.
 \[
-{}_{2}F_1 \left( {4\over n},{1\over n};{4+n\over n};{c\theta^n G^{n+1} n t^k\over k} {d_w^n\over 2^n}\right)
+{}_{2}F_1 \left( {4\over n},{1\over n};{4+n\over n};{c\theta^n G^{n+1} n t^k\over k} {d_{\text{w}}^{n}\over 2^n}\right)
 \]
 which we find to yield unrealistic values due to divergence issues.
 
-\subsection{Stress relaxation of helical spring}
-\label{sec:Relaxation}
 
-Due to conservation of the total shear strain, the sum of the creep strain $\epsilon^{cr}$'s rate of change and that of elastic shear strain $\epsilon_{el}$ is zero:
-\[
-\dot{\epsilon}_{cr} + \dot{\epsilon}_{el} = 0
-\]
-The elastic shear strain is related to the shear stress by shear modulus $G$:
-\[
-\epsilon_{el} = \sigma/G
-\]
-and therefore
-\[
-\dot{\epsilon}_{el} = \dot{\sigma}/G
-\]
-According to Norton-Bailey law(also known as time hardening law),
-\begin{equation} \label{eq:N-B}
-\dot{\epsilon}_{cr}(t)=c\sigma^{n+1} t^{k-1}
-\end{equation}
-where $c$ is the shear strain rate, $n,k$ are temperature dependent material constants.
 
-Substituting the above two equations to the conservation law,
-\begin{equation} \label{eq:diff}
-\dot{\sigma}(t)/G+c\sigma(t)^{n+1} t^{k-1}=0
-\end{equation}
-The initial condition is
-\[
-\sigma (0) = G\theta r
-\]
-where $\theta$ is the initial twist angle per unit length, $r$ the radius of wire.
 
-\[
-\sigma = \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}}
-\]
-
-The torque can be written as
-\[
-M(t) = 2\pi \int_0^{d_w} r^2 \sigma(r,t)\,\mathrm{d} r ={}_{2}F_1 \left( {4\over n},{1\over n};{4+n\over n};{c\theta^n G^{n+1} n t^k\over k} {d_w^n\over 2^n}\right) M(0)
-\]
-where $d_w$ is the wire diameter.
-
-Since the spring load is linearly related the torque $P_z(t)\propto M(t)$, given the constant deflection $s$,
-\[
-{P_z(t)\over P_z(0)} = {}_{2}F_1 \left( {4\over n},{1\over n};{4+n\over n};{c\theta^n G^{n+1} n t^k\over k} {d_w^n\over 2^n}\right)
-\]
-where
-\[
-\theta = {2s\over \pi N_a ((d_i+d_o)/2)^2}
-\]
-The closer this quantity is to $1$, the better the spring quality is.
-
-\subsection{Creep of helical spring}
+\subsection{Creep of Helical Springs}
 This section is based on the paper(\cite{Relaxation3}). The starting point is still the Norton-Bailey law (\ref{eq:N-B}). There is naturally another way to write the shear strain rate:
 \[
-\dot{\epsilon}_{cr} = \dot{\theta} r = {8\dot{s} r\over \pi N_a (d_i+d_o)^2}
+\dot{\epsilon}_{cr} = \dot{\theta} r = {8\dot{s} r\over \pi N_{\text{a}} (d_{\text{i}}+d_{\text{o}})^2}
 \]
 We obtain $\sigma$ from substiting the above equation into Norton-Bailey law. Given the constant spring force $P_z^0$,
 \[
-P_z^0{d_i+d_o\over 4}=M(0)=2\pi\int_0^{d_w} r^2 \sigma(r,t)\,\mathrm{d} r
-={\pi\over 4}{n+1\over 4+3n}\left( {8d_w^{4+3n}\dot{s} \over t^{k-1} (d_i+d_o)^2 \pi N_a c (d_i+d_o)^2} \right)^{{1\over n+1}}
+P_z^0{d_{\text{i}}+\frac{d_{\text{o}}}{ 4}}=M(0)=2\pi\int_{0}^{d_{\text{w}}} r^2 \sigma(r,t)\,\mathrm{d} r
+={\pi\over 4}{n+1\over 4+3n}\left( {8d_{\text{w}}^{4+3n}\dot{s} \over t^{k-1} (d_{\text{i}}+d_{\text{o}})^2 \pi N_{\text{a}} c (d_{\text{i}}+d_{\text{o}})^2} \right)^{{1\over n+1}}
 \]
 It can be deduced that the spring length $s$ follows
 \[
-s(t) = s(0) + \left( {(d_i+d_o)P_z^0\over \pi}{4+3n\over n+1} \right)^{n+1} {\pi (d_i+d_o)^2 N_a c\over 8kd_w^{4+3n}} t^k
+s(t) = s(0) + \left( {(d_{\text{i}}+d_{\text{o}})P_z^0\over \pi}{4+3n\over n+1} \right)^{n+1} {\pi (d_{\text{i}}+d_{\text{o}})^2 N_{\text{a}} c\over 8kd_{\text{w}}^{4+3n}} t^k
 \]
 where $s(0)$ is the initial spring length. The less the difference of the spring length $s(t)-s(0)$, the better the spring quality is.
  
- \cite{Ch2000} \cite{Relaxation1} \cite{Relaxation2} \cite{Relaxation3} \cite{Creep} 
-\subsection{Analysis of stress relaxation and creep models}
-\label{sec:stressanalysis}
+ %\cite{Ch2000} \cite{Relaxation1} \cite{Relaxation2} \cite{Relaxation3} \cite{Creep} 
+%\subsection{Analysis of stress relaxation and creep models}
+%\label{sec:stressanalysis}
 
 
 
