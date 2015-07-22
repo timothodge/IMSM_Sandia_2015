@@ -50,7 +50,7 @@ Sean Webb\footnote{Sandia National Laboratory};
 \vspace{.3truein}
 \centerline{\bf Abstract}
 
-The Helical compression spring is one of the most commonly used mechanical components in the world. As a result, spring design is a commonly performed task in industry and would benefit from the development of flexible tools that can answer the question of what make a spring design optimal would be beneficial. To address this, we develop an intelligent supporting tool using an object-oriented design framework that provides users the robustness needed to define and solve any spring design problem they require. In addition to our tool interfacing with a graphic user interface, we supplement its flexibility with analytic tools. One such tool provides global sensitivity analysis, and another provides a feasibility plot which helps the user determine if their problem has a solution or if it should be redefined. We also include a model for stress relaxation, which is a novel inclusion in the list of considerations for spring specifications. Both its unique flexibility and capability and the analytic tools we provide to support it make our tool useful in defining, solving, and analyzing optimal spring design problems. 
+The helical compression spring is one of the most commonly used mechanical components. As a result, spring design is a commonly performed task in industry and would benefit from the development of flexible tools that can answer the question of what makes a spring design optimal. To address this, we develop an intelligent supporting tool using an object-oriented design framework that provides users the robustness needed to define and solve any spring design problem they require. In addition to our tool interfacing with a graphic user interface, we supplement its flexibility with analytic tools. One such tool provides global sensitivity analysis, and another provides a feasibility plot which helps the user determine if their problem has a solution or if it should be redefined. We also include a model for stress relaxation, which is a novel inclusion in the list of considerations for spring specifications. Both its unique flexibility and capability and the analytic tools we provide to support it make our tool useful in defining, solving, and analyzing optimal spring design problems. 
 
 %-----------------------------------------------------------------------Introduction-----------------------------------------------------------------------%
 \section{Introduction}
@@ -69,7 +69,7 @@ Springs have many everyday uses, such as in cars, homes, gyms, and industry. For
 
 These rocket sled tests include very high velocities and accelerations, and the experiments end with their destruction upon impact. Since the test is not easily replicated, we must have the ability to consistently and correctly collect data. This means we require that the spring in the acceleration switch must function as expected to the forces exerted on it, and having a switch that is closed earlier or later than expected is undesirable~\cite{IMSM2010}. Designing a spring to behave as desired is a complicated problem that requires satisfying numerous constraints on the spring's physical properties. That the desired spring can vary depending on the application further complicates the problem.
 
-Spring design under these conditions amounts to a constrained optimization problem where certain properties of the spring may need to be maximized or minimized subject to bounds on some or all of the spring's other properties. Extending the scope beyond spring design for use in acceleration switches, which already cover a vast spread of specific spring designs, results in even more possibilities for design specifications. Rather than developing methods to solve these problems on an ad hoc basis, we develop to solve a wide variety of spring design problems. 
+Spring design under these conditions amounts to a constrained optimization problem where certain properties of the spring may need to be maximized or minimized subject to bounds on some or all of the spring's other properties. Extending the scope beyond spring design for use in acceleration switches, which already cover a vast spread of specific spring designs, results in even more possibilities for design specifications. Rather than develop methods to solve these problems on an ad hoc basis, we develop to solve a wide variety of spring design problems. 
 
 %-----------------------------------Introduction.2-----------------------------------%
 \subsection{Optimal Spring Design}
@@ -91,7 +91,7 @@ To develop the optimal spring design tool, we first need to identify and define 
 \subsection{Helical Compression Springs}
 \label{sec:Springs}
 
-Helical compression springs, such as the one in Figure~\ref{fig:Spring}, are possibly the most recognizable type of spring and are the spring of choice for this work. 
+Helical compression spring, such as the one in Figure~\ref{fig:Spring}, is the most recognizable type of spring and is the spring of choice for this work. 
 		\begin{figure}[H]
 		 \begin{center}\includegraphics[scale=.2]{Spring.png}\end{center}
 		 \caption{An example of a helical compression spring~\cite{Massad2015}.}
@@ -515,7 +515,7 @@ $
 	\vspace{-.2in}
 	\begin{equation}
 					\begin{gathered}
-	 					\min_{} 0.5 \times\left(\frac{k}{k_{max}}\right) + 0.5 \times (\frac{C}{C_{max}}) \\
+	 					\min_{} 0.5 \times\left(\frac{k}{k_{max}}\right) + 0.5 \times \left( \frac{C}{C_{max}}\right) \\
 	 					\mbox{subject to} \\%\mathbf{G}(\mathbf{x}) \le \mathbf{0}, 
 						\begin{split}
 							 d_{i} + 2 \times d_{w} \leq 60 \times 10^{-3} mm\\
@@ -523,9 +523,7 @@ $
 							 \frac{L_{free}}{d_{i} + d_{w}} - \pi \sqrt{\frac{2(2 \nu + 1)}{\nu + 2}} \leq 0\\
 							 d_{\text{w}} + \sqrt{(d_{\text{i}} + d_{\text{w}})^{2} + \frac{p^{2} - d_{\text{w}}}{\pi^{2}}} - d_{o}^{max} < 0\\
 							 \frac{G(L_{free} - L_{hard})}{4 \pi (N_{t} - 2) } \left[\frac{d_{w} (4d_{i}^{2} + 9.46d_{i} d_{w} + 3 d_{w}^{2})}{d_{i}(d_{i}+d_{w})^{3}}\right] - UTS \leq 0\\
-							 \frac{4}{G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + \frac{c}{k} G_{sr}nt^k \right)^{-\frac{1}{n}} \,\mathrm{d} r \ge .85\\
-							 \mbox{where, } \quad
-							  \theta = {2s\over \pi N_a (d_i+d_w)^2}\\
+							 \frac{2\pi N_{\text{a}} (d_{\text{i}}+d_{\text{w}})^2}{Gsd_{\text{w}}^4}\int_0^{d_\text{w}} r^2 \left(\left(\frac{2Gsr}{\pi N_{\text{a}} (d_{\text{i}}+d_{\text{w}})^2}\right)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r\geq .85\\
 							 20 \times 10 ^{-3} mm \leq d_{i} \leq 30 \times 10^{-3} mm\\	 
 							 1 \times 10^{-3} mm \leq d_{w} \leq 5 \times 10^{-3} mm\\	 
 							 9 \leq N_{t} \leq 17\\	 
@@ -547,9 +545,9 @@ $
 %    \centerline{$1e-3 \leq d_{w} \leq 5e-3$}
 %    \centerline{$9 \leq N_{t} \leq 17$}
 %    
-% \centerline{${4\over G_{sr}\theta d_w^4}\int_0^{d_w} r^2 \left( (G_{sr}\theta r)^{-n} + {c\over k} G_{sr}nt^k \right)^{-{1\over n}} \,\mathrm{d} r \ge .85$}
-%%\begin{center} where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$ \end{center}
-%\centerline{where $\theta = {2s\over \pi N_a (d_i+d_w)^2}$}
+% \centerline{${4\over G_{sr}\theta d_{\text{w}}^4}\int_0^{d_{\text{w}}} r^2 \left( (G_{sr}\theta r)^{-n} + {c\over k} G_{sr}nt^k \right)^{-{1\over n}} \,\mathrm{d} r \ge .85$}
+%%\begin{center} where $\theta = {2s\over \pi N_a (d_{\text{i}}+d_{\text{w}})^2}$ \end{center}
+%\centerline{where $\theta = {2s\over \pi N_a (d_{\text{i}}+d_{\text{w}})^2}$}
 
 \begin{flushleft}
 Similar to the first case study, $\textbf{x}$ is a $3 \times 1$ vector, where $x_{1}$, $x_{2}$ and $x_{3}$ represents the inner diameter ($d_{i}$), wire diameter ($d_{w}$) and total number of coils $N_{t}$ respectively.
@@ -629,6 +627,7 @@ In this work, the DIRECT algorithm for global optimization is used for the desig
 
 \section{Appendix}
 \label{sec:Appendix}
+\subsection{Basics about stress relaxation and creep}
 A rocket mounted spring is expected to deliver normal mechanical output under extreme temperatures. The analysis of creep behavior helps us design a spring to meet the requirements under rough conditions.
 
 Creep is the strain increase under constant stress, usually activated by high temperatures. Three mechanisms have been proposed to account for the phenomenon: dislocation slip and climb, grain boundary sliding and diffusional flow. We focus on the creep caused by the dislocation mechanism. The material's creep tendency is determined by a creep test. During a test, the spring is kept at $0.3-0.5T_m$ ($T_m$ is the melting temperature of the material) and loaded by a constant tensile force.
@@ -669,12 +668,12 @@ $\sum_j a_j t^{m_j}$ & Graham and Walles
 \end{tabular}
 
 For simplicity, we are going to only use the Norton-Bailey law and ignore any dependence on the temperature since the temperature is constant.
-\section{Stress relaxation of helical spring}
+\subsection{Stress relaxation of helical spring}
 The following section is based on the paper(\cite{Relaxation1}). Due to conservation of the total shear strain, the sum of the creep strain $\epsilon_{cr}$'s rate of change and that of elastic shear strain $\epsilon_{el}$ is zero:
 \[
 \dot{\epsilon}_{cr} + \dot{\epsilon}_{el} = 0
 \]
-Dot is meant as differentiation in time. The elastic shear strain is related to the shear stress by shear modulus $G$: $\epsilon_{el} = \sigma/G$ and taking the derivative with time on both sides, we arrive at
+where the dot means differentiation in time. The elastic shear strain is related to the shear stress by shear modulus $G$: $\epsilon_{el} = \sigma/G$ and taking the derivative with time on both sides, we arrive at
 \[
 \dot{\epsilon}_{el} = \dot{\sigma}/G
 \]
@@ -700,96 +699,38 @@ where $\theta$ is the initial twist angle per unit length, $r$ the radius of wir
 
 The torque can be written as
 \begin{align*}
-&M(t) = 2\pi \int_0^{d_w} r^2 \sigma(r,t)\,\mathrm{d} r\\
-&M(0)={1\over 2} G\pi\theta d_w^4
+&M(t) = 2\pi \int_0^{d_{\text{w}}} r^2 \sigma(r,t)\,\mathrm{d} r\\
+&M(0)={1\over 2} G\pi\theta d_{\text{w}}^4
 \end{align*}
-where $d_w$ is the wire diameter.
+where $d_{\text{w}}$ is the wire diameter.
 
-Since the spring load is linearly related the torque $P_z(t)\propto M(t)$, given the constant deflection $s$,
+We denote the spring force $P(t)$. Since the spring load is linearly related the torque $P(t)\propto M(t)$, given the constant deflection $s$,
 \[
-{P_z(t)\over P_z(0)} = {M(t)\over M(0)} = {4\over G\theta d_w^4}\int_0^{d_w} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r
+{P(t)\over P(0)} = {M(t)\over M(0)} = {4\over G\theta d_{\text{w}}^4}\int_0^{d_{\text{w}}} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r
 \]
 where
 \[
-\theta = {2s\over \pi N_a ((d_i+d_o)/2)^2}
+\theta = {2s\over \pi N_a ((d_{\text{i}}+d_{\text{o}})/2)^2}
 \]
-The integral has no endpoint singularity and can be integrated to high order precision using the Gauss quadrature formula. The closer this quantity is to $1$, the better the spring quality is. We notice that a seemingly simpler form has been presented in the paper.
-\[
-{}_{2}F_1 \left( {4\over n},{1\over n};{4+n\over n};{c\theta^n G^{n+1} n t^k\over k} {d_w^n\over 2^n}\right)
-\]
-which we find to yield unrealistic values due to divergence issues.
-
-\subsection{Stress relaxation of helical spring}
-\label{sec:Relaxation}
-
-Due to conservation of the total shear strain, the sum of the creep strain $\epsilon^{cr}$'s rate of change and that of elastic shear strain $\epsilon_{el}$ is zero:
-\[
-\dot{\epsilon}_{cr} + \dot{\epsilon}_{el} = 0
-\]
-The elastic shear strain is related to the shear stress by shear modulus $G$:
-\[
-\epsilon_{el} = \sigma/G
-\]
-and therefore
-\[
-\dot{\epsilon}_{el} = \dot{\sigma}/G
-\]
-According to Norton-Bailey law(also known as time hardening law),
-\begin{equation} \label{eq:N-B}
-\dot{\epsilon}_{cr}(t)=c\sigma^{n+1} t^{k-1}
-\end{equation}
-where $c$ is the shear strain rate, $n,k$ are temperature dependent material constants.
-
-Substituting the above two equations to the conservation law,
-\begin{equation} \label{eq:diff}
-\dot{\sigma}(t)/G+c\sigma(t)^{n+1} t^{k-1}=0
-\end{equation}
-The initial condition is
-\[
-\sigma (0) = G\theta r
-\]
-where $\theta$ is the initial twist angle per unit length, $r$ the radius of wire.
-
-\[
-\sigma = \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}}
-\]
-
-The torque can be written as
-\[
-M(t) = 2\pi \int_0^{d_w} r^2 \sigma(r,t)\,\mathrm{d} r ={}_{2}F_1 \left( {4\over n},{1\over n};{4+n\over n};{c\theta^n G^{n+1} n t^k\over k} {d_w^n\over 2^n}\right) M(0)
-\]
-where $d_w$ is the wire diameter.
-
-Since the spring load is linearly related the torque $P_z(t)\propto M(t)$, given the constant deflection $s$,
-\[
-{P_z(t)\over P_z(0)} = {}_{2}F_1 \left( {4\over n},{1\over n};{4+n\over n};{c\theta^n G^{n+1} n t^k\over k} {d_w^n\over 2^n}\right)
-\]
-where
-\[
-\theta = {2s\over \pi N_a ((d_i+d_o)/2)^2}
-\]
-The closer this quantity is to $1$, the better the spring quality is.
+The integral has no endpoint singularity and can be integrated to high order precision using the Gauss quadrature formula. The closer this quantity is to $1$, the better the spring quality is. We notice a seemingly simpler hypergeometric function has been presented in the paper (\cite{Ko2014}) which we find to yield unrealistic values due to divergence issues.
 
 \subsection{Creep of helical spring}
 This section is based on the paper(\cite{Relaxation3}). The starting point is still the Norton-Bailey law (\ref{eq:N-B}). There is naturally another way to write the shear strain rate:
 \[
-\dot{\epsilon}_{cr} = \dot{\theta} r = {8\dot{s} r\over \pi N_a (d_i+d_o)^2}
+\dot{\epsilon}_{cr} = \dot{\theta} r = {8\dot{s} r\over \pi N_a (d_{\text{i}}+d_{\text{o}})^2}
 \]
-We obtain $\sigma$ from substiting the above equation into Norton-Bailey law. Given the constant spring force $P_z^0$,
+We obtain $\sigma$ from substiting the above equation into Norton-Bailey law. Given the constant spring force $P^0$,
 \[
-P_z^0{d_i+d_o\over 4}=M(0)=2\pi\int_0^{d_w} r^2 \sigma(r,t)\,\mathrm{d} r
-={\pi\over 4}{n+1\over 4+3n}\left( {8d_w^{4+3n}\dot{s} \over t^{k-1} (d_i+d_o)^2 \pi N_a c (d_i+d_o)^2} \right)^{{1\over n+1}}
+P^0{d_{\text{i}}+d_{\text{o}}\over 4}=M(0)=2\pi\int_0^{d_{\text{w}}} r^2 \sigma(r,t)\,\mathrm{d} r
+={\pi\over 4}{n+1\over 4+3n}\left( {8d_w^{4+3n}\dot{s} \over t^{k-1} (d_{\text{i}}+d_{\text{o}})^2 \pi N_a c (d_{\text{i}}+d_{\text{o}})^2} \right)^{{1\over n+1}}
 \]
 It can be deduced that the spring length $s$ follows
 \[
-s(t) = s(0) + \left( {(d_i+d_o)P_z^0\over \pi}{4+3n\over n+1} \right)^{n+1} {\pi (d_i+d_o)^2 N_a c\over 8kd_w^{4+3n}} t^k
+s(t) = s(0) + \left( {(d_{\text{i}}+d_{\text{o}})P_z^0\over \pi}{4+3n\over n+1} \right)^{n+1} {\pi (d_{\text{i}}+d_{\text{o}})^2 N_a c\over 8kd_w^{4+3n}} t^k
 \]
 where $s(0)$ is the initial spring length. The less the difference of the spring length $s(t)-s(0)$, the better the spring quality is.
  
  \cite{Ch2000} \cite{Relaxation1} \cite{Relaxation2} \cite{Relaxation3} \cite{Creep} 
-\subsection{Analysis of stress relaxation and creep models}
-\label{sec:stressanalysis}
-
 
 
 
