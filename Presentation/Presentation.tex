@@ -119,9 +119,9 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 \column{.5\textwidth}
 \begin{itemize}
-	\item Design an algorithm that optimizes springs with interchangeable constraints and objectives.
-	\item Can you quantify and incorporate stress relaxation and creep?
-	\item Incorporation of uncertainty into design optimization.
+	\item Design an algorithm to optimize spring design with the robustness to handle type of design specifications
+	\item Quantify and incorporate stress relaxation and creep as optional specifications
+	\item Account for manufacturing constraints by including uncertainty in design optimization
 	
 \end{itemize}
 \column{.5\textwidth}
@@ -140,8 +140,8 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 \column{.5\textwidth}
 \begin{itemize}
-	\item What do we need in include in the algorithm? 
-	\item Feasibility, Sensitivity Analysis, Optimization. 
+	\item Algorithm needs certain capabilities to be useful
+	\item Feasibility Testing, Sensitivity Analysis, Optimization
 
 	
 \end{itemize}
@@ -209,12 +209,10 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 	\column{.5\textwidth}
 				\begin{equation*}
- 					\begin{aligned}
- 						& \underset{\textbf{x}}{\text{min}}
- 						& & F(\textbf{x}), \\
- 						& \text{subject to}
- 						& & G(\textbf{x}) \le 0
- 					\end{aligned}
+ 					\begin{gathered}
+ 						\min_{\mathbf{x}} \ F(\mathbf{x}) \\
+ 						\mbox{subject to } \mathbf{G}(\mathbf{x}) \le 0
+ 					\end{gathered}
 				\end{equation*}
 
 
@@ -265,11 +263,9 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 	\column{.6\textwidth}
 	\begin{itemize}
-		\item If dim(design space) increases then computation expense increases.
+		\item Increasing the design space dimension increases computational expense
 		\item Sensitivity Analysis $\rightarrow$ Measure of influence
-		\item Locally $\rightarrow$ around a point (Gradient).
 		\item Globally $\rightarrow$ Overall sensitivity (Sobol Indices).
-		\item $Y = G(X_{1},...,X_{n})$
 		\item Sobol Index: $S_{i}^{I} = \frac{V_{i}(E_{~i}(Y | X_{i}))}{V(Y)}$
 	\end{itemize}
 	
@@ -291,25 +287,17 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 	\column{.6\textwidth}
 	\begin{itemize}
-		\item Constrainted Optimization
+		\item Constrained Optimization
 	\end{itemize}
 			\begin{equation*}
- 					\begin{aligned}
- 						& \underset{\textbf{x}}{\text{min}}
- 						& & F(\textbf{x}), \\
- 						& \text{subject to}
- 						& & G(\textbf{x}) \le 0\\
-						 & lb_{\textbf{x}} \le \textbf{x} \le ub_{\textbf{x}}\\
- 					\end{aligned}
+ 					\begin{gathered}
+ 						\min_{\mathbf{x}} \ F(\mathbf{x}) \\
+ 						\mbox{subject to } \mathbf{G}(\mathbf{x}) \le 0
+ 					\end{gathered}
 				\end{equation*}
 	\begin{itemize}
-		\item Local vs. Global
-			\begin{itemize}
-				\item Local, requires initial point, faster.
-				\item Global, no initial point, slower.
-				
-			\end{itemize}	
-		\item DIRECT algorithm for optimization
+		\item Global optimization	
+		\item DIRECT algorithm
 		\item Easily integrated with the framework.
 	\end{itemize}
 	
@@ -330,15 +318,11 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 	\column{.6\textwidth}
 		\begin{itemize}
-			\item Prompt user with results of optimization. 
+			\item Analyze optimization results
 			
-			\item If satisfied, the user can stop. 
+			\item User determines how to proceed
 			
-			\item If not satisfied, the user can go back to the definition of the problem, and run again. 
-			
-			\item The user will have the chance to redefine the problem.
-			
-		
+			\item Allows for a variety of outcomes		
 		
 		\end{itemize}
 			
@@ -360,34 +344,30 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 	\column{.5\textwidth}
 		\begin{figure}[h]
-			 \begin{center}\includegraphics[scale=.15]{Creep.png}\end{center}
-		 	\caption{Creep interpreted graphically}
+			 \begin{center}\includegraphics[scale=.15]{StressRelaxation.png}\end{center}
+		 	\caption{Creep}
 		 	\label{fig:Creep}
 		\end{figure}	
 		\vspace{-.2in}
 		\begin{figure}[h]
-			 \begin{center}\includegraphics[scale=.15]{StressRelaxation.png}\end{center}
+			 \begin{center}\includegraphics[scale=.15]{Creep.png}\end{center}
 			 \caption{Stress Relaxation }
 			 \label{fig:Description2}
 		\end{figure}
 	
 		
 	\column{.5\textwidth}
-			 \tiny$s(t) -s(0) = \left( {(d_{\text{i}}+d_{\text{w}})\epsilon\over \pi}{4+3n\over n+1} \right)^{n+1} {2^n\pi (d_{\text{i}}+d_{\text{w}})^2 N_{\text{a}} c\over kd_{\text{w}}^{4+3n}} t^k
-$
-			
-			
-			\vspace{1.2in}
-%				\tiny$ \Phi = \frac{4}{ G\theta d_w^4}\int_0^{d_w} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-\frac{1}{n}} \,\mathrm{d} r$\\
-\[
+			 
+\tiny			\[
 \tiny\Phi = \frac{2\pi N_{\text{a}} (d_{\text{i}}+d_{\text{w}})^2}{Gsd_{\text{w}}^4} A\]
 \[ \tiny A = \int_0^{d_\text{w}} r^2 \left(\left(\frac{2Gsr}{\pi N_{\text{a}} (d_{\text{i}}+d_{\text{w}})^2}\right)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r
 \]
-%\centering where,
-%$\theta = {2s\over \pi N_a ((d_i+d_o)/2)^2}$
-\centering where $c$,$k$,$n$ are temperature and material dependent constants.
-		
-		
+			
+			\vspace{0.9in}
+			
+			\tiny$s(t) -s(0) = \left( {(d_{\text{i}}+d_{\text{w}})\epsilon\over \pi}{4+3n\over n+1} \right)^{n+1} {2^n\pi (d_{\text{i}}+d_{\text{w}})^2 N_{\text{a}} c\over kd_{\text{w}}^{4+3n}} t^k$		
+	
+	\vspace{0.6in}
 	
 \end{columns}
 }	
