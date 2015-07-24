@@ -1,8 +1,8 @@
 \documentclass[notes=hide,handout]{beamer}
-\usetheme{Warsaw}
+\usetheme{default}
 %\setbeamercolor{structure}{fg=cyan!90!black}
-\usecolortheme{spruce}
-\usepackage{beamerthemesplit}
+\usecolortheme{seahorse}
+%\usepackage{beamerthemesplit}
 \usepackage{amssymb,latexsym,amsmath}
 \usepackage{amsthm}
 \usepackage{epsfig}
@@ -101,7 +101,7 @@
 \usenavigationsymbolstemplate{}
 %----------------------------------------------------------------
 
-\title[Optimal Helical Compression Springs]{Given a Helical Compression Spring in a Spring-Mass Damper System: What are Optimal Springs?}
+\title[Optimal Helical Compression Springs]{A Flexible Methodology for Optimal Helical Compression Spring Design}
 \author[Sandia National Laboratories Group]{A. Bentley, T. Hodges, J. Jiang, J. Krueger, S. Nannapaneni, T. Qiu \\ 
 Problem Presenters: J. Massad and S. Webb\\
 Faculty Mentors: I. Ipsen and R. Smith}
@@ -119,9 +119,9 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 \column{.5\textwidth}
 \begin{itemize}
-	\item Design an algorithm to optimize spring design with the robustness to handle type of design specifications
-	\item Quantify and incorporate stress relaxation and creep as optional specifications
-	\item Account for manufacturing constraints by including uncertainty in design optimization
+	\item An algorithm to {\color{red}{design any general spring}} with interchangeable constraints and objectives.
+	\item Quantify and incorporate stress relaxation and creep
+	\item Incorporation of {\color{red}{uncertainty}} into design optimization.
 	
 \end{itemize}
 \column{.5\textwidth}
@@ -140,14 +140,23 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 \column{.5\textwidth}
 \begin{itemize}
-	\item Algorithm needs certain capabilities to be useful
-	\item Feasibility Testing, Sensitivity Analysis, Optimization
+	\item What do we need to include in the algorithm? 
+	
+	\begin{itemize}
+	\item Feasibility 
+	\item Sensitivity Analysis
+	 \item Optimization
+	 
+	\end{itemize}
 
 	
 \end{itemize}
 \column{.5\textwidth}
+\vspace{-0.2in}
+
 \begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.30]{IMSM_Workflow.png}\end{center}
+		 \begin{center}\includegraphics[scale=.35]{IMSM_Workflow.png}\end{center}
+		\vspace{-0.1in}
 		 \caption{Algorithm of approach}
 
 		 
@@ -172,8 +181,9 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \end{figure}
 	
 	\column{.5\textwidth}
+	\vspace{-0.2in}
 	\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.30]{IMSM_Workflow1.png}\end{center}
+		 \begin{center}\includegraphics[scale=.35]{IMSM_Workflow1.png}\end{center}
 		
 
 		 
@@ -186,7 +196,7 @@ Faculty Mentors: I. Ipsen and R. Smith}
 
 }
 \frame{
-\frametitle{Classes}
+\frametitle{Classes: Modules}
 \begin{columns}[c]
 \column{.5\textwidth}
 \begin{figure}[h]
@@ -205,22 +215,29 @@ Faculty Mentors: I. Ipsen and R. Smith}
 
 
 \frame{
-\frametitle{Problem Definition}
+\frametitle{Mathematical Formulation}
 \begin{columns}[c]
 	\column{.5\textwidth}
 				\begin{equation*}
- 					\begin{gathered}
- 						\min_{\mathbf{x}} \ F(\mathbf{x}) \\
- 						\mbox{subject to } \mathbf{G}(\mathbf{x}) \le 0
- 					\end{gathered}
+ 					\begin{aligned}
+ 						& \underset{\textbf{x}}{\text{min}}
+ 						& & F(\textbf{x}), \\
+ 						& \text{subject to}
+ 						& & \mathbf{G}(\textbf{x}) \le 0
+ 					\end{aligned}
 				\end{equation*}
 
+\begin{itemize}
+\item $F(\mathbf{X})$: The objective function
+\item $\mathbf{G}(\textbf{x})$: The set of constraints.
+\end{itemize}
 
 
 	
 	\column{.5\textwidth}
+	\vspace{-0.2in}
 	\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.30]{IMSM_Workflow2.png}\end{center}
+		 \begin{center}\includegraphics[scale=.35]{IMSM_Workflow2.png}\end{center}
 		
 	
 		 
@@ -239,13 +256,14 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 \column{.5\textwidth}
 \begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.25]{Case_56_38910new.eps}\end{center}
+		 \begin{center}\includegraphics[scale=.25]{Case_56_34891011new.pdf}\end{center}
 		 \caption{Feasibility Region}
 		 \label{fig:Region2}
 \end{figure}	
 \column{.5\textwidth}
+ \vspace{-0.2in}
 	\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.30]{IMSM_Workflow3.png}\end{center}
+		 \begin{center}\includegraphics[scale=.35]{IMSM_Workflow3.png}\end{center}
 	
 	
 		 
@@ -263,15 +281,18 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 	\column{.6\textwidth}
 	\begin{itemize}
-		\item Increasing the design space dimension increases computational expense
-		\item Sensitivity Analysis $\rightarrow$ Measure of influence
+		\item If the dimension of the design space increases then computation expense increases.
+		\item Dimension Reduction
+		\item Measure of influence
+		\item Locally $\rightarrow$ around a point (Gradient).
 		\item Globally $\rightarrow$ Overall sensitivity (Sobol Indices).
-		\item Sobol Index: $S_{i}^{I} = \frac{V_{i}(E_{~i}(Y | X_{i}))}{V(Y)}$
+		\item $S_{i} = \frac{\boldsymbol{Var}_{i}(\boldsymbol{E}_{-i}(Y | X_{i}))}{\boldsymbol{Var}(Y)}$
 	\end{itemize}
 	
 	\column{.4\textwidth}
+	\vspace{-0.2in}
 		\begin{figure}[h]
-			 \begin{center}\includegraphics[scale=.3]{IMSM_Workflow4.png}\end{center}
+			 \begin{center}\includegraphics[scale=.35]{IMSM_Workflow4.png}\end{center}
 			
 	
 		 
@@ -290,21 +311,23 @@ Faculty Mentors: I. Ipsen and R. Smith}
 		\item Constrained Optimization
 	\end{itemize}
 			\begin{equation*}
- 					\begin{gathered}
- 						\min_{\mathbf{x}} \ F(\mathbf{x}) \\
- 						\mbox{subject to } \mathbf{G}(\mathbf{x}) \le 0
- 					\end{gathered}
+ 					\begin{aligned}
+ 						& \underset{\textbf{x}}{\text{min}}
+ 						& & F(\textbf{x}), \\
+ 						& \text{subject to}
+ 						& & \mathbf{G}(\textbf{x}) \le 0\\
+ 					\end{aligned}
 				\end{equation*}
 	\begin{itemize}
-		\item Global optimization	
-		\item DIRECT algorithm
-		\item Easily integrated with the framework.
+		
+		\item DIRECT algorithm: sampling-based, derivative-free
+		\item Easily integrated with the workflow.
 	\end{itemize}
 	
 	\column{.4\textwidth}
-	
+	   \vspace{-0.2in}
 		\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.3]{IMSM_Workflow5.png}\end{center}
+		 \begin{center}\includegraphics[scale=.35]{IMSM_Workflow5.png}\end{center}
 		
 	
 		 
@@ -318,18 +341,18 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 	\column{.6\textwidth}
 		\begin{itemize}
-			\item Analyze optimization results
+			\item Prompt user with results of optimization. 
 			
-			\item User determines how to proceed
+			\item User can accept, reject the results and redefine problem definition. 
 			
-			\item Allows for a variety of outcomes		
+			
 		
 		\end{itemize}
 			
 	\column{.4\textwidth}
-	
+	     \vspace{-0.2in}
 		\begin{figure}[h]
-		 \begin{center}\includegraphics[scale=.3]{IMSM_Workflow7.png}\end{center}
+		 \begin{center}\includegraphics[scale=.35]{IMSM_Workflow6.png}\end{center}
 		 
 	
 		 
@@ -344,30 +367,43 @@ Faculty Mentors: I. Ipsen and R. Smith}
 \begin{columns}[c]
 	\column{.5\textwidth}
 		\begin{figure}[h]
-			 \begin{center}\includegraphics[scale=.15]{StressRelaxation.png}\end{center}
-		 	\caption{Creep}
+			 \begin{center}\includegraphics[scale=.15]{Creep.png}\end{center}
+		 	\caption{Creep }
 		 	\label{fig:Creep}
 		\end{figure}	
 		\vspace{-.2in}
 		\begin{figure}[h]
-			 \begin{center}\includegraphics[scale=.15]{Creep.png}\end{center}
+			 \begin{center}\includegraphics[scale=.15]{StressRelaxation.png}\end{center}
 			 \caption{Stress Relaxation }
 			 \label{fig:Description2}
 		\end{figure}
 	
 		
 	\column{.5\textwidth}
-			 
-\tiny			\[
+			 \tiny$s(t) -s(0) = \left( {(d_{\text{i}}+d_{\text{w}})\epsilon\over \pi}{4+3n\over n+1} \right)^{n+1} {2^n\pi (d_{\text{i}}+d_{\text{w}})^2 N_{\text{a}} c\over kd_{\text{w}}^{4+3n}} t^k
+$
+                          
+			\begin{itemize}
+			\item Constant stress
+			\item Deflection increases with time
+			\end{itemize}
+			
+			\vspace{0.3in}
+%				\tiny$ \Phi = \frac{4}{ G\theta d_w^4}\int_0^{d_w} r^2 \left( (G\theta r)^{-n} + {c\over k} Gnt^k \right)^{-\frac{1}{n}} \,\mathrm{d} r$\\
+\[
 \tiny\Phi = \frac{2\pi N_{\text{a}} (d_{\text{i}}+d_{\text{w}})^2}{Gsd_{\text{w}}^4} A\]
 \[ \tiny A = \int_0^{d_\text{w}} r^2 \left(\left(\frac{2Gsr}{\pi N_{\text{a}} (d_{\text{i}}+d_{\text{w}})^2}\right)^{-n} + {c\over k} Gnt^k \right)^{-{1\over n}} \,\mathrm{d} r
 \]
-			
-			\vspace{0.9in}
-			
-			\tiny$s(t) -s(0) = \left( {(d_{\text{i}}+d_{\text{w}})\epsilon\over \pi}{4+3n\over n+1} \right)^{n+1} {2^n\pi (d_{\text{i}}+d_{\text{w}})^2 N_{\text{a}} c\over kd_{\text{w}}^{4+3n}} t^k$		
-	
-	\vspace{0.6in}
+%\centering where,
+%$\theta = {2s\over \pi N_a ((d_i+d_o)/2)^2}$
+\centering where $c$,$k$,$n$ are temperature and material dependent constants.
+                           \begin{itemize}
+			\item Constant strain
+			\item Stress decreases with time
+			\end{itemize}
+
+		
+		
 	
 \end{columns}
 }	
@@ -382,36 +418,36 @@ Faculty Mentors: I. Ipsen and R. Smith}
 				\begin{equation*}
  					\begin{aligned}
 						& \underset{x}{\text{min}}
-						  \hspace{.1in} \mu_{F}(\textbf{x},d), \\
+						  \hspace{.1in} \boldsymbol{E}({F}(\textbf{x},d)), \\
 						& \text{such that}\\
- 						&  Pr(G(\textbf{x},d) <0)  > \rho_{t}\\
-						&  Pr(\textbf{x} > lb_{\textbf{x}})  > \rho_{t}^{lb}\\
-						&  Pr(\textbf{x} < \mu b_{\textbf{x}})  > \rho_{t}^{ub}\\
+ 						&  Prob(G(\textbf{x},d) <0)  > \rho_{t}\\
+						&  Prob(\textbf{x} > lb_{\textbf{x}})  > \rho_{t}^{lb}\\
+						&  Prob(\textbf{x} < \mu b_{\textbf{x}})  > \rho_{t}^{ub}\\
  					\end{aligned}
 				\end{equation*}
 		\begin{itemize}
-			\item Uniform Distribution [$\mathbf{x}_{i} -  T_{\mathbf{x}_{i}}$, $\mathbf{x}_{i} +  T_{\mathbf{x}_{i}}$]
 			\item Each iteration $\rightarrow$ Probabilistic constraints checked using Monte Carlo.
-			\item UQ propagation with Monte Carlo to obtain $F(\mathbf{x})$
+			\item UQ propagation with Monte Carlo to obtain $F(\mathbf{x},d)$
 		\end{itemize}
 
 }
 
-\section{Summary and Future Work}
+\section{Contributions and Future Work}
 
 \frame{
 	\begin{itemize}
-		\item Summary:
+		\item Contributions:
 		\begin{itemize}
-			\item Designed a flexible algorithm for spring optimization, with a variety of objective 
+			\item {\color{red}{Flexible algorithm}} for spring design optimization, with a variety of objective 
 				functions and constraints. 
-			\item Chose models for stress relaxation and creep, and incorporated them into our 						optimization.
+			\item Incorporated models for {\color{red}{stress relaxation}} and {\color{red}{creep}} into optimization.
+			\item Performed spring design optimization under {\color{red}{uncertainty}}
 			
 		\end{itemize}
 		\item Future Work
 		\begin{itemize}
-		 	\item The implementation of design optimization under uncertainty into the current model.
 			\item Analysis of different stress relaxation and creep models.
+			 \item Practical testing and validation of the interface.
 		\end{itemize}
 \end{itemize}
 

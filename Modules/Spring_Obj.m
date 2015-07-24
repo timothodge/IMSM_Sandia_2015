@@ -74,8 +74,8 @@ classdef Spring_Obj
         maximum_force_at_solid_position; 
         
         force_at_hard_position; 
-        minimum_force_at_hard_position; 
-        maximum_force_at_hard_position; 
+        minimum_hard_force; 
+        maximum_hard_force; 
         
         spring_rate; % k
         minimum_spring_rate;
@@ -83,7 +83,7 @@ classdef Spring_Obj
         
                 
         spring_index; % C
-        minimum_spring_index;
+        minimum_spring_index = 0;
         maximum_spring_index; %C_max
 %         
 %         force_at_reset % F_reset

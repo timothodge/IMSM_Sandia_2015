@@ -51,12 +51,7 @@ classdef OptimizationProblem
                end
            end
         end
-        
-        function f = plotConstraints(obj,Spring,StateVar1,StateVar2, ...
-               stateVar1Bnd,stateVar2Bnd)
-           %generates a plot of feasible regions
-        end
-        
+                
     end
         
     

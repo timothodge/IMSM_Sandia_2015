@@ -4,9 +4,9 @@
 %Each constraint has the following: a name, expression, and list of dependicies.
 %
 
-outer_diam = Constraint;
-outer_diam.expression = @(Spring) Spring.inner_diameter+2*Spring.wire_diameter;
-outer_diam.dependicies = {'wire_diameter','inner_diameter'};
+outer_diameter = Constraint;
+outer_diameter.expression = @(Spring) Spring.inner_diameter+2*Spring.wire_diameter;
+outer_diameter.dependicies = {'wire_diameter','inner_diameter'};
 
 spring_index = Constraint;
 spring_index.expression = @(Spring) Spring.inner_diameter/Spring.wire_diameter + 1; 

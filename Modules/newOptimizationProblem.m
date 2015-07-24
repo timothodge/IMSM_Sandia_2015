@@ -45,7 +45,7 @@ objFcnParts = {spring_rate, spring_index};
 % objective function weights (don't forget to normalize weights)
 kMax = 20;
 cMax = 10;
-w = [0.5/kMax; 0.5/cMax];
+w = [0.5/kMax; 0.5/cMax];   
 
 %% define stateVariables
 stateVar = {'inner_diameter', 'wire_diameter', 'total_number_of_coils'};
@@ -54,7 +54,7 @@ lB = [20e-3, 1e-3, 9];
 uB = [40e-3, 5e-3, 17];
 
 % set constraints using names given in PredefinedConstraints
-consPart = {max_outer_diam, max_shear_stress, max_buckling_slenderness, min_coil_binding_gap};
+consPart = {maximum_outer_diameter, maximum_shear_stress, maximum_buckling_slenderness, minimum_coil_binding_gap};
 
 fprintf('done.\n');
 
@@ -62,6 +62,7 @@ fprintf('done.\n');
 
 fprintf('Checking if a feasible solution exists ... ');
 bounds = [lB', uB'];
+keyboard
 OP = OptimizationProblem(stateVar,objFcnParts,w,consPart,S,bounds);
 Problem = OP.setDirect();
 isProblemFeasible = OP.isProblemFeasible(bounds,S);

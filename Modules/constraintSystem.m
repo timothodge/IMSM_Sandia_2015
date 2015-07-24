@@ -87,7 +87,6 @@ set(hFig, 'Position', [100 -20 450 600])
  
                 [X,Y] = meshgrid(stateVarpts(1,:),stateVarpts(2,:));
  
-                keyboard
                 for k = 1:mesh_size
                     for j = 1:mesh_size
                        Spring.(plottingStateVars{1}) = X(k,j);
