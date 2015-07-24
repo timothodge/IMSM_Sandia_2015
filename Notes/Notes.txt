@@ -4,16 +4,12 @@ Project Demands:
 - Flexible code to handle a variety of optimization problems with respect to spring properties
 - Tools to analyze user-provided problems
 - Novel inclusion of relaxation physics to allow for their inclusion in user-provided problems
+- Account for manufacturing tolerances when optimizing spring design
 - Code needs to be designed to include the possibility of interfacing with a GUI
 
 Addressing the Demands:
 - Flexibility of the code is addressed using an OOP approach
 - Analysis tools to include sensitivity analysis using Sobol indices, interaction webs, and graphical tools
-- Relaxation model is taken from Spring-relaxation-2014-02
+- Relaxation model is taken from reference 14 in the report
+- introduction to design under uncertainty tested but not included in the framework
 - OOP also lends itself to the construction of a GUI
-
-To-Do:
-- Include check for the existence of a feasible solution before optimization/sensitivity
-- Run various case studies and corresponding analysis
-- Organize results for presentation purposes
-- Formally include and use relaxation
